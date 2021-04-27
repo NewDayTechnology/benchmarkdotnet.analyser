@@ -26,14 +26,17 @@ let runNumber = (match Fake.BuildServer.GitHubActions.Environment.CI false with
                     | _ -> "0")
 let commitSha = Fake.BuildServer.GitHubActions.Environment.Sha
 let versionSuffix = match Fake.BuildServer.GitHubActions.Environment.Ref with
-                    | null -> ""
-                    | _ -> "-preview"
+                    | null 
+                    | "refs/heads/main" ->  ""
+                    | _ ->                  "-preview"
+
 let version =  sprintf "0.1.%s%s" runNumber versionSuffix
 let infoVersion = match commitSha with
                     | null -> version
                     | sha -> sprintf "%s %s" version sha
  
 
+sprintf "Ref: %s" Fake.BuildServer.GitHubActions.Environment.Ref |> Trace.log
 sprintf "Version: %s" version |> Trace.log
 sprintf "Info Version: %s" infoVersion |> Trace.log
 
