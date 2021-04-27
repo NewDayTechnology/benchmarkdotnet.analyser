@@ -1,0 +1,11 @@
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
+
+namespace BenchmarkDotNetAnalyser.Benchmarks
+{
+    [ExcludeFromCodeCoverage]
+    public class BenchmarkRunInfoJsonFileProvider : BaseBenchmarkRunInfoJsonProvider
+    {
+        protected override Task<string> GetBenchmarkJsonAsync(string path) => BenchmarkJsonFileReader.ReadJson(path);
+    }
+}

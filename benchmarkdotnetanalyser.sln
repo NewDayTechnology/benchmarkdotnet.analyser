@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "source", "source", "{B8167426-C3AA-49BB-8B3A-371A97800CD6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3F496CEB-C6A9-4861-A44B-A737DE4F76EA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{8C6E189D-2B96-4636-B3E6-BECAE844EBBC}"
+	ProjectSection(SolutionItems) = preProject
+		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
+		CONTRIBUTING.md = CONTRIBUTING.md
+		LICENSE = LICENSE
+		NOTICE = NOTICE
+		README.md = README.md
+		SECURITY.md = SECURITY.md
+		SUPPORT.md = SUPPORT.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{FBD4B9A3-76D2-4237-BDF1-916CD9085D83}"
+	ProjectSection(SolutionItems) = preProject
+		build.ps1 = build.ps1
+		FakeBuild.fsx = FakeBuild.fsx
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BenchmarkDotNetAnalyser.Tests.Unit", "test\BenchmarkDotNetAnalyser.Tests.Unit\BenchmarkDotNetAnalyser.Tests.Unit.csproj", "{423AEEF3-7F23-410E-AFA2-75DAD14036F3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BenchmarkDotNetAnalyser", "src\BenchmarkDotNetAnalyser\BenchmarkDotNetAnalyser.csproj", "{1B0573B7-E6CD-4318-A9B0-F4CCB67A9818}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ci", "ci", "{9D402AF7-02A0-4144-AAFE-4CEBC610572B}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\actions_buildtestpackage.yml = .github\workflows\actions_buildtestpackage.yml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{423AEEF3-7F23-410E-AFA2-75DAD14036F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{423AEEF3-7F23-410E-AFA2-75DAD14036F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{423AEEF3-7F23-410E-AFA2-75DAD14036F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{423AEEF3-7F23-410E-AFA2-75DAD14036F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B0573B7-E6CD-4318-A9B0-F4CCB67A9818}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B0573B7-E6CD-4318-A9B0-F4CCB67A9818}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B0573B7-E6CD-4318-A9B0-F4CCB67A9818}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B0573B7-E6CD-4318-A9B0-F4CCB67A9818}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{423AEEF3-7F23-410E-AFA2-75DAD14036F3} = {3F496CEB-C6A9-4861-A44B-A737DE4F76EA}
+		{1B0573B7-E6CD-4318-A9B0-F4CCB67A9818} = {B8167426-C3AA-49BB-8B3A-371A97800CD6}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {368CCD8F-9A9E-400A-8CD2-044766E97284}
+	EndGlobalSection
+EndGlobal
