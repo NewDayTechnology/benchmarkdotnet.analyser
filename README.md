@@ -4,7 +4,7 @@
 # BenchmarkDotNet Analyser
 
 ## Description
-A CLI for analysing [BenchmarkDotNet](https://benchmarkdotnet.org/) result data in a CI pipeline.![Front](./docs/cli_front.png)
+A CLI for analysing [BenchmarkDotNet](https://benchmarkdotnet.org/) result data.![Front](./docs/cli_front.png)
 
 BDNA collects, aggregates and analyses [BenchmarkDotNet](https://benchmarkdotnet.org/) results for performance degredations. If you have benchmarks running on critical code, and want to ensure all your builds have acceptable performance, BDNA might help you.
 

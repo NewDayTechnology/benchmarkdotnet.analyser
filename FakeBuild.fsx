@@ -20,6 +20,9 @@ let testDir = "test/BenchmarkDotNetAnalyser.Tests.Unit"
 let testResultsOutputDir = testDir + "/TestResults"
 let strykerOutputDir = testDir + "/StrykerOutput"
 
+let strykerBreak = 69
+let strykerHigh = 80
+let strykerLow = 70
 
 let runNumber = (match Fake.BuildServer.GitHubActions.Environment.CI false with
                     | true -> Fake.BuildServer.GitHubActions.Environment.RunNumber
@@ -40,23 +43,30 @@ sprintf "Ref: %s" Fake.BuildServer.GitHubActions.Environment.Ref |> Trace.log
 sprintf "Version: %s" version |> Trace.log
 sprintf "Info Version: %s" infoVersion |> Trace.log
 
-let msBuildParams (buildParams)=
+let assemblyInfoParams (buildParams)=
     [ ("Version", version); ("AssemblyInformationalVersion", infoVersion) ] |> List.append buildParams   
 
 let packBuildParams (buildParams) =
     [ ("PackageVersion", version); ] |> List.append buildParams   
     
+let codeCoverageParams (buildParams)=
+    [   ("CollectCoverage", "true"); 
+        ("CoverletOutput", "./TestResults/coverage.info"); 
+        ( "CoverletOutputFormat", "lcov") ]  |> List.append buildParams
+
 let buildOptions (opts: DotNet.BuildOptions) =            
     { opts with Configuration = DotNet.BuildConfiguration.Release;
-                MSBuildParams = { opts.MSBuildParams with Properties = msBuildParams opts.MSBuildParams.Properties}
-                }
+                    MSBuildParams = { opts.MSBuildParams with Properties = assemblyInfoParams opts.MSBuildParams.Properties } }
 
 let testOptions (opts: DotNet.TestOptions)=
-    { opts with NoBuild = true; Configuration = DotNet.BuildConfiguration.Release; Logger = Some "trx;LogFileName=unit_test_results.trx" }
+    { opts with NoBuild = true; 
+                    Configuration = DotNet.BuildConfiguration.Release; 
+                    Logger = Some "trx;LogFileName=unit_test_results.trx";
+                    MSBuildParams = { opts.MSBuildParams with Properties = codeCoverageParams opts.MSBuildParams.Properties } }
 
 let packOptions(opts: DotNet.PackOptions)=
     { opts with Configuration = DotNet.BuildConfiguration.Release;
-                MSBuildParams = { opts.MSBuildParams with Properties = (packBuildParams opts.MSBuildParams.Properties |> msBuildParams )};
+                MSBuildParams = { opts.MSBuildParams with Properties = (packBuildParams opts.MSBuildParams.Properties |> assemblyInfoParams )};
                 OutputPath = sprintf ".\\%s\\toolpackage" publishDir |> Some;
         }
 
@@ -65,7 +75,7 @@ let publishOptions(runtime: string)(opts: DotNet.PublishOptions)=
        SelfContained = Some true;
        Runtime = Some runtime;       
        OutputPath = Some (sprintf ".\%s\%s" publishDir runtime;);
-       MSBuildParams = { opts.MSBuildParams with Properties = msBuildParams opts.MSBuildParams.Properties}
+       MSBuildParams = { opts.MSBuildParams with Properties = assemblyInfoParams opts.MSBuildParams.Properties}
      }
 
 // Declare build targets
@@ -99,9 +109,12 @@ Target.create "Publish apps" (fun _ ->
 )
 
 Target.create "Stryker" (fun _ ->  
-  let opts (o: DotNet.Options) =
-    { o with WorkingDirectory = testDir }
-  DotNet.exec opts "dotnet-stryker" "" |> ignore
+  let opts (o: DotNet.Options) = { o with WorkingDirectory = testDir }
+
+  let args = sprintf "-th %i -tl %i -tb %i" strykerHigh strykerLow strykerBreak
+  let result = DotNet.exec opts "dotnet-stryker" args
+
+  if not result.OK then failwithf "Stryker failed!"  
 )
 
 // Declare build dependencies
