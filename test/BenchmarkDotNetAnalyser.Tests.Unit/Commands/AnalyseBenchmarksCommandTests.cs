@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using BenchmarkDotNetAnalyser.Analysis;
 using BenchmarkDotNetAnalyser.Benchmarks;
 using BenchmarkDotNetAnalyser.Commands;
 using BenchmarkDotNetAnalyser.Instrumentation;
@@ -39,7 +40,8 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
             var infoProvider = Substitute.For<IBenchmarkInfoProvider>();
             var validator = Substitute.For<IAnalyseBenchmarksCommandValidator<AnalyseBenchmarksCommand>>();
             var executor = Substitute.For<IAnalyseBenchmarksExecutor>();
-            executor.ExecuteAsync(Arg.Any<AnalyseBenchmarksExecutorArgs>()).Returns(true);
+            var analysisResult = new BenchmarkResultAnalysis() {MeetsRequirements = true};
+            executor.ExecuteAsync(Arg.Any<AnalyseBenchmarksExecutorArgs>()).Returns(analysisResult);
 
             var cmd = new AnalyseBenchmarksCommand(telemetry, infoProvider, validator, executor)
             {
@@ -61,7 +63,8 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
             var infoProvider = Substitute.For<IBenchmarkInfoProvider>();
             var validator = Substitute.For<IAnalyseBenchmarksCommandValidator<AnalyseBenchmarksCommand>>();
             var executor = Substitute.For<IAnalyseBenchmarksExecutor>();
-            executor.ExecuteAsync(Arg.Any<AnalyseBenchmarksExecutorArgs>()).Returns(false);
+            var analysisResult = new BenchmarkResultAnalysis() {MeetsRequirements = false};
+            executor.ExecuteAsync(Arg.Any<AnalyseBenchmarksExecutorArgs>()).Returns(analysisResult);
 
             var cmd = new AnalyseBenchmarksCommand(telemetry, infoProvider, validator, executor)
             {

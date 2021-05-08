@@ -25,9 +25,11 @@ namespace BenchmarkDotNetAnalyser.Analysis
                             .ToList();
             if (items.Count < 2)
             {
+                var name = items.Count == 1 ? items[0].Item2.FullName : null;
                 yield return new BenchmarkResultAnalysis()
                 {
                     MeetsRequirements = true,
+                    BenchmarkName = name,
                 };
             }
             else

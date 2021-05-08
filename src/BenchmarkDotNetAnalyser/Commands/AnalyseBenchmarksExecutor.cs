@@ -28,7 +28,7 @@ namespace BenchmarkDotNetAnalyser.Commands
             _getAnalyser = getAnalyser;
         }
 
-        public async Task<bool> ExecuteAsync(AnalyseBenchmarksExecutorArgs args)
+        public async Task<BenchmarkResultAnalysis> ExecuteAsync(AnalyseBenchmarksExecutorArgs args)
         {
             args.ArgNotNull(nameof(args));
             
@@ -36,8 +36,13 @@ namespace BenchmarkDotNetAnalyser.Commands
                                                                     () => GetAggregateBenchmarksAsync(args.AggregatesPath));
             if (benchmarks.Count == 0)
             {
-                _telemetry.Warning("No benchmarks found.");
-                return false;
+                var msg = "No benchmarks found.";
+                _telemetry.Error(msg);
+                return new BenchmarkResultAnalysis()
+                {
+                    MeetsRequirements = false,
+                    Message = msg,
+                };
             }
             _telemetry.Commentary($"{benchmarks.Count} benchmark(s) found.");
             
@@ -45,7 +50,8 @@ namespace BenchmarkDotNetAnalyser.Commands
             var result = await _getAnalyser(args).AnalyseAsync(benchmarks);
             _telemetry.Info("Analysis done.");
 
-            return ReportAnalysis(_telemetry, result);
+            return result;
+            
         }
 
         protected async Task<IList<BenchmarkInfo>> GetAggregateBenchmarksAsync(string aggregatesPath)
@@ -58,12 +64,6 @@ namespace BenchmarkDotNetAnalyser.Commands
                 .ToList();
         }
 
-        private bool ReportAnalysis(ITelemetry telemetry, BenchmarkResultAnalysis result)
-        {
-            var reporter = new TelemetryBenchmarkResultAnalysisReporter(telemetry);
-
-            return reporter.Report(result);
-        }
 
         private IBenchmarkAnalyser CreateAnalyser(AnalyseBenchmarksExecutorArgs args) => 
             new BaselineDevianceBenchmarkAnalyser(_telemetry, args.AggregatesPath, args.Tolerance, args.MaxErrors);

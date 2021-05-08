@@ -5,6 +5,7 @@ using BenchmarkDotNetAnalyser.Commands;
 using McMaster.Extensions.CommandLineUtils;
 
 [assembly: InternalsVisibleTo("BenchmarkDotNetAnalyser.Tests.Unit")]
+[assembly: InternalsVisibleTo("BenchmarkDotNetAnalyser.Tests.Integration")]
 
 namespace BenchmarkDotNetAnalyser
 {

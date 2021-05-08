@@ -19,22 +19,7 @@ jobs:
     - name: Restore tools
       run: dotnet tool restore 
     - name: Build test and package
-      run: dotnet fake run FakeBuild.fsx    
-    - name: Archive Win app
-      uses: actions/upload-artifact@v2
-      with:
-        name: benchmarkdotnet.analyser.win-x64
-        path: ./publish/win-x64/*
-    - name: Archive Linux app
-      uses: actions/upload-artifact@v2
-      with:
-        name: benchmarkdotnet.analyser.linux-x64
-        path: ./publish/linux-x64/*
-    - name: Archive Linux Musl app
-      uses: actions/upload-artifact@v2
-      with:
-        name: benchmarkdotnet.analyser.linux-musl-x64
-        path: ./publish/linux-musl-x64/*
+      run: dotnet fake run FakeBuild.fsx        
     - name: Archive dotnet tool nupkg
       uses: actions/upload-artifact@v2
       with:
@@ -45,16 +30,30 @@ jobs:
       with:
         name: unittests.results
         path: ./test/BenchmarkDotNetAnalyser.Tests.Unit/TestResults/*
+    - name: Archive Code coverage
+      uses: actions/upload-artifact@v2
+      with:
+        name: codecoverage
+        path: ./publish/codecoverage/*.html
     - name: Archive Stryker results
       uses: actions/upload-artifact@v2
       with:
         name: stryker.results
-        path: ./test/BenchmarkDotNetAnalyser.Tests.Unit/StrykerOutput/*
+        path: ./publish/stryker/*
     - name: Unit tests
       uses: dorny/test-reporter@v1
       if: always()
       with:
         name: Unit tests
-        path: ${{ github.workspace }}/test/BenchmarkDotNetAnalyser.Tests.Unit/TestResults/unit_test_results.trx
+        path: ${{ github.workspace }}/test/BenchmarkDotNetAnalyser.Tests.Unit/TestResults/test_results.trx
+        reporter: dotnet-trx
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Integration tests
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: Integration tests
+        path: ${{ github.workspace }}/test/BenchmarkDotNetAnalyser.Tests.Integration/TestResults/test_results.trx
         reporter: dotnet-trx
         token: ${{ secrets.GITHUB_TOKEN }}

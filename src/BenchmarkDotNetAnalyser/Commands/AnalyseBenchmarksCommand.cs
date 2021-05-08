@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using BenchmarkDotNetAnalyser.Analysis;
 using BenchmarkDotNetAnalyser.Benchmarks;
 using BenchmarkDotNetAnalyser.Instrumentation;
 using McMaster.Extensions.CommandLineUtils;
@@ -55,7 +56,17 @@ namespace BenchmarkDotNetAnalyser.Commands
                 MaxErrors = this.MaxErrors.ToInt(),
             };
 
-            return await _executor.ExecuteAsync(args);
+            var analysisResult = await _executor.ExecuteAsync(args);
+
+            return ReportAnalysis(analysisResult);
+        }
+
+        
+        private bool ReportAnalysis(BenchmarkResultAnalysis result)
+        {
+            var reporter = new TelemetryBenchmarkResultAnalysisReporter(Telemetry);
+
+            return reporter.Report(result);
         }
     }
 }

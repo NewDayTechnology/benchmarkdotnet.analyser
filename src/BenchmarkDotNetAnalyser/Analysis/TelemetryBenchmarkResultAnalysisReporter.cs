@@ -21,13 +21,21 @@ namespace BenchmarkDotNetAnalyser.Analysis
                 return true;
             }
 
-            var message = result.InnerResults.NullToEmpty()
-                .Where(r => !r.MeetsRequirements)
-                .Select(r => r.Message != null ?  r.Message : r.BenchmarkName)
-                .Join(Environment.NewLine)
-                .Format($"These benchmark(s) failed performance:{Environment.NewLine}{{0}}");
+            var innerResults = result.InnerResults.NullToEmpty();
+            if (innerResults.Any())
+            {
+                var lines = innerResults
+                    .Where(r => !r.MeetsRequirements)
+                    .Select(r => r.Message != null ? r.Message : r.BenchmarkName)
+                    .Join(Environment.NewLine);
 
-            _telemetry.Error(message);
+                var message = !string.IsNullOrWhiteSpace(result.Message)
+                    ? $"{result.Message}{Environment.NewLine}These benchmark(s) failed performance:{Environment.NewLine}{lines}"
+                    : $"These benchmark(s) failed performance:{Environment.NewLine}{lines}";
+
+                _telemetry.Error(message);
+            }
+
             return false;
         }
     }

@@ -21,7 +21,7 @@ namespace BenchmarkDotNetAnalyser.Analysis
             var groupAnalyser = new BaselineDevianceGroupAnalyser(Telemetry, _deviance);
 
             IEnumerable<BenchmarkResultAnalysis> analyseGroup(BenchmarkResultGroup grp) =>
-                Telemetry.InvokeWithLogging(TelemetryEntry.Commentary($"Analysing benchmarks for {grp.Name}..."), () => groupAnalyser.Analyse(grp)); // AnalyseGroup(grp));
+                Telemetry.InvokeWithLogging(TelemetryEntry.Commentary($"Analysing benchmarks for {grp.Name}..."), () => groupAnalyser.Analyse(grp));
 
             return benchmarkResultGroups.SelectMany(analyseGroup);
         }
