@@ -3,7 +3,7 @@ using BenchmarkDotNet.Running;
 
 namespace BenchmarkDotNetAnalyser.SampleBenchmarks
 {
-    class Program
+    public class Program
     {
         static int Main(string[] args)
         {

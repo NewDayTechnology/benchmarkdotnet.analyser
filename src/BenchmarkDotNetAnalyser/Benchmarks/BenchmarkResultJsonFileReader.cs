@@ -10,7 +10,7 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
     {
         public async Task<IList<BenchmarkResult>> GetBenchmarkResultsAsync(string path)
         {
-            var json = await BenchmarkJsonFileReader.ReadJson(path);
+            var json = await BenchmarkJsonFileReader.ReadJsonAsync(path);
             if (json == null)
             {
                 return null;

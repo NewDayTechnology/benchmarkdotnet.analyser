@@ -6,6 +6,6 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
     [ExcludeFromCodeCoverage]
     public class BenchmarkRunInfoJsonFileProvider : BaseBenchmarkRunInfoJsonProvider
     {
-        protected override Task<string> GetBenchmarkJsonAsync(string path) => BenchmarkJsonFileReader.ReadJson(path);
+        protected override Task<string> GetBenchmarkJsonAsync(string path) => BenchmarkJsonFileReader.ReadJsonAsync(path);
     }
 }
