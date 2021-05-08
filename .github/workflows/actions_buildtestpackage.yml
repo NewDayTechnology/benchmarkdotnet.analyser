@@ -28,7 +28,7 @@ jobs:
     - name: Archive Test results
       uses: actions/upload-artifact@v2
       with:
-        name: unittests.results
+        name: tests.results
         path: |
           ./test/**/TestResults/*
           ./test/BenchmarkDotNetAnalyser.Tests.Integration/**/BDDfy.html
