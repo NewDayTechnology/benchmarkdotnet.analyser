@@ -29,7 +29,9 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: unittests.results
-        path: ./test/BenchmarkDotNetAnalyser.Tests.Unit/TestResults/*
+        path: |
+          ./test/**/TestResults/*
+          ./test/BenchmarkDotNetAnalyser.Tests.Integration/**/BDDfy.html
     - name: Archive Code coverage
       uses: actions/upload-artifact@v2
       with:
