@@ -32,17 +32,15 @@ namespace BenchmarkDotNetAnalyser.Instrumentation
         {
             if (!line.IsVerbose || _verbose)
             {
-                _console.ForegroundColor = line.Color;
+                var msg = line.Message.Colourise(line.Color);
                 if (line.AddLineBreak)
                 {
-                    _console.WriteLine(line.Message);
+                    _console.WriteLine(msg);
                 }
                 else
                 {
-                    _console.Write(line.Message);
+                    _console.Write(msg);
                 }
-
-                _console.ResetColor();
             }
         }
     }

@@ -34,6 +34,8 @@ namespace BenchmarkDotNetAnalyser.Commands
         {
             _args = args.ArgNotNull(nameof(args));
 
+            (new TelemetryAggregateBenchmarksExecutorArgsReporter(_telemetry)).Report(args);
+
             var newBenchmark = await _telemetry.InvokeWithLoggingAsync(TelemetryEntry.Commentary("Getting new benchmark..."), 
                                                                         GetNewBenchmarkAsync);
             

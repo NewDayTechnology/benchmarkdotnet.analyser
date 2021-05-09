@@ -18,7 +18,7 @@ namespace BenchmarkDotNetAnalyser.Analysis
                                       .ToList();
             var failures = innerResults.Count(r => !r.MeetsRequirements);
             var meetsRequirements = failures <= _maxFailures;
-            var message = meetsRequirements ? null : $"The maximum failures were breached. Failures: {failures} Limit: {_maxFailures}";
+            var message = meetsRequirements ? null : $"The maximum number of failures was exceeded. Limit: {_maxFailures} Failures: {failures}";
 
             return new BenchmarkResultAnalysis()
             {

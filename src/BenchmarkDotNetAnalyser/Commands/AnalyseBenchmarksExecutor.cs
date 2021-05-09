@@ -12,18 +12,20 @@ namespace BenchmarkDotNetAnalyser.Commands
     {
         private readonly ITelemetry _telemetry;
         private readonly IBenchmarkInfoProvider _infoProvider;
+        private readonly IBenchmarkStatisticAccessorProvider _accessors;
         private readonly Func<AnalyseBenchmarksExecutorArgs, IBenchmarkAnalyser> _getAnalyser;
         
-        public AnalyseBenchmarksExecutor(ITelemetry telemetry, IBenchmarkInfoProvider infoProvider)
+        public AnalyseBenchmarksExecutor(ITelemetry telemetry, IBenchmarkInfoProvider infoProvider, IBenchmarkStatisticAccessorProvider accessors)
         {
             _telemetry = telemetry;
             _infoProvider = infoProvider;
+            _accessors = accessors;
             _getAnalyser = CreateAnalyser;
         }
 
-        internal AnalyseBenchmarksExecutor(ITelemetry telemetry, IBenchmarkInfoProvider infoProvider,
+        internal AnalyseBenchmarksExecutor(ITelemetry telemetry, IBenchmarkInfoProvider infoProvider, IBenchmarkStatisticAccessorProvider accessors,
                                             Func<AnalyseBenchmarksExecutorArgs, IBenchmarkAnalyser> getAnalyser)
-            : this(telemetry, infoProvider)
+            : this(telemetry, infoProvider, accessors)
         {
             _getAnalyser = getAnalyser;
         }
@@ -31,6 +33,8 @@ namespace BenchmarkDotNetAnalyser.Commands
         public async Task<BenchmarkResultAnalysis> ExecuteAsync(AnalyseBenchmarksExecutorArgs args)
         {
             args.ArgNotNull(nameof(args));
+
+            (new TelemetryAnalyseBenchmarksExecutorArgsReporter(_telemetry)).Report(args);
             
             var benchmarks = await _telemetry.InvokeWithLoggingAsync(TelemetryEntry.Commentary("Getting benchmarks..."), 
                                                                     () => GetAggregateBenchmarksAsync(args.AggregatesPath));
@@ -66,6 +70,6 @@ namespace BenchmarkDotNetAnalyser.Commands
 
 
         private IBenchmarkAnalyser CreateAnalyser(AnalyseBenchmarksExecutorArgs args) => 
-            new BaselineDevianceBenchmarkAnalyser(_telemetry, args.AggregatesPath, args.Tolerance, args.MaxErrors);
+            new BaselineDevianceBenchmarkAnalyser(_telemetry, _accessors, args.AggregatesPath, args.Tolerance, args.MaxErrors, args.Statistic);
     }
 }

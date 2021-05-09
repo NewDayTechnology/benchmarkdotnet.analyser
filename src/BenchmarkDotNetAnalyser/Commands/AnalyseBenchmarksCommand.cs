@@ -7,17 +7,19 @@ using McMaster.Extensions.CommandLineUtils;
 
 namespace BenchmarkDotNetAnalyser.Commands
 {
-    [Command("analyse", Description = "Analyse a benchmark dataset for performance degradations")]
+    [Command("analyse", Description = "Analyse a benchmark dataset for performance degradation.")]
     public class AnalyseBenchmarksCommand : BaseAnalyseBenchmarksCommand
     {
+        private readonly IBenchmarkResultAnalysisReporter _reporter;
         private readonly IAnalyseBenchmarksCommandValidator<AnalyseBenchmarksCommand> _validator;
         private readonly IAnalyseBenchmarksExecutor _executor;
 
         public AnalyseBenchmarksCommand(ITelemetry telemetry, IBenchmarkInfoProvider infoProvider,
                                         IAnalyseBenchmarksCommandValidator<AnalyseBenchmarksCommand> validator,
-                                        IAnalyseBenchmarksExecutor executor) 
+                                        IAnalyseBenchmarksExecutor executor, IBenchmarkResultAnalysisReporter reporter) 
             : base(telemetry, infoProvider)
         {
+            _reporter = reporter.ArgNotNull(nameof(reporter));
             _validator = validator.ArgNotNull(nameof(validator));
             _executor = executor.ArgNotNull(nameof(executor));
         }
@@ -27,6 +29,9 @@ namespace BenchmarkDotNetAnalyser.Commands
 
         [Option(CommandOptionType.SingleValue, Description = "The maximum number of failures to tolerate.", LongName = "maxerrors", ShortName = "max")]
         public string MaxErrors { get; set; }
+
+        [Option(CommandOptionType.SingleValue, Description = "The result statistic to analyse.", LongName = "statistic", ShortName = "stat")]
+        public string Statistic { get; set; }
 
         public async Task<int> OnExecuteAsync()
         {
@@ -54,19 +59,12 @@ namespace BenchmarkDotNetAnalyser.Commands
                 AggregatesPath = this.AggregatesPath,
                 Tolerance = this.Tolerance.ToPercentageDecimal(),
                 MaxErrors = this.MaxErrors.ToInt(),
+                Statistic = this.Statistic,
             };
 
             var analysisResult = await _executor.ExecuteAsync(args);
 
-            return ReportAnalysis(analysisResult);
-        }
-
-        
-        private bool ReportAnalysis(BenchmarkResultAnalysis result)
-        {
-            var reporter = new TelemetryBenchmarkResultAnalysisReporter(Telemetry);
-
-            return reporter.Report(result);
+            return _reporter.Report(analysisResult);
         }
     }
 }

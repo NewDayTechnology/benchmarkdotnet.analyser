@@ -17,9 +17,10 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
         {
             var telemetry = Substitute.For<ITelemetry>();
             var infoProvider = Substitute.For<IBenchmarkInfoProvider>();
+            var accessors = Substitute.For<IBenchmarkStatisticAccessorProvider>();
             var analyser = Substitute.For<IBenchmarkAnalyser>();
 
-            var exec = new AnalyseBenchmarksExecutor(telemetry, infoProvider, _ => analyser);
+            var exec = new AnalyseBenchmarksExecutor(telemetry, infoProvider, accessors, _ => analyser);
 
             var args = new AnalyseBenchmarksExecutorArgs();
 
@@ -42,12 +43,12 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
             var infoProvider = Substitute.For<IBenchmarkInfoProvider>();
             infoProvider.GetBenchmarkInfosAsync(Arg.Any<string>())
                 .Returns(_ => benchmarks);
-
+            var accessors = Substitute.For<IBenchmarkStatisticAccessorProvider>();
             var analyser = Substitute.For<IBenchmarkAnalyser>();
             analyser.AnalyseAsync(Arg.Any<IEnumerable<BenchmarkInfo>>())
                 .Returns(Task.FromResult(analysis));
 
-            var exec = new AnalyseBenchmarksExecutor(telemetry, infoProvider, _ => analyser);
+            var exec = new AnalyseBenchmarksExecutor(telemetry, infoProvider, accessors, _ => analyser);
 
             var args = new AnalyseBenchmarksExecutorArgs();
 
@@ -72,12 +73,12 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
             var infoProvider = Substitute.For<IBenchmarkInfoProvider>();
             infoProvider.GetBenchmarkInfosAsync(Arg.Any<string>())
                 .Returns(_ => benchmarks);
-
+            var accessors = Substitute.For<IBenchmarkStatisticAccessorProvider>();
             var analyser = Substitute.For<IBenchmarkAnalyser>();
             analyser.AnalyseAsync(Arg.Any<IEnumerable<BenchmarkInfo>>())
                 .Returns(Task.FromResult(analysis));
 
-            var exec = new AnalyseBenchmarksExecutor(telemetry, infoProvider, _ => analyser);
+            var exec = new AnalyseBenchmarksExecutor(telemetry, infoProvider, accessors, _ => analyser);
 
             var args = new AnalyseBenchmarksExecutorArgs();
 

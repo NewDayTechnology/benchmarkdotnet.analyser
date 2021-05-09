@@ -172,7 +172,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
 
         public async Task AnalysisExecutorExecuted()
         {
-            var analyser = new AnalyseBenchmarksExecutor(_telemetry, new BenchmarkInfoJsonFileProvider());
+            var analyser = new AnalyseBenchmarksExecutor(_telemetry, new BenchmarkInfoJsonFileProvider(), new BenchmarkStatisticAccessorProvider());
 
             _analysisResult = await analyser.ExecuteAsync(_analysisArgs);
 

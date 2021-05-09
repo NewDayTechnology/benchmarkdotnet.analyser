@@ -27,9 +27,7 @@ namespace BenchmarkDotNetAnalyser
             }
             catch (Exception ex)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(ex.Message);
-                Console.ResetColor();
+                Console.WriteLine(Crayon.Output.Bright.Red(ex.Message));
                 return false.ToReturnCode();
             }
         }
@@ -41,7 +39,5 @@ namespace BenchmarkDotNetAnalyser
             app.ShowHelp();
             return true.ToReturnCode();
         }
-
-        
     }
 }

@@ -19,7 +19,8 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
         public void Analyse_LatestWithinTolerance_ReturnsTrue(int resultCount)
         {
             var telemetry = Substitute.For<ITelemetry>();
-            var analyser = new BaselineDevianceGroupAnalyser(telemetry, 0.0m);
+            var accessors = Substitute.For<IBenchmarkStatisticAccessorProvider>();
+            var analyser = new BaselineDevianceGroupAnalyser(telemetry, accessors, 0.0m, null);
 
             var now = DateTime.UtcNow;
             var times = Enumerable.Range(1, resultCount)
@@ -52,7 +53,9 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
         public void Analyse_LatestExceedsTolerance_ReturnsFalse(int resultCount)
         {
             var telemetry = Substitute.For<ITelemetry>();
-            var analyser = new BaselineDevianceGroupAnalyser(telemetry, 0.0m);
+            var accessors = Substitute.For<IBenchmarkStatisticAccessorProvider>();
+            accessors.GetAccessor(Arg.Any<string>()).Returns((BenchmarkResult br) => br.Mean.GetValueOrDefault());
+            var analyser = new BaselineDevianceGroupAnalyser(telemetry, accessors, 0.0m, null);
 
             var now = DateTime.UtcNow;
             var times = Enumerable.Range(1, resultCount)

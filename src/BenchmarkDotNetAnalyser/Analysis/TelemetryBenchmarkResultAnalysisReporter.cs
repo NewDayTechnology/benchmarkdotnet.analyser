@@ -18,25 +18,29 @@ namespace BenchmarkDotNetAnalyser.Analysis
             if (result.ArgNotNull(nameof(result)).MeetsRequirements)
             {
                 _telemetry.Success("Benchmarks passed requirements.");
-                return true;
             }
-
-            var innerResults = result.InnerResults.NullToEmpty();
-            if (innerResults.Any())
+            else
             {
-                var lines = innerResults
-                    .Where(r => !r.MeetsRequirements)
-                    .Select(r => r.Message != null ? r.Message : r.BenchmarkName)
-                    .Join(Environment.NewLine);
+                var innerResults = result.InnerResults.NullToEmpty();
+                if (innerResults.Any())
+                {
+                    var header = new[]
+                    {
+                        (!string.IsNullOrWhiteSpace(result.Message) ? result.Message : null),
+                        "These benchmark(s) failed performance:"
+                    };
+                    
+                    var lines = innerResults
+                        .Where(r => !r.MeetsRequirements)
+                        .Select(r => r.Message != null ? r.Message : r.BenchmarkName);
+                    
+                    var message = header.Concat(lines).Where(s => s != null).Join(Environment.NewLine);
 
-                var message = !string.IsNullOrWhiteSpace(result.Message)
-                    ? $"{result.Message}{Environment.NewLine}These benchmark(s) failed performance:{Environment.NewLine}{lines}"
-                    : $"These benchmark(s) failed performance:{Environment.NewLine}{lines}";
-
-                _telemetry.Error(message);
+                    _telemetry.Error(message);
+                }
             }
 
-            return false;
+            return result.MeetsRequirements;;
         }
     }
 }

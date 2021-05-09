@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using BenchmarkDotNetAnalyser.Benchmarks;
 using BenchmarkDotNetAnalyser.Instrumentation;
@@ -9,12 +8,16 @@ namespace BenchmarkDotNetAnalyser.Analysis
     public class BaselineDevianceGroupAnalyser
     {
         private readonly ITelemetry _telemetry;
+        private readonly IBenchmarkStatisticAccessorProvider _accessors;
         private readonly decimal _deviance;
+        private readonly string _statistic;
 
-        public BaselineDevianceGroupAnalyser(ITelemetry telemetry, decimal deviance)
+        public BaselineDevianceGroupAnalyser(ITelemetry telemetry, IBenchmarkStatisticAccessorProvider accessors, decimal deviance, string statistic)
         {
             _telemetry = telemetry;
+            _accessors = accessors;
             _deviance = deviance;
+            _statistic = statistic;
         }
 
         public IEnumerable<BenchmarkResultAnalysis> Analyse(BenchmarkResultGroup group)
@@ -34,8 +37,7 @@ namespace BenchmarkDotNetAnalyser.Analysis
             }
             else
             {
-                Func<BenchmarkResult, decimal> getResultValue = r => r.Mean.GetValueOrDefault();
-
+                var getResultValue = _accessors.GetAccessor(_statistic);
                 var baseline = items.MinBy(t => getResultValue(t.Item2));
                 var test = items[0];
 

@@ -6,7 +6,7 @@ using McMaster.Extensions.CommandLineUtils;
 
 namespace BenchmarkDotNetAnalyser.Commands
 {
-    [Command("aggregate", Description = "Aggregate benchmark results into a single dataset")]
+    [Command("aggregate", Description = "Aggregate benchmark results into a single dataset.")]
     public class AggregateBenchmarksCommand
     {
         private readonly ITelemetry _telemetry;
