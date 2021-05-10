@@ -66,7 +66,7 @@ Use ``bdna analyse`` to scan the aggregate dataset.
 
 Every benchmark run (that is, the benchmark type, method and parameters) is analysed in isolation. For example, if your benchmarks have runs ``Dijkstra(Depth=1)`` & ``Dijkstra(Depth=2)`` each of these will be analysed independently, and not ``Dijkstra()`` as a whole.
 
-From all the aggregated runs, BDNA picks the minimum mean value per run as the baseline value. 
+From all the aggregated runs, BDNA picks the minimum mean time value per run as the baseline value. 
 
 The benchmark run that was added last is taken as the comparand: if this latest value is within your tolerances the analysis will pass, if not the analysis fails. 
 
@@ -91,7 +91,7 @@ Options:
 
 ``--maxerrors``: the maximum number of errors for the analysis to pass. If this is 0 then any error will cause the analysis to fail.
 
-``--statistic``: the statistic value, for each run, to use. By default this is ``Mean`` with ``Min``, ``Max`` & ``Median``.
+``--statistic``: the statistic value, for each run, to use. By default this is ``MeanTime`` with ``MinTime``, ``MaxTime`` & ``MedianTime``.
 
 
 If there are no degradations in performance, ``bdna analyse`` will return a return code of 0, otherwise 1 will be returned. This is what you should watch to fail builds upon degraded performance.

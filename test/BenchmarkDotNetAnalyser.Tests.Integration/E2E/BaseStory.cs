@@ -104,11 +104,6 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
             
             _newBenchmarkInfos[0].Runs.All(p => !string.IsNullOrWhiteSpace(p.BenchmarkDotNetVersion)).Should().BeTrue();
             _newBenchmarkInfos[0].Runs.All(p => p.Creation > DateTimeOffset.MinValue).Should().BeTrue();
-            _newBenchmarkInfos[0].Runs.All(p =>
-            {
-                var path = Path.Combine(_outputAggPath, p.FullPath);
-                return File.Exists(path);
-            }).Should().BeTrue();
         }
 
         public void MultipleBenchmarkInfosAreChecked()
@@ -125,19 +120,14 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
 
                 bi.Runs.All(p => !string.IsNullOrWhiteSpace(p.BenchmarkDotNetVersion)).Should().BeTrue();
                 bi.Runs.All(p => p.Creation > DateTimeOffset.MinValue).Should().BeTrue();
-                bi.Runs.All(p =>
-                {
-                    var path = Path.Combine(_outputAggPath, p.FullPath);
-                    return File.Exists(path);
-                }).Should().BeTrue();
             }
         }
         
-        public async Task BenchmarkRunResultsRetrieved()
+        public void BenchmarkRunResultsRetrieved()
         {
-            var rdr = new BenchmarkRunResultsReader(new BenchmarkResultJsonFileReader(), _outputAggPath);
+            var rdr = new BenchmarkRunResultsReader();
 
-            _benchmarkRunResults = await rdr.GetBenchmarkResults(_newBenchmarkInfos);
+            _benchmarkRunResults = rdr.GetBenchmarkResults(_newBenchmarkInfos);
         }
 
         public void EmptyBenchmarkRunResultsChecked()

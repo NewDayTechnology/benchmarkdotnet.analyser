@@ -100,12 +100,12 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
             results[0].Type.Should().Be(benchmark.Type);
             results[0].Method.Should().Be(benchmark.Method);
             results[0].Parameters.Should().Be(benchmark.Parameters);
-            results[0].Min.Should().Be(benchmark.Statistics.Min);
-            results[0].Max.Should().Be(benchmark.Statistics.Max);
-            results[0].Mean.Should().Be(benchmark.Statistics.Mean);
-            results[0].Median.Should().Be(benchmark.Statistics.Median);
-            results[0].Q1.Should().Be(benchmark.Statistics.Q1);
-            results[0].Q3.Should().Be(benchmark.Statistics.Q3);
+            results[0].MinTime.Should().Be(benchmark.Statistics.Min);
+            results[0].MaxTime.Should().Be(benchmark.Statistics.Max);
+            results[0].MeanTime.Should().Be(benchmark.Statistics.Mean);
+            results[0].MedianTime.Should().Be(benchmark.Statistics.Median);
+            results[0].Q1Time.Should().Be(benchmark.Statistics.Q1);
+            results[0].Q3Time.Should().Be(benchmark.Statistics.Q3);
         }
 
         
@@ -138,12 +138,12 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
             results[0].Type.Should().Be(benchmark.Type);
             results[0].Method.Should().Be(benchmark.Method);
             results[0].Parameters.Should().Be(benchmark.Parameters);
-            results[0].Min.Should().BeNull();
-            results[0].Max.Should().BeNull();
-            results[0].Mean.Should().BeNull();
-            results[0].Median.Should().BeNull();
-            results[0].Q1.Should().BeNull();
-            results[0].Q3.Should().BeNull();
+            results[0].MinTime.Should().BeNull();
+            results[0].MaxTime.Should().BeNull();
+            results[0].MeanTime.Should().BeNull();
+            results[0].MedianTime.Should().BeNull();
+            results[0].Q1Time.Should().BeNull();
+            results[0].Q3Time.Should().BeNull();
         }
 
     }

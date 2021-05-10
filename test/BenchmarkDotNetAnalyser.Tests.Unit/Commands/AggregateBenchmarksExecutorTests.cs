@@ -38,7 +38,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
 
             var runInfoProvider = Substitute.For<IBenchmarkRunInfoProvider>();
             runInfoProvider.GetRunInfoAsync(Arg.Any<string>())
-                .Returns(x => Task.FromResult(new BenchmarkRunInfo() { FullPath = x[0]?.ToString(), Creation = DateTimeOffset.UtcNow}));
+                .Returns(x => Task.FromResult(new BenchmarkRunInfo() { Creation = DateTimeOffset.UtcNow}));
 
             var infoProvider = Substitute.For<IBenchmarkInfoProvider>();
             
@@ -84,7 +84,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
 
             var runInfoProvider = Substitute.For<IBenchmarkRunInfoProvider>();
             runInfoProvider.GetRunInfoAsync(Arg.Any<string>())
-                .Returns(x => Task.FromResult(new BenchmarkRunInfo() { FullPath = x[0].ToString() }));
+                .Returns(x => Task.FromResult(new BenchmarkRunInfo()));
 
             var infoProvider = Substitute.For<IBenchmarkInfoProvider>();
             infoProvider.GetBenchmarkInfosAsync(Arg.Any<string>()).Returns(new List<BenchmarkInfo>());

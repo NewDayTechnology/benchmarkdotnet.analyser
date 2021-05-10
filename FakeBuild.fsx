@@ -65,7 +65,7 @@ let codeCoverageParams (buildParams)=
 
 let buildOptions (opts: DotNet.BuildOptions) =            
     { opts with Configuration = DotNet.BuildConfiguration.Release;
-                    MSBuildParams = { opts.MSBuildParams with Properties = assemblyInfoParams opts.MSBuildParams.Properties } }
+                    MSBuildParams = { opts.MSBuildParams with Properties = assemblyInfoParams opts.MSBuildParams.Properties; WarnAsError = Some [ "*" ] } }
 
 let testOptions (opts: DotNet.TestOptions)=
     { opts with NoBuild = true; 

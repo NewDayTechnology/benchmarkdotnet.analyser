@@ -16,10 +16,10 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
             var tolerance = toleranceValue.Get / 100.0m;
             var testValue = (meanValue.Get * (1 + tolerance));
 
-            var baseline = (new BenchmarkRunInfo(), new BenchmarkResult() {Mean = baselineValue});
-            var test = (new BenchmarkRunInfo(), new BenchmarkResult() {Mean = testValue});
+            var baseline = (new BenchmarkRunInfo(), new BenchmarkResult() {MeanTime = baselineValue});
+            var test = (new BenchmarkRunInfo(), new BenchmarkResult() {MeanTime = testValue});
             
-            var analyser = new BaselineDevianceAnalyser(br => br.Mean.Value, tolerance);
+            var analyser = new BaselineDevianceAnalyser(br => br.MeanTime.Value, tolerance);
 
             var name = "abc";
 
@@ -37,9 +37,9 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
             var tolerance = toleranceValue.Get / 100.0m;
             var testValue = (meanValue.Get * (1 + tolerance)) + 1;
             
-            var baseline = (new BenchmarkRunInfo(), new BenchmarkResult() {Mean = baselineValue});
-            var test = (new BenchmarkRunInfo(), new BenchmarkResult() {Mean = testValue});
-            var analyser = new BaselineDevianceAnalyser(br => br.Mean.Value, tolerance);
+            var baseline = (new BenchmarkRunInfo(), new BenchmarkResult() {MeanTime = baselineValue});
+            var test = (new BenchmarkRunInfo(), new BenchmarkResult() {MeanTime = testValue});
+            var analyser = new BaselineDevianceAnalyser(br => br.MeanTime.Value, tolerance);
 
             var name = "abc";
             var result = analyser.CreateAnalysis(name, baseline, test);
@@ -58,10 +58,10 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
         [InlineData(-1, 1, 0.1)]
         public void CreateAnalysis_ToleranceHasPositiveNegativeBoundaries_OutsideBoundaries(decimal baselineValue, decimal testValue, decimal tolerance)
         {
-            var baseline = (new BenchmarkRunInfo(), new BenchmarkResult() {Mean = baselineValue});
-            var test = (new BenchmarkRunInfo(), new BenchmarkResult() {Mean = testValue});
+            var baseline = (new BenchmarkRunInfo(), new BenchmarkResult() {MeanTime = baselineValue});
+            var test = (new BenchmarkRunInfo(), new BenchmarkResult() {MeanTime = testValue});
             
-            var analyser = new BaselineDevianceAnalyser(br => br.Mean.Value, tolerance);
+            var analyser = new BaselineDevianceAnalyser(br => br.MeanTime.Value, tolerance);
             
             var result = analyser.CreateAnalysis("", baseline, test);
 
@@ -73,10 +73,10 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
         [InlineData(1, 0.1, 0.9)]
         public void CreateAnalysis_ToleranceHasPositiveNegativeBoundaries_InsideBoundaries(decimal baselineValue, decimal testValue, decimal tolerance)
         {
-            var baseline = (new BenchmarkRunInfo(), new BenchmarkResult() {Mean = baselineValue});
-            var test = (new BenchmarkRunInfo(), new BenchmarkResult() {Mean = testValue});
+            var baseline = (new BenchmarkRunInfo(), new BenchmarkResult() {MeanTime = baselineValue});
+            var test = (new BenchmarkRunInfo(), new BenchmarkResult() {MeanTime = testValue});
             
-            var analyser = new BaselineDevianceAnalyser(br => br.Mean.Value, tolerance);
+            var analyser = new BaselineDevianceAnalyser(br => br.MeanTime.Value, tolerance);
             
             var result = analyser.CreateAnalysis("", baseline, test);
 

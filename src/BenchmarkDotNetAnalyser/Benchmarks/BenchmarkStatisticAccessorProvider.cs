@@ -7,17 +7,17 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
     public class BenchmarkStatisticAccessorProvider : IBenchmarkStatisticAccessorProvider
     {
         private readonly Dictionary<string, Func<BenchmarkResult, decimal>> _accessors;
-        private readonly string _defaultAccessorName = nameof(BenchmarkResult.Mean);
+        private readonly string _defaultAccessorName = nameof(BenchmarkResult.MeanTime);
 
         public BenchmarkStatisticAccessorProvider()
         {
             _accessors =
                 new Dictionary<string, Func<BenchmarkResult, decimal>>(StringComparer.InvariantCultureIgnoreCase)
                 {
-                    {nameof(BenchmarkResult.Mean), br => br.Mean.GetValueOrDefault()},
-                    {nameof(BenchmarkResult.Median), br => br.Median.GetValueOrDefault()},
-                    {nameof(BenchmarkResult.Min), br => br.Min.GetValueOrDefault()},
-                    {nameof(BenchmarkResult.Max), br => br.Max.GetValueOrDefault()},
+                    {nameof(BenchmarkResult.MeanTime), br => br.MeanTime.GetValueOrDefault()},
+                    {nameof(BenchmarkResult.MedianTime), br => br.MedianTime.GetValueOrDefault()},
+                    {nameof(BenchmarkResult.MinTime), br => br.MinTime.GetValueOrDefault()},
+                    {nameof(BenchmarkResult.MaxTime), br => br.MaxTime.GetValueOrDefault()},
                 };
         }
 

@@ -12,8 +12,8 @@ namespace BenchmarkDotNetAnalyser.Analysis
         private readonly int _maxErrors;
         private readonly string _statistic;
 
-        public BaselineDevianceBenchmarkAnalyser(ITelemetry telemetry, IBenchmarkStatisticAccessorProvider accessors, string basePath, decimal deviance, int maxErrors, string statistic) 
-            : base(telemetry, basePath)
+        public BaselineDevianceBenchmarkAnalyser(ITelemetry telemetry, IBenchmarkStatisticAccessorProvider accessors, decimal deviance, int maxErrors, string statistic) 
+            : base(telemetry)
         {
             _accessors = accessors;
             _deviance = deviance;

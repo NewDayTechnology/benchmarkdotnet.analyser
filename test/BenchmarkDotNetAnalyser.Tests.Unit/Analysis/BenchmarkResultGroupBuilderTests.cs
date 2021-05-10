@@ -43,7 +43,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
             {
                 new BenchmarkRunResults()
                 {
-                    Run = new BenchmarkRunInfo() { BenchmarkDotNetVersion = "a", Creation = DateTimeOffset.UtcNow, FullPath = @"C:\\" },
+                    Run = new BenchmarkRunInfo() { BenchmarkDotNetVersion = "a", Creation = DateTimeOffset.UtcNow },
                     Results = resultRuns,
                 },
             };
@@ -65,7 +65,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
             var runs = times.Select(t =>
                 new BenchmarkRunResults()
                 {
-                    Run = new BenchmarkRunInfo() {BenchmarkDotNetVersion = "a", Creation = t, FullPath = @"C:\\",},
+                    Run = new BenchmarkRunInfo() {BenchmarkDotNetVersion = "a", Creation = t },
                     Results = new[] {new BenchmarkResult() {FullName = fullName,}},
                 }
             ).ToList();
@@ -87,17 +87,17 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
             var runs = times.Select((t,i) =>
                 new BenchmarkRunResults()
                 {
-                    Run = new BenchmarkRunInfo() {BenchmarkDotNetVersion = "a", Creation = t, FullPath = @"C:\\",},
-                    Results = new[] {new BenchmarkResult() {FullName = "abc", Min = i}},
+                    Run = new BenchmarkRunInfo() {BenchmarkDotNetVersion = "a", Creation = t },
+                    Results = new[] {new BenchmarkResult() {FullName = "abc", MinTime = i}},
                 }
             ).ToList();
-            var expectedValues = runs.SelectMany(rr => rr.Results).Select(r => (int) r.Min).Reverse();
+            var expectedValues = runs.SelectMany(rr => rr.Results).Select(r => (int) r.MinTime).Reverse();
 
             var result = new BenchmarkResultGroupBuilder().FromResults(runs).ToList();
 
             result.Count.Should().Be(1);
 
-            var xs = result.SelectMany(r => r.Results).Select(t => (int)t.Item2.Min);
+            var xs = result.SelectMany(r => r.Results).Select(t => (int)t.Item2.MinTime);
             xs.SequenceEqual(expectedValues).Should().BeTrue();
         }
     }

@@ -58,12 +58,12 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
                     Type = bm.GetStringValue("Type"),
                     Method = bm.GetStringValue("Method"),
                     Parameters = bm.GetStringValue("Parameters"),
-                    Max = stat?.GetDecimalValue("Max"),
-                    Min = stat?.GetDecimalValue("Min"),
-                    Mean = stat?.GetDecimalValue("Mean"),
-                    Median = stat?.GetDecimalValue("Median"),
-                    Q1 = stat?.GetDecimalValue("Q1"),
-                    Q3 = stat?.GetDecimalValue("Q3")
+                    MaxTime = stat?.GetDecimalValue("Max"),
+                    MinTime = stat?.GetDecimalValue("Min"),
+                    MeanTime = stat?.GetDecimalValue("Mean"),
+                    MedianTime = stat?.GetDecimalValue("Median"),
+                    Q1Time = stat?.GetDecimalValue("Q1"),
+                    Q3Time = stat?.GetDecimalValue("Q3")
                 };
             }
 

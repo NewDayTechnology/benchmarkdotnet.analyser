@@ -70,6 +70,6 @@ namespace BenchmarkDotNetAnalyser.Commands
 
 
         private IBenchmarkAnalyser CreateAnalyser(AnalyseBenchmarksExecutorArgs args) => 
-            new BaselineDevianceBenchmarkAnalyser(_telemetry, _accessors, args.AggregatesPath, args.Tolerance, args.MaxErrors, args.Statistic);
+            new BaselineDevianceBenchmarkAnalyser(_telemetry, _accessors, args.Tolerance, args.MaxErrors, args.Statistic);
     }
 }

@@ -1,52 +1,20 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
+using System.Linq;
 
 namespace BenchmarkDotNetAnalyser.Benchmarks
 {
     internal class BenchmarkRunResultsReader : IBenchmarkRunResultsReader
     {
-        private readonly IBenchmarkResultReader _resultReader;
-        private readonly string _basePath;
-
-        public BenchmarkRunResultsReader(IBenchmarkResultReader resultReader, string basePath)
-        {
-            _resultReader = resultReader.ArgNotNull(nameof(resultReader));
-            _basePath = basePath.ArgNotNull(nameof(basePath));
-        }
-
-        public async Task<IList<BenchmarkRunResults>> GetBenchmarkResults(IEnumerable<BenchmarkInfo> benchmarks)
-        {
-            var result = new List<BenchmarkRunResults>();
-
-            foreach (var benchmarkInfo in benchmarks)
+        public IList<BenchmarkRunResults> GetBenchmarkResults(IEnumerable<BenchmarkInfo> benchmarks) =>
+            benchmarks.NullToEmpty()
+                .SelectMany(GetBenchmarkResults)
+                .ToList();
+        
+        private IEnumerable<BenchmarkRunResults> GetBenchmarkResults(BenchmarkInfo benchmark) =>
+            benchmark.Runs.Select(bri => new BenchmarkRunResults()
             {
-                var xs = await GetBenchmarkResults(benchmarkInfo);
-                result.AddRange(xs);
-            }
-
-            return result;
-        }
-
-        private async Task<IList<BenchmarkRunResults>> GetBenchmarkResults(BenchmarkInfo benchmark)
-        {
-            var result = new List<BenchmarkRunResults>();
-
-            foreach (var bri in benchmark.Runs)
-            {
-                var path = Path.Combine(_basePath, bri.FullPath);
-
-                var r = new BenchmarkRunResults()
-                {
-                    Run = bri,
-                    Results = (await _resultReader.GetBenchmarkResultsAsync(path)) ?? new List<BenchmarkResult>(),
-                };
-
-                result.Add(r);
-            }
-
-            return result;
-        }
-
+                Run = bri,
+                Results = bri.Results,
+            });
     }
 }

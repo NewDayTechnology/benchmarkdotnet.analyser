@@ -21,9 +21,9 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.Classes.Benchmarks
             var result = await provider.GetRunInfoAsync(path);
 
             result.Should().NotBeNull();
-            result.FullPath.Should().Be(path);
             result.BenchmarkDotNetVersion.Should().NotBeNullOrWhiteSpace();
             result.Creation.Should().NotBe(DateTimeOffset.MinValue);
+            result.Results.Count.Should().BeGreaterThan(0);
         }
     }
 }

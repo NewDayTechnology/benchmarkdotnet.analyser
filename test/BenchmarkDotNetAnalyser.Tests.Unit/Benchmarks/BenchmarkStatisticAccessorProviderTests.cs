@@ -23,14 +23,14 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
         }
 
         [Theory]
-        [InlineData(nameof(BenchmarkResult.Max), true)]
-        [InlineData(nameof(BenchmarkResult.Max), false)]
-        [InlineData(nameof(BenchmarkResult.Min), true)]
-        [InlineData(nameof(BenchmarkResult.Min), false)]
-        [InlineData(nameof(BenchmarkResult.Median), true)]
-        [InlineData(nameof(BenchmarkResult.Median), false)]
-        [InlineData(nameof(BenchmarkResult.Mean), true)]
-        [InlineData(nameof(BenchmarkResult.Mean), false)]
+        [InlineData(nameof(BenchmarkResult.MaxTime), true)]
+        [InlineData(nameof(BenchmarkResult.MaxTime), false)]
+        [InlineData(nameof(BenchmarkResult.MinTime), true)]
+        [InlineData(nameof(BenchmarkResult.MinTime), false)]
+        [InlineData(nameof(BenchmarkResult.MedianTime), true)]
+        [InlineData(nameof(BenchmarkResult.MedianTime), false)]
+        [InlineData(nameof(BenchmarkResult.MeanTime), true)]
+        [InlineData(nameof(BenchmarkResult.MeanTime), false)]
         public void GetAccessor_AccessorFound(string name, bool upper)
         {
             name = upper ? name.ToUpper() : name;
@@ -50,10 +50,10 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
         }
 
         [Theory]
-        [InlineData(nameof(BenchmarkResult.Min), 1)]
-        [InlineData(nameof(BenchmarkResult.Max), 2)]
-        [InlineData(nameof(BenchmarkResult.Mean), 3)]
-        [InlineData(nameof(BenchmarkResult.Median), 4)]
+        [InlineData(nameof(BenchmarkResult.MinTime), 1)]
+        [InlineData(nameof(BenchmarkResult.MaxTime), 2)]
+        [InlineData(nameof(BenchmarkResult.MeanTime), 3)]
+        [InlineData(nameof(BenchmarkResult.MedianTime), 4)]
         [InlineData("", 3)]
         public void GetAccessor_AccessorFound_AccessorEvaluates(string name, decimal expected)
         {
@@ -62,10 +62,10 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
 
             var br = new BenchmarkResult()
             {
-                Min = 1,
-                Max = 2,
-                Mean = 3,
-                Median = 4
+                MinTime = 1,
+                MaxTime = 2,
+                MeanTime = 3,
+                MedianTime = 4
             };
 
             var result = a(br);
