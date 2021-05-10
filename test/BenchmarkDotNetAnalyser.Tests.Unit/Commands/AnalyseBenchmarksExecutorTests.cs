@@ -17,17 +17,18 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
         {
             var telemetry = Substitute.For<ITelemetry>();
             var infoProvider = Substitute.For<IBenchmarkInfoProvider>();
+            var accessors = Substitute.For<IBenchmarkStatisticAccessorProvider>();
             var analyser = Substitute.For<IBenchmarkAnalyser>();
 
-            var exec = new AnalyseBenchmarksExecutor(telemetry, infoProvider, _ => analyser);
+            var exec = new AnalyseBenchmarksExecutor(telemetry, infoProvider, accessors, _ => analyser);
 
             var args = new AnalyseBenchmarksExecutorArgs();
 
             var result = await exec.ExecuteAsync(args);
 
-            result.Should().BeFalse();
+            result.MeetsRequirements.Should().BeFalse();
             telemetry.Received(1).Write(Arg.Is<TelemetryEntry>(x => x.Message == "Getting benchmarks..."));
-            telemetry.Received(1).Warning(Arg.Is<string>(x => x == "No benchmarks found."));
+            telemetry.Received(1).Error(Arg.Is<string>(x => x == "No benchmarks found."));
         } 
 
 
@@ -42,18 +43,18 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
             var infoProvider = Substitute.For<IBenchmarkInfoProvider>();
             infoProvider.GetBenchmarkInfosAsync(Arg.Any<string>())
                 .Returns(_ => benchmarks);
-
+            var accessors = Substitute.For<IBenchmarkStatisticAccessorProvider>();
             var analyser = Substitute.For<IBenchmarkAnalyser>();
             analyser.AnalyseAsync(Arg.Any<IEnumerable<BenchmarkInfo>>())
                 .Returns(Task.FromResult(analysis));
 
-            var exec = new AnalyseBenchmarksExecutor(telemetry, infoProvider, _ => analyser);
+            var exec = new AnalyseBenchmarksExecutor(telemetry, infoProvider, accessors, _ => analyser);
 
             var args = new AnalyseBenchmarksExecutorArgs();
 
             var result = await exec.ExecuteAsync(args);
 
-            result.Should().BeTrue();
+            result.MeetsRequirements.Should().BeTrue();
             telemetry.Received(1).Info(Arg.Is<string>(x => x == "Analysing benchmarks..."));
             telemetry.Received(1).Info(Arg.Is<string>(x => x == "Analysis done."));
             telemetry.Received(1).Write(Arg.Is<TelemetryEntry>(x => x.Message == "Getting benchmarks..."));
@@ -72,18 +73,18 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
             var infoProvider = Substitute.For<IBenchmarkInfoProvider>();
             infoProvider.GetBenchmarkInfosAsync(Arg.Any<string>())
                 .Returns(_ => benchmarks);
-
+            var accessors = Substitute.For<IBenchmarkStatisticAccessorProvider>();
             var analyser = Substitute.For<IBenchmarkAnalyser>();
             analyser.AnalyseAsync(Arg.Any<IEnumerable<BenchmarkInfo>>())
                 .Returns(Task.FromResult(analysis));
 
-            var exec = new AnalyseBenchmarksExecutor(telemetry, infoProvider, _ => analyser);
+            var exec = new AnalyseBenchmarksExecutor(telemetry, infoProvider, accessors, _ => analyser);
 
             var args = new AnalyseBenchmarksExecutorArgs();
 
             var result = await exec.ExecuteAsync(args);
 
-            result.Should().BeFalse();
+            result.MeetsRequirements.Should().BeFalse();
             telemetry.Received(1).Info(Arg.Is<string>(x => x == "Analysing benchmarks..."));
             telemetry.Received(1).Info(Arg.Is<string>(x => x == "Analysis done."));
             telemetry.Received(1).Write(Arg.Is<TelemetryEntry>(x => x.Message == "Getting benchmarks..."));

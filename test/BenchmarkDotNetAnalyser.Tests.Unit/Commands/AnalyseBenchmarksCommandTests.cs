@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using BenchmarkDotNetAnalyser.Analysis;
 using BenchmarkDotNetAnalyser.Benchmarks;
 using BenchmarkDotNetAnalyser.Commands;
 using BenchmarkDotNetAnalyser.Instrumentation;
@@ -24,7 +25,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
                 });
             var executor = Substitute.For<IAnalyseBenchmarksExecutor>();
 
-            var cmd = new AnalyseBenchmarksCommand(telemetry, infoProvider, validator, executor);
+            var cmd = new AnalyseBenchmarksCommand(telemetry, infoProvider, validator, executor, Substitute.For<IBenchmarkResultAnalysisReporter>());
 
             var rc = await cmd.OnExecuteAsync();
 
@@ -39,9 +40,13 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
             var infoProvider = Substitute.For<IBenchmarkInfoProvider>();
             var validator = Substitute.For<IAnalyseBenchmarksCommandValidator<AnalyseBenchmarksCommand>>();
             var executor = Substitute.For<IAnalyseBenchmarksExecutor>();
-            executor.ExecuteAsync(Arg.Any<AnalyseBenchmarksExecutorArgs>()).Returns(true);
+            var analysisResult = new BenchmarkResultAnalysis() {MeetsRequirements = true};
+            executor.ExecuteAsync(Arg.Any<AnalyseBenchmarksExecutorArgs>()).Returns(analysisResult);
 
-            var cmd = new AnalyseBenchmarksCommand(telemetry, infoProvider, validator, executor)
+            var reporter = Substitute.For<IBenchmarkResultAnalysisReporter>();
+            reporter.Report(Arg.Any<BenchmarkResultAnalysis>()).Returns(true);
+            
+            var cmd = new AnalyseBenchmarksCommand(telemetry, infoProvider, validator, executor, reporter)
             {
                 MaxErrors = 1.ToString(),
                 Tolerance = 0.0.ToString(),
@@ -61,9 +66,10 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
             var infoProvider = Substitute.For<IBenchmarkInfoProvider>();
             var validator = Substitute.For<IAnalyseBenchmarksCommandValidator<AnalyseBenchmarksCommand>>();
             var executor = Substitute.For<IAnalyseBenchmarksExecutor>();
-            executor.ExecuteAsync(Arg.Any<AnalyseBenchmarksExecutorArgs>()).Returns(false);
+            var analysisResult = new BenchmarkResultAnalysis() {MeetsRequirements = false};
+            executor.ExecuteAsync(Arg.Any<AnalyseBenchmarksExecutorArgs>()).Returns(analysisResult);
 
-            var cmd = new AnalyseBenchmarksCommand(telemetry, infoProvider, validator, executor)
+            var cmd = new AnalyseBenchmarksCommand(telemetry, infoProvider, validator, executor, Substitute.For<IBenchmarkResultAnalysisReporter>())
             {
                 MaxErrors = 1.ToString(),
                 Tolerance = 0.0.ToString(),

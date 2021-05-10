@@ -18,7 +18,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Instrumentation
 
             telemetry.Commentary(message.Get);
             
-            writer.Received(1).WriteLine(message.Get);
+            writer.Received(1).WriteLine(Arg.Is<string>(s => s.Contains(message.Get)));
 
             return true;
         }
@@ -47,7 +47,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Instrumentation
 
             telemetry.Info(message.Get);
             
-            writer.Received(1).WriteLine(message.Get);
+            writer.Received(1).WriteLine(Arg.Is<string>(s => s.Contains(message.Get)));
 
             return true;
         }
@@ -61,7 +61,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Instrumentation
 
             telemetry.Info(message.Get);
             
-            writer.Received(1).WriteLine(message.Get);
+            writer.Received(1).WriteLine(Arg.Is<string>(s => s.Contains(message.Get)));
 
             return true;
         }
@@ -75,7 +75,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Instrumentation
 
             telemetry.Success(message.Get);
             
-            writer.Received(1).WriteLine(message.Get);
+            writer.Received(1).WriteLine(Arg.Is<string>(s => s.Contains(message.Get)));
 
             return true;
         }
@@ -89,7 +89,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Instrumentation
 
             telemetry.Success(message.Get);
             
-            writer.Received(1).WriteLine(message.Get);
+            writer.Received(1).WriteLine(Arg.Is<string>(s => s.Contains(message.Get)));
 
             return true;
         }
@@ -104,7 +104,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Instrumentation
 
             telemetry.Warning(message.Get);
             
-            writer.Received(1).WriteLine(message.Get);
+            writer.Received(1).WriteLine(Arg.Is<string>(s => s.Contains(message.Get)));
 
             return true;
         }
@@ -118,7 +118,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Instrumentation
 
             telemetry.Warning(message.Get);
             
-            writer.Received(1).WriteLine(message.Get);
+            writer.Received(1).WriteLine(Arg.Is<string>(s => s.Contains(message.Get)));
 
             return true;
         }
@@ -134,7 +134,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Instrumentation
 
             telemetry.Error(message.Get);
             
-            writer.Received(1).WriteLine(message.Get);
+            writer.Received(1).WriteLine(Arg.Is<string>(s => s.Contains(message.Get)));
 
             return true;
         }
@@ -148,7 +148,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Instrumentation
 
             telemetry.Error(message.Get);
             
-            writer.Received(1).WriteLine(message.Get);
+            writer.Received(1).WriteLine(Arg.Is<string>(s => s.Contains(message.Get)));
 
             return true;
         }
@@ -156,7 +156,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Instrumentation
         private static IConsole CreateMockConsole(out TextWriter writer)
         {
             var console = Substitute.For<IConsole>();
-            writer = Substitute.For<System.IO.TextWriter>();
+            writer = Substitute.For<TextWriter>();
             console.Out.Returns(writer);
             return console;
         }

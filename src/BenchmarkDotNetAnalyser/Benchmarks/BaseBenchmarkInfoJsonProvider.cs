@@ -23,9 +23,7 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
             sourcePath.ArgNotNull(nameof(sourcePath));
             destinationPath.ArgNotNull(nameof(destinationPath));
             values = values.ArgNotNull(nameof(values)).ToList();
-
-            await CopyBenchmarkFilesAsync(sourcePath, destinationPath, values);
-
+            
             var json = GetBenchmarkManifestJson(values);
             
             await WriteBenchmarkManifestJsonAsync(destinationPath, json);
@@ -34,9 +32,6 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
         protected abstract Task<string> GetBenchmarkManifestJsonAsync(string path);
 
         protected abstract Task WriteBenchmarkManifestJsonAsync(string path, string json);
-
-        protected abstract Task CopyBenchmarkFilesAsync(string sourcePath, string destinationPath,
-            IEnumerable<BenchmarkInfo> benchmarkInfos);
         
         private string GetBenchmarkManifestJson(IEnumerable<BenchmarkInfo> values)
         {

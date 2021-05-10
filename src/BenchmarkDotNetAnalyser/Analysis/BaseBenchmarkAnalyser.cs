@@ -10,26 +10,22 @@ namespace BenchmarkDotNetAnalyser.Analysis
         protected readonly ITelemetry Telemetry;
         private readonly BenchmarkRunResultsReader _runResultsReader;
         
-        protected BaseBenchmarkAnalyser(ITelemetry telemetry, string basePath)
-            : this(telemetry, new BenchmarkResultJsonFileReader(), basePath)
-        {
-        }
-
-        protected BaseBenchmarkAnalyser(ITelemetry telemetry, IBenchmarkResultReader resultReader, string basePath)
+        protected BaseBenchmarkAnalyser(ITelemetry telemetry)
         {
             Telemetry = telemetry.ArgNotNull(nameof(telemetry));
-            _runResultsReader = new BenchmarkRunResultsReader(resultReader, basePath);
+            _runResultsReader = new BenchmarkRunResultsReader();
             
         }
 
-        public async Task<BenchmarkResultAnalysis> AnalyseAsync(IEnumerable<BenchmarkInfo> benchmarks)
+        public Task<BenchmarkResultAnalysis> AnalyseAsync(IEnumerable<BenchmarkInfo> benchmarks)
         {
-            var benchmarkResults = await Telemetry.InvokeWithLoggingAsync(TelemetryEntry.Commentary("Reading benchmark results..."), () => _runResultsReader.GetBenchmarkResults(benchmarks.NullToEmpty()));
-            
-            return new BenchmarkResultGroupBuilder()
+            var benchmarkResults = Telemetry.InvokeWithLogging(TelemetryEntry.Commentary("Reading benchmark results..."), () => _runResultsReader.GetBenchmarkResults(benchmarks.NullToEmpty()));
+            var result = new BenchmarkResultGroupBuilder()
                                 .FromResults(benchmarkResults)
                                 .Pipe(AnalyseGroups)
                                 .Pipe(Consolidate);
+
+            return Task.FromResult(result);
         }
 
         protected virtual BenchmarkResultAnalysis Consolidate(IEnumerable<BenchmarkResultAnalysis> values) =>

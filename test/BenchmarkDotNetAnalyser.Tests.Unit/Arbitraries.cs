@@ -6,6 +6,14 @@ using FsCheck;
 
 namespace BenchmarkDotNetAnalyser.Tests.Unit
 {
+    public static class AlphanumericStringArbitrary
+    {
+        public static Arbitrary<string> GetArbitrary() => Arb.Default.NonEmptyString().Generator
+            .Where(s => s.Get.All(c => char.IsDigit(c) || char.IsLetter(c)))
+            .Select(s => s.Get)
+            .ToArbitrary();
+    }
+
     public static class NonIntegerStringArbitrary
     {
         public static Arbitrary<string> GetArbitrary() => Arb.Default.NonEmptyString().Generator

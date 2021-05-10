@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using BenchmarkDotNetAnalyser.Aggregation;
+using BenchmarkDotNetAnalyser.Analysis;
 using BenchmarkDotNetAnalyser.Benchmarks;
 using BenchmarkDotNetAnalyser.Commands;
 using BenchmarkDotNetAnalyser.Instrumentation;
@@ -27,6 +28,8 @@ namespace BenchmarkDotNetAnalyser
                 .AddSingleton<IAggregateBenchmarksExecutor, AggregateBenchmarksExecutor>()
                 .AddSingleton<IAnalyseBenchmarksCommandValidator<AnalyseBenchmarksCommand>, AnalyseBenchmarksCommandValidator>()
                 .AddSingleton<IAnalyseBenchmarksExecutor, AnalyseBenchmarksExecutor>()
+                .AddSingleton<IBenchmarkStatisticAccessorProvider, BenchmarkStatisticAccessorProvider>()
+                .AddSingleton<IBenchmarkResultAnalysisReporter, TelemetryBenchmarkResultAnalysisReporter>()
                 .BuildServiceProvider();
         }
 

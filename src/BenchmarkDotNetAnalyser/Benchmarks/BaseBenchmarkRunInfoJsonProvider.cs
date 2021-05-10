@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 
 namespace BenchmarkDotNetAnalyser.Benchmarks
 {
@@ -13,12 +14,12 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
 
             var parser = new BenchmarkParser(json);
             var env = parser.GetBenchmarkEnvironment();
-
+            
             return new BenchmarkRunInfo()
             {
                 Creation = parser.GetCreation(),
                 BenchmarkDotNetVersion = env.BenchmarkDotNetVersion,
-                FullPath = path
+                Results = parser.GetBenchmarkResults().ToList()
             };
 
         }
