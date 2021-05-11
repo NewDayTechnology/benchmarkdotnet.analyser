@@ -82,5 +82,20 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit
 
             return r1 == r2;
         }
+
+        [Property(Verbose = true)]
+        public bool ToInfinity_ValuesRepeated(PositiveInt count)
+        {
+            var xs = Enumerable.Range(1, count.Get);
+
+            var ys = xs.ToInfinity();
+
+            int repeats = 3;
+            var zs = ys.Take(count.Get * repeats);
+
+            var expected = xs.Concat(xs).Concat(xs);
+
+            return zs.SequenceEqual(expected);
+        }
     }
 }

@@ -24,7 +24,6 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
                 BenchmarkRuns = runs.Get,
                 BranchName = branch,
                 BuildUri = buildUrl,
-                DataFileSuffix = fileSuffix,
             };
 
             new TelemetryAggregateBenchmarksExecutorArgsReporter(telemetry).Report(args);
@@ -41,7 +40,6 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
             telemetry.Received(1).Commentary(Arg.Is<string>(s => s.Contains(outputPath)));
             telemetry.Received(1).Commentary(Arg.Is<string>(s => s.Contains(branch)));
             telemetry.Received(1).Commentary(Arg.Is<string>(s => s.Contains(buildUrl)));
-            telemetry.Received(1).Commentary(Arg.Is<string>(s => s.Contains(fileSuffix)));
 
             return true;
         }

@@ -42,5 +42,16 @@ namespace BenchmarkDotNetAnalyser
             return result;
         }
 
+        [DebuggerStepThrough]
+        public static IEnumerable<T> ToInfinity<T>(this IEnumerable<T> values)
+        {
+            while (true)
+            {
+                foreach (var value in values)
+                {
+                    yield return value;
+                }
+            }
+        }
     }
 }

@@ -101,7 +101,7 @@ namespace BenchmarkDotNetAnalyser.Commands
 
         private async Task<bool> WriteAggregateBenchmarksAsync(IEnumerable<BenchmarkInfo> values)
         {
-            await _infoProvider.WriteBenchmarkInfosAsync(_args.AggregatedBenchmarksPath, _args.OutputAggregatesPath, values);
+            await _infoProvider.WriteBenchmarkInfosAsync(_args.OutputAggregatesPath, values);
 
             return true;
         }

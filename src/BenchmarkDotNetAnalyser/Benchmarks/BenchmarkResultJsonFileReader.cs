@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
+using BenchmarkDotNetAnalyser.IO;
 
 namespace BenchmarkDotNetAnalyser.Benchmarks
 {
@@ -10,7 +11,7 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
     {
         public async Task<IList<BenchmarkResult>> GetBenchmarkResultsAsync(string path)
         {
-            var json = await BenchmarkJsonFileReader.ReadJsonAsync(path);
+            var json = await FileReader.ReadAsync(path);
             if (json == null)
             {
                 return null;

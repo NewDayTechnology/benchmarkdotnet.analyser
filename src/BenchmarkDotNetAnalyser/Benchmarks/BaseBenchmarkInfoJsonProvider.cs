@@ -11,29 +11,28 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
         {
             path.ArgNotNull(nameof(path));
             
-            var json = await GetBenchmarkManifestJsonAsync(path);
+            var json = await GetBenchmarkDataJsonAsync(path);
             
             return json != null
                 ? Parse(json)
                 : null;
         }
 
-        public async Task WriteBenchmarkInfosAsync(string sourcePath, string destinationPath, IEnumerable<BenchmarkInfo> values)
+        public async Task<string> WriteBenchmarkInfosAsync(string destinationPath, IEnumerable<BenchmarkInfo> values)
         {
-            sourcePath.ArgNotNull(nameof(sourcePath));
             destinationPath.ArgNotNull(nameof(destinationPath));
             values = values.ArgNotNull(nameof(values)).ToList();
             
-            var json = GetBenchmarkManifestJson(values);
+            var json = GetBenchmarkDataJson(values);
             
-            await WriteBenchmarkManifestJsonAsync(destinationPath, json);
+            return await WriteBenchmarkDataJsonAsync(destinationPath, json);
         }
         
-        protected abstract Task<string> GetBenchmarkManifestJsonAsync(string path);
+        protected abstract Task<string> GetBenchmarkDataJsonAsync(string path);
 
-        protected abstract Task WriteBenchmarkManifestJsonAsync(string path, string json);
+        protected abstract Task<string> WriteBenchmarkDataJsonAsync(string path, string json);
         
-        private string GetBenchmarkManifestJson(IEnumerable<BenchmarkInfo> values)
+        private string GetBenchmarkDataJson(IEnumerable<BenchmarkInfo> values)
         {
             var xs = values.ToArray();
 

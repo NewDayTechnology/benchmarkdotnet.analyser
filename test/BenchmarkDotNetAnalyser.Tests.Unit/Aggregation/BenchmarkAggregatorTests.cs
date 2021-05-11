@@ -22,7 +22,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Aggregation
                 Runs = Math.Min(Math.Max(runs.Get, existingCount.Get), existingItems.Count+1),
             };
 
-            var result = new BenchmarkAggregator().Aggregate(opts, existingItems, newItem);
+            var result = new BenchmarkAggregator(new BenchmarkStatisticAccessorProvider()).Aggregate(opts, existingItems, newItem);
 
             var actual = result.Select(bi => int.Parse(bi.BranchName)).ToList();
             var expected = Enumerable.Range(0, opts.Runs);
@@ -43,7 +43,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Aggregation
                 Runs = Math.Min(Math.Max(runs.Get, existingCount.Get), existingItems.Count+1),
             };
 
-            var result = new BenchmarkAggregator().Aggregate(opts, existingItems, newItem);
+            var result = new BenchmarkAggregator(new BenchmarkStatisticAccessorProvider()).Aggregate(opts, existingItems, newItem);
 
             var actual = result.Select(bi => int.Parse(bi.BranchName)).ToList();
             var expected = Enumerable.Range(0, opts.Runs);
@@ -52,11 +52,15 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Aggregation
         }
 
         [Property(Verbose = true)]
-        public bool Aggregate_PreservePinned_SinglePinned_PinnedPreserved(PositiveInt existingCount)
+        public bool Aggregate_PreservePinned_SinglePinned_RiosingValues_PinnedPreserved(PositiveInt existingCount)
         {
             var newItem = new BenchmarkInfo() { BranchName = "0", Pinned = false };
             var existingItems = Enumerable.Range(1, existingCount.Get)
-                .Select(x => new BenchmarkInfo() { BranchName = x.ToString(), Pinned = false })
+                .Select((x,i) => new BenchmarkInfo()
+                {
+                    BranchName = x.ToString(), Pinned = false,
+                    Runs = new[] { new BenchmarkRunInfo() { Results = new[] { new BenchmarkResult() { MeanTime = (decimal)(existingCount.Get - i) }} }}
+                })
                 .ToList();
             var survivor = existingItems.Last();
             survivor.Pinned = true;
@@ -67,18 +71,24 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Aggregation
                 Runs = Math.Max(runs, 1),
             };
 
-            var result = new BenchmarkAggregator().Aggregate(opts, existingItems, newItem).ToList();
-
+            var result = new BenchmarkAggregator(new BenchmarkStatisticAccessorProvider()).Aggregate(opts, existingItems, newItem).ToList();
             
             return result.Contains(survivor);
         }
 
         [Property(Verbose = true)]
-        public bool Aggregate_PreservePinned_AllPinned_PinnedPreserved(PositiveInt existingCount)
+        public bool Aggregate_PreservePinned_EqualValues_PinnedPreserved(PositiveInt existingCount)
         {
             var newItem = new BenchmarkInfo() { BranchName = "0", Pinned = false };
             var existingItems = Enumerable.Range(1, existingCount.Get)
-                .Select(x => new BenchmarkInfo() { BranchName = x.ToString(), Pinned = true })
+                .Select((x,i) => new BenchmarkInfo()
+                {
+                    BranchName = x.ToString(), Pinned = true,
+                    Runs = new[] { new BenchmarkRunInfo()
+                    {
+                        Results = new[] { new BenchmarkResult() { MeanTime = 1.0M }}
+                    } },
+                })
                 .ToList();
             var expected = newItem.Singleton().Concat(existingItems);
 
@@ -89,7 +99,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Aggregation
                 Runs = Math.Max(runs, 1),
             };
 
-            var result = new BenchmarkAggregator().Aggregate(opts, existingItems, newItem).ToList();
+            var result = new BenchmarkAggregator(new BenchmarkStatisticAccessorProvider()).Aggregate(opts, existingItems, newItem).ToList();
 
             return result.SequenceEqual(expected);
         }

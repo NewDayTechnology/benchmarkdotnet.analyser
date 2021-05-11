@@ -34,9 +34,6 @@ namespace BenchmarkDotNetAnalyser.Commands
         [Option(CommandOptionType.SingleValue, Description = "The number of benchmark runs to keep when aggregating.", LongName = "runs", ShortName = "runs")]
         public string BenchmarkRuns { get; set; }
 
-        [Option(CommandOptionType.SingleValue, Description = "The file name suffix for data files. Optional. Default: " + AggregateBenchmarksCommandValidator.DefaultDataFileSuffix, LongName = "datafilesuffix", ShortName = "datafilesuffix")]
-        public string DataFileSuffix { get; set; }
-
         [Option(CommandOptionType.SingleValue, Description = "The new build's URL. Optional.", LongName = "build", ShortName = "build")]
         public string BuildUri { get; set; }
 
@@ -76,7 +73,6 @@ namespace BenchmarkDotNetAnalyser.Commands
                 BenchmarkRuns = this.BenchmarkRuns.ToInt(),
                 AggregatedBenchmarksPath = this.AggregatedBenchmarksPath,
                 BuildUri = this.BuildUri,
-                DataFileSuffix = this.DataFileSuffix,
                 NewBenchmarksPath = this.NewBenchmarksPath,
                 Tags = this.Tags,
             };
