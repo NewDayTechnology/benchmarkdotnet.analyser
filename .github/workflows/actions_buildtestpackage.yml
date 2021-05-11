@@ -12,19 +12,24 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
+    
     - name: Restore tools
       run: dotnet tool restore 
+    
     - name: Build test and package
       run: dotnet fake run FakeBuild.fsx        
+    
     - name: Archive dotnet tool nupkg
       uses: actions/upload-artifact@v2
       with:
         name: benchmarkdotnet.analyser.nupkg
         path: ./publish/toolpackage/*
+    
     - name: Archive Test results
       uses: actions/upload-artifact@v2
       with:
@@ -32,16 +37,19 @@ jobs:
         path: |
           ./test/**/TestResults/*
           ./test/BenchmarkDotNetAnalyser.Tests.Integration/**/BDDfy.html
+    
     - name: Archive Code coverage
       uses: actions/upload-artifact@v2
       with:
         name: codecoverage
         path: ./publish/codecoverage/*.html
+    
     - name: Archive Stryker results
       uses: actions/upload-artifact@v2
       with:
         name: stryker.results
         path: ./publish/stryker/*
+    
     - name: Unit tests
       uses: dorny/test-reporter@v1
       if: always()
