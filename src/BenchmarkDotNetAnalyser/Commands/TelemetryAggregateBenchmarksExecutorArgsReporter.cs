@@ -22,7 +22,6 @@ namespace BenchmarkDotNetAnalyser.Commands
                 $"Aggregating with:\t{args.AggregatedBenchmarksPath}",
                 $"Aggregating to:\t\t{args.OutputAggregatesPath}",
                 $"Benchmark runs:\t\t{args.BenchmarkRuns:##.###}",
-                $"File suffix:\t\t{args.DataFileSuffix}",
                 $"Build URI:\t\t{args.BuildUri}",
                 $"Branch name:\t\t{args.BranchName}",
                 $"Tags:\t\t\t{args.Tags.NullToEmpty().Join(", ")}"

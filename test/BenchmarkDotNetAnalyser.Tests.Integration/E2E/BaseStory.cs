@@ -16,7 +16,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
 {
     public class BaseStory
     {
-        private string _workingPath;
+        private readonly string _workingPath;
         private string _newRunPath;
         private string _newAggPath;
         private string _outputAggPath;
@@ -26,7 +26,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
         private IList<BenchmarkRunResults> _benchmarkRunResults;
         private int _newRunFiles;
         private AnalyseBenchmarksExecutorArgs _analysisArgs;
-        private ITelemetry _telemetry;
+        private readonly ITelemetry _telemetry;
         private BenchmarkResultAnalysis _analysisResult;
 
         public BaseStory()
@@ -65,7 +65,6 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
                 AggregatedBenchmarksPath = _newAggPath,
                 BranchName = "test",
                 BuildUri = "http://localhost",
-                DataFileSuffix = AggregateBenchmarksCommandValidator.DefaultDataFileSuffix,
                 NewBenchmarksPath = _newRunPath,
                 OutputAggregatesPath = _outputAggPath,
                 Tags = Enumerable.Range(1, 3).Select(i => $"Tag{i}").ToList(),
@@ -78,7 +77,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
                 new FileFinder(),
                 new BenchmarkRunInfoJsonFileProvider(),
                 new BenchmarkInfoJsonFileProvider(),
-                new BenchmarkAggregator());
+                new BenchmarkAggregator(new BenchmarkStatisticAccessorProvider()));
 
             _aggregateResult = await aggregator.ExecuteAsync(_aggregateArgs);
 

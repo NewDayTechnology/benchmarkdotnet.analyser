@@ -33,8 +33,6 @@ Options:
   -aggs|--aggregates <AGGREGATED_BENCHMARKS_PATH>      The path containing the dataset to roll into.
   -out|--output <OUTPUT_AGGREGATES_PATH>               The path for the new dataset.
   -runs|--runs <BENCHMARK_RUNS>                        The number of benchmark runs to keep when aggregating.
-  -datafilesuffix|--datafilesuffix <DATA_FILE_SUFFIX>  The file name suffix for data files. Optional. Default:
-                                                       -report-full.json
   -build|--build <BUILD_URI>                           The new build's URL. Optional.
   -branch|--branch <BRANCH_NAME>                       The new build's branch name. Optional.
   -t|--tag <TAGS>                                      A tag for the new build. Optional.

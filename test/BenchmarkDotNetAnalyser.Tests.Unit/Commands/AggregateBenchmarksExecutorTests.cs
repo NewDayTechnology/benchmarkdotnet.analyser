@@ -44,8 +44,8 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
             
             infoProvider.GetBenchmarkInfosAsync(Arg.Any<string>()).Returns(aggregatedBenchmarks);
 
-            infoProvider.WriteBenchmarkInfosAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<IEnumerable<BenchmarkInfo>>())
-                .Returns(_ => Task.FromResult(true));
+            infoProvider.WriteBenchmarkInfosAsync(Arg.Any<string>(), Arg.Any<IEnumerable<BenchmarkInfo>>())
+                .Returns(_ => Task.FromResult(""));
             
             var aggregator = Substitute.For<IBenchmarkAggregator>();
             aggregator.Aggregate(Arg.Any<BenchmarkAggregationOptions>(), Arg.Any<IEnumerable<BenchmarkInfo>>(), Arg.Any<BenchmarkInfo>())
@@ -69,7 +69,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
             aggregator.Received(1).Aggregate(Arg.Is<BenchmarkAggregationOptions>(x => x.PreservePinned),
                 Arg.Any<IEnumerable<BenchmarkInfo>>(), Arg.Any<BenchmarkInfo>());
 
-            await infoProvider.Received(1).WriteBenchmarkInfosAsync(Arg.Any<string>(), Arg.Any<string>(),
+            await infoProvider.Received(1).WriteBenchmarkInfosAsync(Arg.Any<string>(),
                 Arg.Is<IEnumerable<BenchmarkInfo>>(xs => xs.Count() == aggregatedBenchmarks.Count + 1));
         }
 
@@ -88,8 +88,8 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
 
             var infoProvider = Substitute.For<IBenchmarkInfoProvider>();
             infoProvider.GetBenchmarkInfosAsync(Arg.Any<string>()).Returns(new List<BenchmarkInfo>());
-            infoProvider.WriteBenchmarkInfosAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<IEnumerable<BenchmarkInfo>>())
-                .Returns(_ => Task.FromResult(true));
+            infoProvider.WriteBenchmarkInfosAsync(Arg.Any<string>(), Arg.Any<IEnumerable<BenchmarkInfo>>())
+                .Returns(_ => Task.FromResult(""));
             
             var aggregator = Substitute.For<IBenchmarkAggregator>();
             aggregator.Aggregate(Arg.Any<BenchmarkAggregationOptions>(), Arg.Any<IEnumerable<BenchmarkInfo>>(), Arg.Any<BenchmarkInfo>())

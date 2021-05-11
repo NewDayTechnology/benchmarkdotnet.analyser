@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNetAnalyser.Benchmarks;
+using BenchmarkDotNetAnalyser.IO;
 using FluentAssertions;
 using Xunit;
 
@@ -44,7 +45,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.Classes.Benchmarks
         [MemberData(nameof(GetFilePaths))]
         public async Task GetCreation_ValueParsed(string filePath)
         {
-            var json = await BenchmarkJsonFileReader.ReadJsonAsync(filePath);
+            var json = await FileReader.ReadAsync(filePath);
 
             var result = new BenchmarkParser(json).GetCreation();
 
@@ -57,7 +58,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.Classes.Benchmarks
         [MemberData(nameof(GetFilePaths))]
         public async Task GetBenchmarkEnvironment_ValueParsed(string filePath)
         {
-            var json = await BenchmarkJsonFileReader.ReadJsonAsync(filePath);
+            var json = await FileReader.ReadAsync(filePath);
 
             var jo = Newtonsoft.Json.Linq.JObject.Parse(json)["HostEnvironmentInfo"];
             var result = new BenchmarkParser(json).GetBenchmarkEnvironment();
@@ -78,7 +79,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.Classes.Benchmarks
         [MemberData(nameof(GetFilePaths))]
         public async Task GetBenchmarkResults_ValuesParsed(string filePath)
         {
-            var json = await BenchmarkJsonFileReader.ReadJsonAsync(filePath);
+            var json = await FileReader.ReadAsync(filePath);
             var results = new BenchmarkParser(json).GetBenchmarkResults().ToList();
 
             results.Count.Should().BeGreaterThan(0);

@@ -7,6 +7,6 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
     {
         Task<IList<BenchmarkInfo>> GetBenchmarkInfosAsync(string path);
         
-        Task WriteBenchmarkInfosAsync(string sourcePath, string destinationPath, IEnumerable<BenchmarkInfo> values);
+        Task<string> WriteBenchmarkInfosAsync(string destinationPath, IEnumerable<BenchmarkInfo> values);
     }
 }

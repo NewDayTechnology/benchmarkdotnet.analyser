@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using BenchmarkDotNetAnalyser.Benchmarks;
+using FluentAssertions;
 using Xunit;
 
 namespace BenchmarkDotNetAnalyser.Tests.Integration.Classes.Benchmarks
@@ -12,17 +13,29 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.Classes.Benchmarks
 
         [Theory]
         [MemberData(nameof(GetFilePaths))]
-        public async Task ReadWrite(string filePath)
+        public async Task GetBenchmarkInfosAsync_WriteBenchmarkInfosAsync_Symmetric(string sourceFilePath)
         {
-            var reader = new BenchmarkResultJsonFileReader();
-            var result = await reader.GetBenchmarkResultsAsync(filePath);
-
             var p = new BenchmarkInfoJsonFileProvider();
+            
+            
+            var sourceReader = new BenchmarkRunInfoJsonFileProvider();
+            var runInfo = await sourceReader.GetRunInfoAsync(sourceFilePath);
+            var benchmarkInfo = new BenchmarkInfo()
+            {
+                Runs = new[] { runInfo },
+            };
+            var benchmarkInfos = benchmarkInfo.Singleton();
+            var benchmarkInfosResultCount = benchmarkInfos.Sum(bi => bi.Runs.Sum(bri => bri.Results.Count));
+            
+            var workingDir = IOHelper.CreateTempFolder();
+            var dir = IOHelper.CreateTempFolder(workingDir, nameof(BenchmarkInfoJsonFileProviderTests));
+            
+            var _ = await p.WriteBenchmarkInfosAsync(dir, benchmarkInfos);
 
-            var xs = await p.GetBenchmarkInfosAsync(filePath);
-
-
-            //p.WriteBenchmarkInfosAsync()
+            var readResult = await p.GetBenchmarkInfosAsync(dir);
+            var readResultCount = readResult.Sum(r => r.Runs.Sum(x => x.Results.Count));
+            
+            benchmarkInfosResultCount.Should().Be(readResultCount);
         }
     }
 }

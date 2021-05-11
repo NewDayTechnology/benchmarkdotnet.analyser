@@ -5,8 +5,7 @@ namespace BenchmarkDotNetAnalyser.Commands
 {
     public class AggregateBenchmarksCommandValidator : IAggregateBenchmarksCommandValidator
     {
-        internal const string DefaultDataFileSuffix = "-report-full.json";
-
+        
         public void Validate(AggregateBenchmarksCommand command) => command.ArgNotNull(nameof(command))
                                                                            .PipeDo(ValidateAndFixParameters);
 
@@ -36,8 +35,6 @@ namespace BenchmarkDotNetAnalyser.Commands
             });
 
             command.BuildUri = command.BuildUri.PipeIfNotNull(u => u.InvalidOpArg(x => !Uri.TryCreate(x, UriKind.Absolute, out var _), $"The {command.GetCommandOptionName(nameof(command.BuildUri))} parameter must be a URI."));
-            
-            command.DataFileSuffix ??= DefaultDataFileSuffix;
         }
     }
 }
