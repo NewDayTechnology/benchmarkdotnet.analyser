@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using FluentAssertions;
 using FsCheck;
 using FsCheck.Xunit;
+using Xunit;
 
 namespace BenchmarkDotNetAnalyser.Tests.Unit
 {
@@ -135,6 +137,36 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit
             var r = s.ToInt();
 
             return r == decValue;
+        }
+
+
+        [Theory]
+        [InlineData("System", null)]
+        [InlineData("System", "*")]
+        [InlineData("System", "system")]
+        [InlineData("System", "SYSTEM")]
+        [InlineData("System", "*system")]
+        [InlineData("System", "*sys*")]
+        [InlineData("System", "sys*")]
+        [InlineData("System", "system*")]
+        [InlineData("Époisses", "Époisses")]
+        public void IsMatch_PositiveMatches(string value, string pattern)
+        {
+            value.IsMatch(pattern).Should().BeTrue();
+        }
+
+        [Theory]
+        [InlineData("System", "")]
+        [InlineData("System", " ")]
+        [InlineData("System", " system")]
+        [InlineData("System", "system ")]
+        [InlineData("System", "sistem")]
+        [InlineData("System", "*sys")]
+        [InlineData("system", "*no*")]
+        [InlineData("Époisses", "Epoisses")]
+        public void IsMatch_NegativeMatches(string value, string pattern)
+        {
+            value.IsMatch(pattern).Should().BeFalse();
         }
     }
 }

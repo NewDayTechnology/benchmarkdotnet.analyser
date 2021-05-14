@@ -1,4 +1,5 @@
 ![Build](https://github.com/NewDayTechnology/benchmarkdotnet.analyser/actions/workflows/actions_buildtestpackage.yml/badge.svg)
+ ![SAST](https://github.com/NewDayTechnology/benchmarkdotnet.analyser/actions/workflows/actions_sast.yml/badge.svg)
  [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)](code_of_conduct.md)
 
 # BenchmarkDotNet Analyser
@@ -79,6 +80,7 @@ Options:
   -tol|--tolerance <TOLERANCE>          Tolerance of errors from baseline performance.
   -max|--maxerrors <MAX_ERRORS>         The maximum number of failures to tolerate.
   -stat|--statistic <STATISTIC>         The result statistic to analyse.
+  -f|--filter <FILTERS>                 Filter by class or namespace. Optional.
   -aggs|--aggregates <AGGREGATES_PATH>  The path of the aggregated dataset to analyse.
   -v|--verbose                          Emit verbose logging.
   -?|-h|--help                          Show help information.
@@ -92,6 +94,7 @@ Options:
 
 ``--statistic``: the statistic value, for each run, to use. By default this is ``MeanTime`` with ``MinTime``, ``MaxTime``,  ``MedianTime``, ``Q1Time`` & ``Q3Time``.
 
+``--filter``:    Filter for specific namespaces, types or methods. Simple wildcards are supported, e.g. ``-f * -f *Benchmark -f Benchmark*``. Multiple filters can be specified and will be applied conjunctively. 
 
 If there are no degradations in performance, ``bdna analyse`` will give a return code of 0, otherwise 1 will be returned. This is what your CI pipeline must watch to fail builds.
 

@@ -37,7 +37,7 @@ namespace BenchmarkDotNetAnalyser.Commands
             (new TelemetryAnalyseBenchmarksExecutorArgsReporter(_telemetry)).Report(args);
             
             var benchmarks = await _telemetry.InvokeWithLoggingAsync(TelemetryEntry.Commentary("Getting benchmarks..."), 
-                                                                    () => GetAggregateBenchmarksAsync(args.AggregatesPath));
+                                                                    () => GetAggregateBenchmarksAsync(args));
             if (benchmarks.Count == 0)
             {
                 var msg = "No benchmarks found.";
@@ -58,14 +58,17 @@ namespace BenchmarkDotNetAnalyser.Commands
             
         }
 
-        protected async Task<IList<BenchmarkInfo>> GetAggregateBenchmarksAsync(string aggregatesPath)
+        protected async Task<IList<BenchmarkInfo>> GetAggregateBenchmarksAsync(AnalyseBenchmarksExecutorArgs args)
         {
-            var infos = await _infoProvider.GetBenchmarkInfosAsync(aggregatesPath);
+            var infos = await _infoProvider.GetBenchmarkInfosAsync(args.AggregatesPath);
 
             return infos
                 .NullToEmpty()
                 .Where(bi => bi != null)
+                .Select(bi => bi.TrimRunsByFilter(args.Filters))
+                .Where(bi => bi.Runs?.Count > 0)
                 .ToList();
+
         }
 
 

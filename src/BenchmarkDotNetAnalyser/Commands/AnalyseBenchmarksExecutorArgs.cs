@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BenchmarkDotNetAnalyser.Commands
 {
@@ -9,6 +10,7 @@ namespace BenchmarkDotNetAnalyser.Commands
         public decimal Tolerance { get; set; }
         public int MaxErrors { get; set; }
         public string Statistic { get; set; }
+        public IList<string> Filters { get; set; }
         public bool Verbose { get; set; }
     }
 }

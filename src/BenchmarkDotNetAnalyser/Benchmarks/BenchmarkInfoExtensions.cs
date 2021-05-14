@@ -61,6 +61,34 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
             return benchmarkInfos;
         }
 
+        
+        public static BenchmarkInfo TrimRunsByFilter(this BenchmarkInfo benchmarkInfo, IList<string> filters)
+        {
+            benchmarkInfo.ArgNotNull(nameof(benchmarkInfo));
+
+            if (filters.IsNullOrEmpty()) return benchmarkInfo;
+
+            var runs = benchmarkInfo.Runs.NullToEmpty()
+                .Select(r =>
+                {
+                    var results = r.Results.NullToEmpty()
+                        .Where(br => IsIncluded(br, filters))
+                        .ToList();
+
+                    if (results.Count == 0)
+                    {
+                        return null;
+                    }
+                    r.Results = results;
+                    return r;
+                })
+                .Where(bri => bri != null)
+                .ToList();
+
+            benchmarkInfo.Runs = runs;
+            return benchmarkInfo;
+        }
+
         private static void UnpinAll(IEnumerable<BenchmarkInfo> benchmarkInfos)
         {
             foreach (var benchmarkInfo in benchmarkInfos)
@@ -103,5 +131,9 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
             }
         }
 
+        internal static bool IsIncluded(this BenchmarkResult result, IList<string> filters) =>
+            filters.Any(f => result.Namespace.IsMatch(f) ||
+                             result.Type.IsMatch(f) ||
+                             result.Method.IsMatch(f));
     }
 }

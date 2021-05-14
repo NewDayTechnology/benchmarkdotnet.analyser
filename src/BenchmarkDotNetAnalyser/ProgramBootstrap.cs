@@ -39,13 +39,12 @@ namespace BenchmarkDotNetAnalyser
 
             return new[]
                 {
-                    Output.Magenta(Resources.ProgramTitle),
+                    Output.Bright.Magenta(Resources.ProgramTitle),
                     attrs.GetAttributeValue<AssemblyDescriptionAttribute>(a => a.Description),
                     "",
-                    Output.Yellow(attrs.GetAttributeValue<AssemblyCopyrightAttribute>(a => a.Copyright)),
-                    Output.Yellow(attrs.GetAttributeValue<AssemblyInformationalVersionAttribute>(a => a.InformationalVersion)
-                        .Format("Version {0}")),
-                    Output.Yellow("You can find the repository at https://github.com/NewDayTechnology/benchmarkdotnet.analyser"),
+                    $"{Output.Bright.Yellow(attrs.GetAttributeValue<AssemblyInformationalVersionAttribute>(a => a.InformationalVersion).Format("Version {0}"))}{Output.Bright.Green(" beta ")}",
+                    Output.Bright.Yellow(attrs.GetAttributeValue<AssemblyCopyrightAttribute>(a => a.Copyright)),
+                    Output.Bright.Yellow("You can find the repository at https://github.com/NewDayTechnology/benchmarkdotnet.analyser"),
                 }.Where(x => x != null)
                 .Join(Environment.NewLine);
         }

@@ -22,6 +22,7 @@ namespace BenchmarkDotNetAnalyser.Commands
                 $"Tolerance:\t{args.Tolerance:P2}",
                 $"Max Errors:\t{args.MaxErrors:##,###}",
                 $"Statistic:\t{args.Statistic}",
+                $"Filters:\t{args.Filters.NullToEmpty().Join(", ")}",
             }.Join(Environment.NewLine);
 
             _telemetry.Commentary(msg);

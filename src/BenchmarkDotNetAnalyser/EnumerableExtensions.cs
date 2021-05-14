@@ -14,6 +14,12 @@ namespace BenchmarkDotNetAnalyser
         }
 
         [DebuggerStepThrough]
+        public static bool IsNullOrEmpty<T>(this IEnumerable<T> values)
+        {
+            return values == null || !values.Any();
+        }
+
+        [DebuggerStepThrough]
         public static IEnumerable<T> NullToEmpty<T>(this IEnumerable<T> values) => values ?? Enumerable.Empty<T>();
 
         [DebuggerStepThrough]

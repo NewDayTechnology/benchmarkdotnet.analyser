@@ -126,6 +126,53 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
             others.All(b => !b.Pinned).Should().BeTrue();
         }
 
+        [Theory]
+        [InlineData("a", 1, "a", "b", "c")]
+        [InlineData("*a*", 1, "a", "b", "c")]
+        [InlineData("*a*", 1, "aaa", "bbb", "ccc")]
+        [InlineData("*a*", 0, "test")]
+        [InlineData("*e*", 3, "test", "set", "tes")]
+        public void TrimRunsByFilter_RunsTrimmed(string filter, int expectedCount, params string[] names)
+        {
+            var bi = new BenchmarkInfo()
+            {
+                Runs = new[]
+                {
+                    new BenchmarkRunInfo()
+                    {
+                        Results = names.Select(n => new BenchmarkResult()
+                        {
+                            Namespace = n,
+                            Type = n,
+                            Method = n,
+                        }).ToList(),
+                    },
+                }
+            };
+
+            var result = bi.TrimRunsByFilter(new[] {filter});
+            result.Runs.Sum(ri => ri.Results.Count).Should().Be(expectedCount);
+        }
+
+        [Theory]
+        [InlineData("a", "b", "c", false, "*zzz*")]
+        [InlineData("a", "b", "c", true, "*a*")]
+        [InlineData("a", "b", "c", true, "*b*")]
+        [InlineData("a", "b", "c", true, "*c*")]
+        [InlineData("a", "b", "c", true, "*a*", "z")]
+        [InlineData("a", "b", "c", true, "*b*", "z")]
+        [InlineData("a", "b", "c", true, "*c*", "z")]
+        public void IsIncluded_ResultFiltered(string ns, string t, string m, bool expected, params string[] filters)
+        {
+            var result = new BenchmarkResult()
+            {
+                Namespace = ns,
+                Type = t,
+                Method = m,
+            };
+
+            result.IsIncluded(filters).Should().Be(expected);
+        }
 
         private IBenchmarkStatisticAccessorProvider CreateMockStatsProvider()
         {
