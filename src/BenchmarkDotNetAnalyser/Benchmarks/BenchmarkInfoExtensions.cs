@@ -61,6 +61,78 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
             return benchmarkInfos;
         }
 
+        
+        public static BenchmarkInfo TrimRunsByFilter(this BenchmarkInfo benchmarkInfo, IList<string> filters)
+        {
+            benchmarkInfo.ArgNotNull(nameof(benchmarkInfo));
+
+            if (filters.IsNullOrEmpty()) return benchmarkInfo;
+
+            var runs = benchmarkInfo.Runs.NullToEmpty()
+                .Select(r =>
+                {
+                    var results = r.Results.NullToEmpty()
+                        .Where(br => IsIncluded(br, filters))
+                        .ToList();
+
+                    if (results.Count == 0)
+                    {
+                        return null;
+                    }
+                    r.Results = results;
+                    return r;
+                })
+                .Where(bri => bri != null)
+                .ToList();
+
+            benchmarkInfo.Runs = runs;
+            return benchmarkInfo;
+        }
+
+        public static IEnumerable<BenchmarkRecord> ToBenchmarkRecords(this IEnumerable<BenchmarkInfo> values)
+        {
+            var records = values.ArgNotNull(nameof(values))
+                .SelectMany(bi =>
+                    bi.Runs.NullToEmpty().SelectMany(bri =>
+                        bri.Results.NullToEmpty().Select(br => new BenchmarkRecord()
+                        {
+                            FullName = br.FullName,
+                            Namespace = br.Namespace,
+                            Type = br.Type,
+                            Method = br.Method,
+                            Parameters = br.Parameters,
+                            Cells = new[]
+                            {
+                                new BenchmarkRecordCell()
+                                {
+                                    Creation = bi.Creation,
+                                    BuildNumber = bi.BuildNumber,
+                                    Tags = bi.Tags,
+                                    BuildUrl = bi.BuildUri,
+                                    BranchName = bi.BranchName,
+
+                                    MeanTime = br.MeanTime,
+                                    MaxTime = br.MaxTime,
+                                    Q1Time = br.Q1Time,
+                                    Q3Time = br.Q3Time,
+                                    MedianTime = br.MedianTime,
+                                    MinTime = br.MinTime
+                                },
+                            }
+                        })));
+
+            return records.GroupBy(br => new {br.FullName, br.Namespace, br.Type, br.Method, br.Parameters})
+                .Select(grp => new BenchmarkRecord()
+                {
+                    FullName = grp.Key.FullName,
+                    Namespace = grp.Key.Namespace,
+                    Type = grp.Key.Type,
+                    Method = grp.Key.Method,
+                    Parameters = grp.Key.Parameters,
+                    Cells = grp.SelectMany(br => br.Cells).ToList(),
+                });
+        }
+
         private static void UnpinAll(IEnumerable<BenchmarkInfo> benchmarkInfos)
         {
             foreach (var benchmarkInfo in benchmarkInfos)
@@ -103,5 +175,9 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
             }
         }
 
+        internal static bool IsIncluded(this BenchmarkResult result, IList<string> filters) =>
+            filters.Any(f => result.Namespace.IsMatch(f) ||
+                             result.Type.IsMatch(f) ||
+                             result.Method.IsMatch(f));
     }
 }

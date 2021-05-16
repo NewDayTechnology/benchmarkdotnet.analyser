@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using BenchmarkDotNetAnalyser.Analysis;
 using BenchmarkDotNetAnalyser.Benchmarks;
@@ -33,6 +34,9 @@ namespace BenchmarkDotNetAnalyser.Commands
         [Option(CommandOptionType.SingleValue, Description = "The result statistic to analyse.", LongName = "statistic", ShortName = "stat")]
         public string Statistic { get; set; }
 
+        [Option(CommandOptionType.MultipleValue, Description = "Filter by class or namespace. Optional, multiple filters can be given.", LongName = "filter", ShortName = "f")]
+        public IList<string> Filters { get; set; }
+
         public async Task<int> OnExecuteAsync()
         {
             Telemetry.SetVerbosity(Verbose);
@@ -60,6 +64,7 @@ namespace BenchmarkDotNetAnalyser.Commands
                 Tolerance = this.Tolerance.ToPercentageDecimal(),
                 MaxErrors = this.MaxErrors.ToInt(),
                 Statistic = this.Statistic,
+                Filters = this.Filters,
             };
 
             var analysisResult = await _executor.ExecuteAsync(args);

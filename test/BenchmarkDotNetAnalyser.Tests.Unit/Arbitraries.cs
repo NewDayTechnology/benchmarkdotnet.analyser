@@ -63,9 +63,21 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit
         {
             var disallowed = new HashSet<string>() { ".", "/", @"\"};
             return Arb.Default.NonEmptyString().Generator
-                .Where(s => !disallowed.Contains(s.Get))
+                .Where(s => !disallowed.Contains(s.Get) &&
+                            !s.Get.All(c => char.IsDigit(c) || char.IsLetter(c)))
                 .Select(s => s.Get)
                 .ToArbitrary();
+        }
+    }
+
+    public static class EnumerationArbitrary<T>
+        where T : struct
+    {
+        public static Arbitrary<T> GetArbitrary()
+        {
+            var values = Enum.GetValues(typeof(T)).OfType<T>().ToList();
+
+            return Gen.Choose(0, values.Count - 1).Select(i => values[i]).ToArbitrary();
         }
     }
 }

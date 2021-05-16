@@ -7,6 +7,7 @@ using BenchmarkDotNetAnalyser.Benchmarks;
 using BenchmarkDotNetAnalyser.Commands;
 using BenchmarkDotNetAnalyser.Instrumentation;
 using BenchmarkDotNetAnalyser.IO;
+using BenchmarkDotNetAnalyser.Reporting;
 using Crayon;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,8 +29,12 @@ namespace BenchmarkDotNetAnalyser
                 .AddSingleton<IAggregateBenchmarksExecutor, AggregateBenchmarksExecutor>()
                 .AddSingleton<IAnalyseBenchmarksCommandValidator<AnalyseBenchmarksCommand>, AnalyseBenchmarksCommandValidator>()
                 .AddSingleton<IAnalyseBenchmarksExecutor, AnalyseBenchmarksExecutor>()
+                .AddSingleton<IReportBenchmarksCommandValidator, ReportBenchmarksCommandValidator>()
                 .AddSingleton<IBenchmarkStatisticAccessorProvider, BenchmarkStatisticAccessorProvider>()
                 .AddSingleton<IBenchmarkResultAnalysisReporter, TelemetryBenchmarkResultAnalysisReporter>()
+                .AddSingleton<IReporterProvider, ReporterProvider>()
+                .AddSingleton<ICsvFileWriter, CsvFileWriter>()
+                .AddSingleton<IBenchmarkReader, BenchmarkReader>()
                 .BuildServiceProvider();
         }
 
@@ -39,13 +44,12 @@ namespace BenchmarkDotNetAnalyser
 
             return new[]
                 {
-                    Output.Magenta(Resources.ProgramTitle),
+                    Output.Bright.Magenta(Resources.ProgramTitle),
                     attrs.GetAttributeValue<AssemblyDescriptionAttribute>(a => a.Description),
                     "",
-                    Output.Yellow(attrs.GetAttributeValue<AssemblyCopyrightAttribute>(a => a.Copyright)),
-                    Output.Yellow(attrs.GetAttributeValue<AssemblyInformationalVersionAttribute>(a => a.InformationalVersion)
-                        .Format("Version {0}")),
-                    Output.Yellow("You can find the repository at https://github.com/NewDayTechnology/benchmarkdotnet.analyser"),
+                    $"{Output.Bright.Yellow(attrs.GetAttributeValue<AssemblyInformationalVersionAttribute>(a => a.InformationalVersion).Format("Version {0}"))}{Output.Bright.Green(" beta ")}",
+                    Output.Bright.Yellow(attrs.GetAttributeValue<AssemblyCopyrightAttribute>(a => a.Copyright)),
+                    Output.Bright.Yellow("You can find the repository at https://github.com/NewDayTechnology/benchmarkdotnet.analyser"),
                 }.Where(x => x != null)
                 .Join(Environment.NewLine);
         }

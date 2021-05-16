@@ -10,6 +10,9 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
     {
         [JsonProperty("creation")]
         public DateTimeOffset Creation { get; set; }
+
+        [JsonProperty("buildNumber")]
+        public string BuildNumber { get; set; }
         
         [JsonProperty("pinned")]
         public bool Pinned { get; set; }

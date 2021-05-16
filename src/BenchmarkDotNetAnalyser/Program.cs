@@ -12,6 +12,7 @@ namespace BenchmarkDotNetAnalyser
     [ExcludeFromCodeCoverage]
     [Subcommand(typeof(AggregateBenchmarksCommand))]
     [Subcommand(typeof(AnalyseBenchmarksCommand))]
+    [Subcommand(typeof(ReportBenchmarksCommand))]
     [Subcommand(typeof(VersionCommand))]
     public class Program
     {

@@ -35,7 +35,20 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
         [Fact]
         public async Task ExecuteAsync_SingleBenchmark_MeetsRequirements_ReturnsTrue()
         {
-            var benchmarks = new[] {new BenchmarkInfo() {} };
+            var benchmarkInfo = new BenchmarkInfo()
+            {
+                Runs = new[]
+                {
+                    new BenchmarkRunInfo()
+                    {
+                        Results = new[]
+                        {
+                            new BenchmarkResult(), 
+                        }
+                    }
+                }
+            };
+            var benchmarks = new[] {benchmarkInfo};
             var analysis = new BenchmarkResultAnalysis() { MeetsRequirements = true };
 
             var telemetry = Substitute.For<ITelemetry>();
@@ -65,7 +78,14 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
         [Fact]
         public async Task ExecuteAsync_SingleBenchmark_DoesNot_MeetsRequirements_ReturnsFalse()
         {
-            var benchmarks = new[] {new BenchmarkInfo() {} };
+            var benchmarkInfo = new BenchmarkInfo()
+            {
+                Runs = new[]
+                {
+                    new BenchmarkRunInfo(),
+                }
+            };
+            var benchmarks = new[] {benchmarkInfo};
             var analysis = new BenchmarkResultAnalysis() { MeetsRequirements = false };
 
             var telemetry = Substitute.For<ITelemetry>();

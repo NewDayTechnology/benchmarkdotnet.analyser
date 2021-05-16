@@ -9,7 +9,9 @@ using BenchmarkDotNetAnalyser.Benchmarks;
 using BenchmarkDotNetAnalyser.Commands;
 using BenchmarkDotNetAnalyser.Instrumentation;
 using BenchmarkDotNetAnalyser.IO;
+using BenchmarkDotNetAnalyser.Reporting;
 using FluentAssertions;
+using FluentAssertions.Execution;
 using NSubstitute;
 
 namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
@@ -28,6 +30,8 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
         private AnalyseBenchmarksExecutorArgs _analysisArgs;
         private readonly ITelemetry _telemetry;
         private BenchmarkResultAnalysis _analysisResult;
+        private IList<string> _reportResult;
+        private string _reportsOutputPath;
 
         public BaseStory()
         {
@@ -63,11 +67,12 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
             {
                 BenchmarkRuns = runs,
                 AggregatedBenchmarksPath = _newAggPath,
+                BuildNumber = "0.1.2",
                 BranchName = "test",
                 BuildUri = "http://localhost",
                 NewBenchmarksPath = _newRunPath,
                 OutputAggregatesPath = _outputAggPath,
-                Tags = Enumerable.Range(1, 3).Select(i => $"Tag{i}").ToList(),
+                Tags = Enumerable.Range(1, 3).Select(i => $"Tag_{i}").ToList(),
             };
         }
 
@@ -179,6 +184,41 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
         {
             _analysisResult.MeetsRequirements.Should().BeFalse();
             _analysisResult.Message.Should().NotBeNullOrWhiteSpace();
+        }
+
+        public void ReportsDirectoryCreated()
+        {
+            _reportsOutputPath = IOHelper.CreateTempFolder(_workingPath, "Reports");
+            
+        }
+        
+        public async Task ReportGeneratorExecuted(ReportKind kind)
+        {
+            var reportArgs = new ReportGenerationArgs()
+            {
+                AggregatesPath = _outputAggPath,
+                OutputPath = _reportsOutputPath,
+                Filters = null,
+            };
+
+            var reporter = new ReporterProvider(new CsvFileWriter(),
+                                                new BenchmarkReader(new BenchmarkInfoJsonFileProvider()))
+                .GetReporter(kind);
+
+            _reportResult = await reporter.GenerateAsync(reportArgs);
+        }
+
+        public void CsvReportsAreVerified()
+        {
+            var csvs = _reportResult.Where(r => Path.GetExtension(r) == ".csv");
+
+            foreach (var csv in csvs)
+            {
+                if (!File.Exists(csv))
+                {
+                    throw new AssertionFailedException($"File {csv} does not exist.");
+                }
+            }
         }
     }
 }

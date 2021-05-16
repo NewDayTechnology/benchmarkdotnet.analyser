@@ -6,7 +6,7 @@ using McMaster.Extensions.CommandLineUtils;
 
 namespace BenchmarkDotNetAnalyser.Commands
 {
-    [Command("aggregate", Description = "Aggregate benchmark results into a single dataset.")]
+    [Command("aggregate", Description = "Aggregate benchmark results into a benchmark dataset.")]
     public class AggregateBenchmarksCommand
     {
         private readonly ITelemetry _telemetry;
@@ -34,13 +34,16 @@ namespace BenchmarkDotNetAnalyser.Commands
         [Option(CommandOptionType.SingleValue, Description = "The number of benchmark runs to keep when aggregating.", LongName = "runs", ShortName = "runs")]
         public string BenchmarkRuns { get; set; }
 
-        [Option(CommandOptionType.SingleValue, Description = "The new build's URL. Optional.", LongName = "build", ShortName = "build")]
+        [Option(CommandOptionType.SingleValue, Description = "The new build's number/version. Optional.", LongName = "build", ShortName = "build")]
+        public string BuildNumber { get; set; }
+
+        [Option(CommandOptionType.SingleValue, Description = "The new build's URL. Optional.", LongName = "builduri", ShortName = "builduri")]
         public string BuildUri { get; set; }
 
         [Option(CommandOptionType.SingleValue, Description = "The new build's branch name. Optional.", LongName = "branch", ShortName = "branch")]
         public string BranchName { get; set; }
 
-        [Option(CommandOptionType.MultipleValue, Description = "A tag for the new build. Optional.", LongName = "tag", ShortName = "t")]
+        [Option(CommandOptionType.MultipleValue, Description = "A tag for the new build. Optional, multiple tags can be given.", LongName = "tag", ShortName = "t")]
         public IList<string> Tags { get; set; }
 
         [Option(CommandOptionType.NoValue, LongName = "verbose", ShortName = "v", Description = "Emit verbose logging.")]
@@ -73,6 +76,7 @@ namespace BenchmarkDotNetAnalyser.Commands
                 BenchmarkRuns = this.BenchmarkRuns.ToInt(),
                 AggregatedBenchmarksPath = this.AggregatedBenchmarksPath,
                 BuildUri = this.BuildUri,
+                BuildNumber = this.BuildNumber,
                 NewBenchmarksPath = this.NewBenchmarksPath,
                 Tags = this.Tags,
             };
