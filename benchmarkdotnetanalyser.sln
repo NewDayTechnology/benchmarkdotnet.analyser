@@ -9,8 +9,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3F496CEB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{8C6E189D-2B96-4636-B3E6-BECAE844EBBC}"
 	ProjectSection(SolutionItems) = preProject
+		.github\ISSUE_TEMPLATE\bug_report.md = .github\ISSUE_TEMPLATE\bug_report.md
 		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
 		CONTRIBUTING.md = CONTRIBUTING.md
+		.github\ISSUE_TEMPLATE\feature_request.md = .github\ISSUE_TEMPLATE\feature_request.md
 		LICENSE = LICENSE
 		NOTICE = NOTICE
 		README.md = README.md
@@ -31,11 +33,13 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ci", "ci", "{9D402AF7-02A0-4144-AAFE-4CEBC610572B}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\actions_buildtestpackage.yml = .github\workflows\actions_buildtestpackage.yml
+		.github\workflows\actions_sast.yml = .github\workflows\actions_sast.yml
+		.github\CODEOWNERS = .github\CODEOWNERS
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BenchmarkDotNetAnalyser.SampleBenchmarks", "test\BenchmarkDotNetAnalyser.SampleBenchmarks\BenchmarkDotNetAnalyser.SampleBenchmarks.csproj", "{6F8331FF-46E9-4DFE-9666-6819EF25342C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BenchmarkDotNetAnalyser.Tests.Integration", "test\BenchmarkDotNetAnalyser.Tests.Integration\BenchmarkDotNetAnalyser.Tests.Integration.csproj", "{BB5D99A6-6283-47BE-B004-2AA13DD2869C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BenchmarkDotNetAnalyser.Tests.Integration", "test\BenchmarkDotNetAnalyser.Tests.Integration\BenchmarkDotNetAnalyser.Tests.Integration.csproj", "{BB5D99A6-6283-47BE-B004-2AA13DD2869C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
