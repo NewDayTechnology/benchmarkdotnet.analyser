@@ -15,7 +15,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
 {
     public class AnalyseBenchmarksCommandValidatorTests
     {
-        [Property(Verbose = true, Arbitrary = new[] { typeof(InvalidPathArbitrary)} )]
+        [Property(Verbose = true, Arbitrary = new[] { typeof(InvalidPathArbitrary)})]
         public bool Validate_AggregatesPath_InvalidPath(string path)
         {
             var cmd = new AnalyseBenchmarksCommand(Substitute.For<ITelemetry>(), Substitute.For<IBenchmarkInfoProvider>(), 

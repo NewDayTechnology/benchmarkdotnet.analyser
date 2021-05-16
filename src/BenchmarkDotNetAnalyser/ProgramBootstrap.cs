@@ -7,6 +7,7 @@ using BenchmarkDotNetAnalyser.Benchmarks;
 using BenchmarkDotNetAnalyser.Commands;
 using BenchmarkDotNetAnalyser.Instrumentation;
 using BenchmarkDotNetAnalyser.IO;
+using BenchmarkDotNetAnalyser.Reporting;
 using Crayon;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,8 +29,12 @@ namespace BenchmarkDotNetAnalyser
                 .AddSingleton<IAggregateBenchmarksExecutor, AggregateBenchmarksExecutor>()
                 .AddSingleton<IAnalyseBenchmarksCommandValidator<AnalyseBenchmarksCommand>, AnalyseBenchmarksCommandValidator>()
                 .AddSingleton<IAnalyseBenchmarksExecutor, AnalyseBenchmarksExecutor>()
+                .AddSingleton<IReportBenchmarksCommandValidator, ReportBenchmarksCommandValidator>()
                 .AddSingleton<IBenchmarkStatisticAccessorProvider, BenchmarkStatisticAccessorProvider>()
                 .AddSingleton<IBenchmarkResultAnalysisReporter, TelemetryBenchmarkResultAnalysisReporter>()
+                .AddSingleton<IReporterProvider, ReporterProvider>()
+                .AddSingleton<ICsvFileWriter, CsvFileWriter>()
+                .AddSingleton<IBenchmarkReader, BenchmarkReader>()
                 .BuildServiceProvider();
         }
 

@@ -89,6 +89,50 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
             return benchmarkInfo;
         }
 
+        public static IEnumerable<BenchmarkRecord> ToBenchmarkRecords(this IEnumerable<BenchmarkInfo> values)
+        {
+            var records = values.ArgNotNull(nameof(values))
+                .SelectMany(bi =>
+                    bi.Runs.NullToEmpty().SelectMany(bri =>
+                        bri.Results.NullToEmpty().Select(br => new BenchmarkRecord()
+                        {
+                            FullName = br.FullName,
+                            Namespace = br.Namespace,
+                            Type = br.Type,
+                            Method = br.Method,
+                            Parameters = br.Parameters,
+                            Cells = new[]
+                            {
+                                new BenchmarkRecordCell()
+                                {
+                                    Creation = bi.Creation,
+                                    BuildNumber = bi.BuildNumber,
+                                    Tags = bi.Tags,
+                                    BuildUrl = bi.BuildUri,
+                                    BranchName = bi.BranchName,
+
+                                    MeanTime = br.MeanTime,
+                                    MaxTime = br.MaxTime,
+                                    Q1Time = br.Q1Time,
+                                    Q3Time = br.Q3Time,
+                                    MedianTime = br.MedianTime,
+                                    MinTime = br.MinTime
+                                },
+                            }
+                        })));
+
+            return records.GroupBy(br => new {br.FullName, br.Namespace, br.Type, br.Method, br.Parameters})
+                .Select(grp => new BenchmarkRecord()
+                {
+                    FullName = grp.Key.FullName,
+                    Namespace = grp.Key.Namespace,
+                    Type = grp.Key.Type,
+                    Method = grp.Key.Method,
+                    Parameters = grp.Key.Parameters,
+                    Cells = grp.SelectMany(br => br.Cells).ToList(),
+                });
+        }
+
         private static void UnpinAll(IEnumerable<BenchmarkInfo> benchmarkInfos)
         {
             foreach (var benchmarkInfo in benchmarkInfos)

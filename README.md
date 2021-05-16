@@ -33,15 +33,16 @@ Aggregate benchmark results into a single dataset.
 Usage: bdna aggregate [options]
 
 Options:
-  -new|--new <NEW_BENCHMARKS_PATH>                     The path containing new benchmarks results.
-  -aggs|--aggregates <AGGREGATED_BENCHMARKS_PATH>      The path containing the dataset to roll into.
-  -out|--output <OUTPUT_AGGREGATES_PATH>               The path for the new dataset.
-  -runs|--runs <BENCHMARK_RUNS>                        The number of benchmark runs to keep when aggregating.
-  -build|--build <BUILD_URI>                           The new build's URL. Optional.
-  -branch|--branch <BRANCH_NAME>                       The new build's branch name. Optional.
-  -t|--tag <TAGS>                                      A tag for the new build. Optional.
-  -v|--verbose                                         Emit verbose logging.
-  -?|-h|--help                                         Show help information.
+  -new|--new <NEW_BENCHMARKS_PATH>                 The path containing new benchmarks results.
+  -aggs|--aggregates <AGGREGATED_BENCHMARKS_PATH>  The path containing the dataset to roll into.
+  -out|--output <OUTPUT_AGGREGATES_PATH>           The path for the new dataset.
+  -runs|--runs <BENCHMARK_RUNS>                    The number of benchmark runs to keep when aggregating.
+  -build|--build <BUILD_NUMBER>                    The new build's number/version. Optional.
+  -builduri|--builduri <BUILD_URI>                 The new build's URL. Optional.
+  -branch|--branch <BRANCH_NAME>                   The new build's branch name. Optional.
+  -t|--tag <TAGS>                                  A tag for the new build. Optional, multiple tags can be given.
+  -v|--verbose                                     Emit verbose logging.
+  -?|-h|--help                                     Show help information.
 ```
 
 ``--new``: the folder containing a new benchmark run to fold into the aggregate dataset. This is typically the ``./BenchmarkDotNet.Artifacts/results`` folder.
@@ -52,7 +53,9 @@ Options:
 
 ``--runs``: the maximum number of benchmark results that are aggregated in ``--output``. 
 
-``--build``: the new build's URL.
+``--build``: the new build's version number.
+
+``--builduri``: the new build's URL.
 
 ``--branch``: the new build's branch name.
 
@@ -80,7 +83,7 @@ Options:
   -tol|--tolerance <TOLERANCE>          Tolerance of errors from baseline performance.
   -max|--maxerrors <MAX_ERRORS>         The maximum number of failures to tolerate.
   -stat|--statistic <STATISTIC>         The result statistic to analyse.
-  -f|--filter <FILTERS>                 Filter by class or namespace. Optional.
+  -f|--filter <FILTERS>                 Filter by class or namespace. Optional, multiple filters can be given.
   -aggs|--aggregates <AGGREGATES_PATH>  The path of the aggregated dataset to analyse.
   -v|--verbose                          Emit verbose logging.
   -?|-h|--help                          Show help information.
@@ -97,6 +100,39 @@ Options:
 ``--filter``:    Filter for specific namespaces, types or methods. Simple wildcards are supported, e.g. ``-f * -f *Benchmark -f Benchmark*``. Multiple filters can be specified and will be applied conjunctively. 
 
 If there are no degradations in performance, ``bdna analyse`` will give a return code of 0, otherwise 1 will be returned. This is what your CI pipeline must watch to fail builds.
+
+---
+
+### Reporting 
+
+You can report on the aggregated benchmark dataset.
+
+```
+Build reports from a benchmark dataset.
+
+Usage: bdna report [options]
+
+Options:
+  -aggs|--aggregates <AGGREGATES_PATH>  The path of the aggregated dataset to analyse.
+  -r|--reporter <REPORTERS>             The reporting style. Optional, multiple reporters can be given.
+  -out|--output <OUTPUT_PATH>           The path for reports.
+  -f|--filter <FILTERS>                 Filter by class or namespace. Optional, multiple filters can be given.
+  -v|--verbose                          Emit verbose logging.
+  -?|-h|--help                          Show help information.
+```
+
+``--aggregates``: the folder containing the aggregated dataset. This is the same as the ``--output`` parameter from ``bdna aggregate``.
+
+``--output``: the destination folder for reports.
+
+``--reporter``: the reporter style to use. Multiple may be provided; at present only ``Csv`` is supported.
+
+``--filter``:    Filter for specific namespaces, types or methods. Simple wildcards are supported, e.g. ``-f * -f *Benchmark -f Benchmark*``. Multiple filters can be specified and will be applied conjunctively. 
+
+#### CSV reporting
+
+Each benchmark run is exported, together with any build number, build URL, branch & tags that were taken at the time of aggregation, giving a time series of benchmarks per build.
+
 
 ---
 

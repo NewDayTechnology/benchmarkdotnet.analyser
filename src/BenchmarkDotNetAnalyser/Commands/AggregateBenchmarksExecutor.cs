@@ -83,6 +83,7 @@ namespace BenchmarkDotNetAnalyser.Commands
                     ? newFiles.Select(bri => bri.Creation).Min()
                     : default,
                 Tags = _args.Tags,
+                BuildNumber = _args.BuildNumber,
                 BuildUri = _args.BuildUri,
                 BranchName = _args.BranchName,
                 Runs = newFiles,
