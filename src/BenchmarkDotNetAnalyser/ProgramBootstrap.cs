@@ -35,6 +35,7 @@ namespace BenchmarkDotNetAnalyser
                 .AddSingleton<IReporterProvider, ReporterProvider>()
                 .AddSingleton<ICsvFileWriter, CsvFileWriter>()
                 .AddSingleton<IBenchmarkReader, BenchmarkReader>()
+                .AddSingleton<IJsonFileWriter, JsonFileWriter>()
                 .BuildServiceProvider();
         }
 

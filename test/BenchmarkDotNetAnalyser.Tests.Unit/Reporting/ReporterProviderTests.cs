@@ -53,7 +53,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Reporting
         }
 
         private static ReporterProvider CreateMockProvider() =>
-            new ReporterProvider(Substitute.For<ICsvFileWriter>(),
+            new ReporterProvider(Substitute.For<ICsvFileWriter>(), Substitute.For<IJsonFileWriter>(),
                                  Substitute.For<IBenchmarkReader>());
     }
 }

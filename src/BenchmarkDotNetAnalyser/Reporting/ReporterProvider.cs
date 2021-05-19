@@ -6,11 +6,13 @@ namespace BenchmarkDotNetAnalyser.Reporting
 {
     public class ReporterProvider : IReporterProvider
     {
+        private readonly IJsonFileWriter _jsonFileWriter;
         private readonly ICsvFileWriter _csvFileWriter;
         private readonly IBenchmarkReader _benchmarkReader;
 
-        public ReporterProvider(ICsvFileWriter csvFileWriter, IBenchmarkReader infoReader)
+        public ReporterProvider(ICsvFileWriter csvFileWriter, IJsonFileWriter jsonFileWriter, IBenchmarkReader infoReader)
         {
+            _jsonFileWriter = jsonFileWriter.ArgNotNull(nameof(jsonFileWriter));
             _csvFileWriter = csvFileWriter.ArgNotNull(nameof(csvFileWriter));
             _benchmarkReader = infoReader.ArgNotNull(nameof(infoReader));
         }
@@ -28,6 +30,7 @@ namespace BenchmarkDotNetAnalyser.Reporting
             return (kind switch
             {
                 ReportKind.Csv => new CsvBenchmarksReportGenerator(_csvFileWriter, _benchmarkReader),
+                ReportKind.Json => new JsonBenchmarksReportGenerator(_jsonFileWriter, _benchmarkReader),
                 _ => throw new InvalidOperationException($"Unrecognised kind: {kind}")
             });
 

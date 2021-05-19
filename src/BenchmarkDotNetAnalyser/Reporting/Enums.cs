@@ -3,5 +3,6 @@
     public enum ReportKind
     {
         Csv,
+        Json,
     }
 }
