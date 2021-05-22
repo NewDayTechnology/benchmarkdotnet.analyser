@@ -208,8 +208,8 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
                 .Select(t => new BenchmarkResult()
                 {
                     FullName = name,
-                    MeanTime = (decimal) t.xs[0],
-                    MaxTime = (decimal) t.xs[1],
+                    MeanTime = t.xs[0],
+                    MaxTime = t.xs[1],
                 });
         }
 
