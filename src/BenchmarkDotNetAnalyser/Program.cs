@@ -18,7 +18,7 @@ namespace BenchmarkDotNetAnalyser
     {
         public static int Main(string[] args)
         {
-            var app = new CommandLineApplication<Program>();
+            using var app = new CommandLineApplication<Program>();
             app.Conventions
                 .UseDefaultConventions()
                 .UseConstructorInjection(ProgramBootstrap.CreateServiceCollection());
