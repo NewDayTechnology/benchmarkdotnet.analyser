@@ -22,8 +22,10 @@ namespace BenchmarkDotNetAnalyser.Commands
                 $"Aggregating with:\t{args.AggregatedBenchmarksPath}",
                 $"Aggregating to:\t\t{args.OutputAggregatesPath}",
                 $"Benchmark runs:\t\t{args.BenchmarkRuns:##.###}",
+                $"Build:   \t\t{args.BuildNumber}",
                 $"Build URI:\t\t{args.BuildUri}",
                 $"Branch name:\t\t{args.BranchName}",
+                $"Commit SHA:\t\t{args.CommitSha}",
                 $"Tags:\t\t\t{args.Tags.NullToEmpty().Join(", ")}"
 
             }.Join(Environment.NewLine);

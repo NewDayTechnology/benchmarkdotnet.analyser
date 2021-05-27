@@ -43,6 +43,9 @@ namespace BenchmarkDotNetAnalyser.Commands
         [Option(CommandOptionType.SingleValue, Description = "The new build's branch name. Optional.", LongName = "branch", ShortName = "branch")]
         public string BranchName { get; set; }
 
+        [Option(CommandOptionType.SingleValue, Description = "The new build's commit SHA. Optional.", LongName = "commit", ShortName = "commit")]
+        public string CommitSha { get; set; }
+
         [Option(CommandOptionType.MultipleValue, Description = "A tag for the new build. Optional, multiple tags can be given.", LongName = "tag", ShortName = "t")]
         public IList<string> Tags { get; set; }
 
@@ -73,6 +76,7 @@ namespace BenchmarkDotNetAnalyser.Commands
             {
                 OutputAggregatesPath = this.OutputAggregatesPath,
                 BranchName = this.BranchName,
+                CommitSha = this.CommitSha,
                 BenchmarkRuns = this.BenchmarkRuns.ToInt(),
                 AggregatedBenchmarksPath = this.AggregatedBenchmarksPath,
                 BuildUri = this.BuildUri,

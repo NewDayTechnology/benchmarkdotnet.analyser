@@ -10,6 +10,7 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
         public string BuildNumber { get; set; }
         
         public string BranchName { get; set; }
+        public string CommitSha { get; set; }
         
         public string BuildUrl { get; set; }
         

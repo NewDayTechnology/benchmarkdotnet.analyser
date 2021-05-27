@@ -7,8 +7,6 @@ assignees: ''
 
 ---
 
-<!--This is just a template - feel free to delete any and all of it and replace as appropriate.-->
-
 ### Description
 
 <!--

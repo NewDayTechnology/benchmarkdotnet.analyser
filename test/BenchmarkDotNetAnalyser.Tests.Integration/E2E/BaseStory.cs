@@ -71,6 +71,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
                 AggregatedBenchmarksPath = _newAggPath,
                 BuildNumber = "0.1.2",
                 BranchName = "test",
+                CommitSha = Guid.NewGuid().ToString(),
                 BuildUri = "http://localhost",
                 NewBenchmarksPath = _newRunPath,
                 OutputAggregatesPath = _outputAggPath,
@@ -103,6 +104,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
             _newBenchmarkInfos.Count.Should().Be(1);
 
             _newBenchmarkInfos[0].BranchName.Should().Be(_aggregateArgs.BranchName);
+            _newBenchmarkInfos[0].CommitSha.Should().Be(_aggregateArgs.CommitSha);
             _newBenchmarkInfos[0].BuildUri.Should().Be(_aggregateArgs.BuildUri);
             _newBenchmarkInfos[0].Tags.Should().BeEquivalentTo(_aggregateArgs.Tags);
 
@@ -119,6 +121,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
             foreach (var bi in _newBenchmarkInfos)
             {
                 bi.BranchName.Should().Be(_aggregateArgs.BranchName);
+                bi.CommitSha.Should().Be(_aggregateArgs.CommitSha);
                 bi.BuildUri.Should().Be(_aggregateArgs.BuildUri);
                 bi.Tags.Should().BeEquivalentTo(_aggregateArgs.Tags);
 

@@ -16,6 +16,7 @@ namespace BenchmarkDotNetAnalyser.Commands
         public string BuildNumber { get; set; }
         public string BuildUri { get; set; }
         public string BranchName { get; set; }
+        public string CommitSha { get; set; }
         public IList<string> Tags { get; set; }
 
     }

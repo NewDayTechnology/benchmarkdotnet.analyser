@@ -13,6 +13,7 @@ namespace BenchmarkDotNetAnalyser.Reporting
         public string Parameters { get; init; }
         public DateTime Creation { get; init; }
         public string BuildNumber { get; init; }
+        public string CommitSha { get; init; }
         public string BuildUrl { get; init; }
         public string BranchName { get; init; }
         public string Tag1 { get; init; }

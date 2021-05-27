@@ -86,6 +86,7 @@ namespace BenchmarkDotNetAnalyser.Commands
                 BuildNumber = _args.BuildNumber,
                 BuildUri = _args.BuildUri,
                 BranchName = _args.BranchName,
+                CommitSha = _args.CommitSha,
                 Runs = newFiles,
             };
         }
