@@ -126,6 +126,7 @@ Options:
   -build|--build <BUILD_NUMBER>                    The new build's number/version. Optional.
   -builduri|--builduri <BUILD_URI>                 The new build's URL. Optional.
   -branch|--branch <BRANCH_NAME>                   The new build's branch name. Optional.
+  -commit|--commit <COMMIT_SHA>                    The new build's commit SHA. Optional.
   -t|--tag <TAGS>                                  A tag for the new build. Optional, multiple tags can be given.
   -v|--verbose                                     Emit verbose logging.
   -?|-h|--help                                     Show help information.
