@@ -1,4 +1,5 @@
 # Security
 
-If you believe there is a vulnerability, flaw or other security issue in this project, please [raise an issue against us](https://github.com/NewDayTechnology/benchmarkdotnet.analyser/issues) as quickly as you can. We will endeavour to resolve these as soon as possible.
-
+Please report security issues and bugs privately to NewDay by emailing oss@newday.co.uk. If you don't receive a response within a reasonable time, please follow up via email to ensure we received your original message. 
+ 
+Please do not open issues for anything you think might have a security implication.

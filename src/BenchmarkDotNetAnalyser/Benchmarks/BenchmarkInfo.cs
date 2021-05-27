@@ -23,6 +23,9 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
         [JsonProperty("branchName")]
         public string BranchName { get; set; }
 
+        [JsonProperty("commitSha")]
+        public string CommitSha { get; set; }
+
         [JsonProperty("tags")]
         public IList<string> Tags { get; set; }
 

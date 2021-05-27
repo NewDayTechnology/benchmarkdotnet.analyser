@@ -107,6 +107,7 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
                                 {
                                     Creation = bi.Creation,
                                     BuildNumber = bi.BuildNumber,
+                                    CommitSha = bi.CommitSha,
                                     Tags = bi.Tags,
                                     BuildUrl = bi.BuildUri,
                                     BranchName = bi.BranchName,

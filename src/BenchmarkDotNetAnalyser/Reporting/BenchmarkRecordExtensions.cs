@@ -18,6 +18,7 @@ namespace BenchmarkDotNetAnalyser.Reporting
                     Parameters = r.Parameters,
                     Creation = c.Creation.UtcDateTime, 
                     BuildNumber = c.BuildNumber, 
+                    CommitSha = c.CommitSha,
                     BuildUrl = c.BuildUrl, 
                     BranchName = c.BranchName,
                     Tag1 = c.Tags.NullToEmpty().Take(1).FirstOrDefault(),

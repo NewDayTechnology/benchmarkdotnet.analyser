@@ -12,7 +12,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
     {
         [Property(Verbose = true, Arbitrary = new[] { typeof(AlphanumericStringArbitrary)})]
         public bool Report_DetailsSentToTelemetry(string newAggsPath, string aggsPath,
-            string outputPath, PositiveInt runs, string branch, string buildUrl, string fileSuffix)
+            string outputPath, PositiveInt runs, string branch, string buildUrl, string commit)
         {
             var telemetry = Substitute.For<ITelemetry>();
 
@@ -23,6 +23,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
                 OutputAggregatesPath = outputPath,
                 BenchmarkRuns = runs.Get,
                 BranchName = branch,
+                CommitSha = commit,
                 BuildUri = buildUrl,
             };
 
