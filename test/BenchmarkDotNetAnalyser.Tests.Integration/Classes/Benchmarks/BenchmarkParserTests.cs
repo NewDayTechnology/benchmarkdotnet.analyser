@@ -92,12 +92,12 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.Classes.Benchmarks
                 result.Method.Should().NotBeNullOrWhiteSpace().And.ContainAny(_benchmarkMethods);
                 result.Parameters.Should().NotBeNull();
 
-                result.MaxTime.Should().HaveValue().And.BeGreaterThan(0M);
-                result.MinTime.Should().HaveValue().And.BeGreaterThan(0M);
-                result.MeanTime.Should().HaveValue().And.BeGreaterThan(0M);
-                result.MedianTime.Should().HaveValue().And.BeGreaterThan(0M);
-                result.Q1Time.Should().HaveValue().And.BeGreaterThan(0M);
-                result.Q3Time.Should().HaveValue().And.BeGreaterThan(0M);
+                result.MaxTime.Should().HaveValue().And.BeGreaterOrEqualTo(0M);
+                result.MinTime.Should().HaveValue().And.BeGreaterOrEqualTo(0M);
+                result.MeanTime.Should().HaveValue().And.BeGreaterOrEqualTo(0M);
+                result.MedianTime.Should().HaveValue().And.BeGreaterOrEqualTo(0M);
+                result.Q1Time.Should().HaveValue().And.BeGreaterOrEqualTo(0M);
+                result.Q3Time.Should().HaveValue().And.BeGreaterOrEqualTo(0M);
             }
         }
     }
