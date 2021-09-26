@@ -76,6 +76,6 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
         private JObject Parse(string json) => Newtonsoft.Json.JsonConvert.DeserializeObject(json) as JObject;
         
 
-        private DateTime ParseDateTime(string value) => DateTime.ParseExact(value, "yyyyMMdd-HHmmss", CultureInfo.InvariantCulture);
+        private DateTime ParseDateTime(string value) => DateTime.ParseExact(value, "yyyyMMdd-HHmmss", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
     }
 }
