@@ -18,6 +18,8 @@ let combine x y = System.IO.Path.Combine(x,y)
 // Build variables
 let sln = "benchmarkdotnetanalyser.sln"
 let mainProj = ".\src\BenchmarkDotNetAnalyser\BenchmarkDotNetAnalyser.csproj"
+let unitTestsProj = "BenchmarkDotNetAnalyser.Tests.Unit.csproj"
+let intTestsProj = "BenchmarkDotNetAnalyser.Tests.Integration.csproj"
 let publishDir = "publish"
 let unitTestDir = "test/BenchmarkDotNetAnalyser.Tests.Unit"
 let integrationTestDir = "test/BenchmarkDotNetAnalyser.Tests.Integration"
@@ -105,7 +107,7 @@ Target.create "Build" (fun _ ->
 )
 
 Target.create "Unit Tests" (fun _ ->
-  let proj = combine unitTestDir "BenchmarkDotNetAnalyser.Tests.Unit.csproj"
+  let proj = combine unitTestDir unitTestsProj
   DotNet.test testOptions proj
 )
 
@@ -156,11 +158,16 @@ Target.create "Copy benchmark results" (fun _ ->
   !! (sourcePath + "/*-report-full.json") |> Fake.IO.Shell.copy targetPath 
 )
 
-Target.create "Integration Tests" (fun _ ->
-  let proj = combine integrationTestDir "BenchmarkDotNetAnalyser.Tests.Integration.csproj"
-
+let runIntegrationTests = (fun _ ->
+  let proj = combine integrationTestDir intTestsProj
   DotNet.test testOptions proj
 )
+
+Target.create "Integration Tests" runIntegrationTests
+
+Target.create "Integration Tests Standalone" runIntegrationTests
+
+Target.create "Rebuild test data and validate" (fun _ -> Trace.log "Done." )
 
 // Declare build dependencies
 "Clean"
@@ -175,5 +182,7 @@ Target.create "Integration Tests" (fun _ ->
 "Build"
   ==> "Run Sample benchmarks" 
   ==> "Copy benchmark results"
+  ==> "Integration Tests Standalone"
+  ==> "Rebuild test data and validate"
   
 Target.runOrDefaultWithArguments  "Package dotnet tool"
