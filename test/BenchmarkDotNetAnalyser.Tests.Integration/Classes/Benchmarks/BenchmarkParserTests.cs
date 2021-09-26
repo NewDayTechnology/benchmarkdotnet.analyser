@@ -51,9 +51,8 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.Classes.Benchmarks
 
             result.Should().BeAfter(default);
             result.Year.Should().BeGreaterThan(2020);
-            result.Year.Should().BeLessThan(2100);
-
-            result.Should().BeOnOrBefore(DateTimeOffset.Now);
+            
+            result.ToUniversalTime().Should().BeOnOrBefore(DateTimeOffset.UtcNow);
         }
 
         [Theory]
