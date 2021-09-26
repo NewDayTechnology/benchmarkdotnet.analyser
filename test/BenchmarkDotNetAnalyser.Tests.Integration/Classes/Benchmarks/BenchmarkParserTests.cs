@@ -51,7 +51,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.Classes.Benchmarks
 
             result.Should().BeAfter(default);
             result.Year.Should().BeGreaterThan(2020);
-            result.Should().BeBefore(DateTimeOffset.UtcNow);
+            result.Year.Should().BeLessThan(2100);
         }
 
         [Theory]
@@ -92,12 +92,12 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.Classes.Benchmarks
                 result.Method.Should().NotBeNullOrWhiteSpace().And.ContainAny(_benchmarkMethods);
                 result.Parameters.Should().NotBeNull();
 
-                result.MaxTime.Should().HaveValue().And.BeGreaterThan(0M);
-                result.MinTime.Should().HaveValue().And.BeGreaterThan(0M);
-                result.MeanTime.Should().HaveValue().And.BeGreaterThan(0M);
-                result.MedianTime.Should().HaveValue().And.BeGreaterThan(0M);
-                result.Q1Time.Should().HaveValue().And.BeGreaterThan(0M);
-                result.Q3Time.Should().HaveValue().And.BeGreaterThan(0M);
+                result.MaxTime.Should().HaveValue().And.BeGreaterOrEqualTo(0M);
+                result.MinTime.Should().HaveValue().And.BeGreaterOrEqualTo(0M);
+                result.MeanTime.Should().HaveValue().And.BeGreaterOrEqualTo(0M);
+                result.MedianTime.Should().HaveValue().And.BeGreaterOrEqualTo(0M);
+                result.Q1Time.Should().HaveValue().And.BeGreaterOrEqualTo(0M);
+                result.Q3Time.Should().HaveValue().And.BeGreaterOrEqualTo(0M);
             }
         }
     }
