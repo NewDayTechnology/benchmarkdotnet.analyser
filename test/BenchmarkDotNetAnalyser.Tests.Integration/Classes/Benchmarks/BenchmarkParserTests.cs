@@ -53,7 +53,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.Classes.Benchmarks
             result.Year.Should().BeGreaterThan(2020);
             result.Year.Should().BeLessThan(2100);
 
-            result.Should().BeOnOrBefore(DateTimeOffset.UtcNow);
+            result.Should().BeOnOrBefore(DateTimeOffset.Now);
         }
 
         [Theory]
