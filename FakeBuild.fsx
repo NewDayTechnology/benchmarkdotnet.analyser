@@ -125,7 +125,7 @@ Target.create "Consolidate code coverage" (fun _ ->
 Target.create "Stryker" (fun _ ->  
   let opts (o: DotNet.Options) = { o with WorkingDirectory = unitTestDir }
 
-  let args = sprintf "-th %i -tl %i -tb %i" strykerHigh strykerLow strykerBreak
+  let args = sprintf "--threshold-high %i --threshold-low %i -b %i" strykerHigh strykerLow strykerBreak
   let result = DotNet.exec opts "dotnet-stryker" args
 
   if not result.OK then failwithf "Stryker failed!"  
