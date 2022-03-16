@@ -34,7 +34,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Instrumentation
 
             Func<Task<int>> f = async () => await telemetry.InvokeWithLoggingAsync(log, func);
 
-            f.Should().Throw<Exception>();
+            f.Should().ThrowAsync<Exception>();
             telemetry.Received(2).Write(Arg.Any<TelemetryEntry>());
             telemetry.Received(1).Write(Arg.Is<TelemetryEntry>(x => x.Message == "" && x.AddLineBreak));
         }
