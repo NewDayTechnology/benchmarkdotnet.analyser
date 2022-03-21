@@ -18,7 +18,7 @@ BDNA aggregates and analyses [BenchmarkDotNet](https://benchmarkdotnet.org/) res
 
 ## Installation
 
-To install BDNA, you'll need the [.NET 5 SDK or runtime](https://dotnet.microsoft.com/download/dotnet/5.0). BDNA can be downloaded and installed from [Github Packages](https://github.com/orgs/NewDayTechnology/packages). 
+To install BDNA, you'll need the [.NET 6 SDK or runtime](https://dotnet.microsoft.com/download/dotnet/6.0). BDNA can be downloaded and installed from [Github Packages](https://github.com/orgs/NewDayTechnology/packages). 
 
 
 ---
@@ -26,7 +26,7 @@ To install BDNA, you'll need the [.NET 5 SDK or runtime](https://dotnet.microsof
 
 ## Building locally
 
-To build, you'll need the [.NET 5 SDK](https://dotnet.microsoft.com/download/dotnet/5.0).
+To build, you'll need the [.NET 6 SDK](https://dotnet.microsoft.com/download/dotnet/6.0).
 The local build scripts are a [FAKE build script](FakeBuild.fsx) and a [Powershell bootstrapper](build.ps1). 
 
 By default, the build script will restore, build, run tests and package:
@@ -258,7 +258,7 @@ Options:
 
 
 ## Technologies used
-We use C# and .NET 5.0 for this project. Some 3rd party packages that we depend on:-
+We use C# and .NET 6.0 for this project. Some 3rd party packages that we depend on:-
 * [Newtonsoft.Json](https://www.nuget.org/packages/Newtonsoft.Json/)
 * [Nate McMaster's Command line utils](https://www.nuget.org/packages/McMaster.Extensions.CommandLineUtils)
 * [Microsoft's Dependency Injection](https://www.nuget.org/packages/Microsoft.Extensions.DependencyInjection)
