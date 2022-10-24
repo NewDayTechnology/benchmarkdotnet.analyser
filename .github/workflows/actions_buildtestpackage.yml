@@ -131,9 +131,9 @@ jobs:
         name: stryker.results
         path: |
           path: ./publish/stryker/*
-          
+
   SAST:
-    uses: ./.github/workflows/codeql-analysis.yml
+    uses: ./.github/workflows/actions_sast.yml
 
   Release:
     runs-on: ubuntu-latest
