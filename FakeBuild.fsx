@@ -28,9 +28,9 @@ let sampleBenchmarksDir = "test/BenchmarkDotNetAnalyser.SampleBenchmarks/bin/Rel
 let sampleBenchmarksResults = "BenchmarkDotNet.Artifacts/results"
 let sampleBenchmarksResultsDir = combine sampleBenchmarksDir sampleBenchmarksResults
 
-let unitTestResultsOutputDir = unitTestDir + "/TestResults"
-let integrationTestResultsOutputDir = integrationTestDir + "/TestResults"
-let strykerOutputDir = unitTestDir + "/StrykerOutput"
+let unitTestResultsOutputDir = combine unitTestDir "TestResults"
+let integrationTestResultsOutputDir = combine integrationTestDir "TestResults"
+let strykerOutputDir = combine unitTestDir "StrykerOutput"
 
 let strykerBreak = 69
 let strykerHigh = 80
@@ -132,7 +132,7 @@ Target.create "Stryker" (fun _ ->
 
   
   let strykerFiles = !! (strykerOutputDir + "/**/mutation-report.html") 
-  let strykerTargetPath = "stryker" |> combine publishDir
+  let strykerTargetPath = combine publishDir "stryker"
   
   strykerFiles |> Fake.IO.Shell.copy strykerTargetPath
   sprintf "Stryker reports copied to %s."  strykerTargetPath |> Trace.log
