@@ -113,24 +113,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-     - name: Setup .NET Core SDK
-       uses: actions/setup-dotnet@v1.9.0
-       with:
+    - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v1.9.0
+      with:
         dotnet-version: "6.0.x"
         
-      - name: dotnet tool restore
-        run: dotnet tool restore
+    - name: dotnet tool restore
+      run: dotnet tool restore
               
-      - name: Run build
-        run: dotnet fake run "build.fsx" -t "Stryker"
+    - name: Run build
+      run: dotnet fake run "build.fsx" -t "Stryker"
         
-      - name: Archive Stryker results
-        uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: stryker.results
-          path: |
-            path: ./publish/stryker/*
+    - name: Archive Stryker results
+      uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: stryker.results
+        path: |
+          path: ./publish/stryker/*
+          
   SAST:
     uses: ./.github/workflows/codeql-analysis.yml
 
