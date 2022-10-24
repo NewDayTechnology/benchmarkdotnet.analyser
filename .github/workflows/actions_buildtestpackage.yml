@@ -22,7 +22,7 @@ jobs:
       run: dotnet tool restore 
     
     - name: Build test and package
-      run: dotnet fake run FakeBuild.fsx        
+      run: dotnet fake run FakeBuild.fsx --target "BuildTestAndPackage"       
     
     - name: Archive dotnet tool nupkg
       uses: actions/upload-artifact@v3

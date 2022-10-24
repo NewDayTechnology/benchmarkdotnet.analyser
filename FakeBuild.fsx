@@ -111,7 +111,7 @@ Target.create "Unit Tests" (fun _ ->
   DotNet.test testOptions proj
 )
 
-Target.create "Package dotnet tool" (fun _ -> 
+Target.create "Package" (fun _ -> 
   DotNet.pack packOptions mainProj
 )
 
@@ -167,7 +167,9 @@ Target.create "Integration Tests" runIntegrationTests
 
 Target.create "Integration Tests Standalone" runIntegrationTests
 
-Target.create "Rebuild test data and validate" (fun _ -> Trace.log "Done." )
+Target.create "RebuildTestDataValidate" (fun _ -> Trace.log "Done." )
+
+Target.create "BuildTestAndPackage" (fun _ -> Trace.log "Done." )
 
 // Declare build dependencies
 "Clean"
@@ -176,13 +178,26 @@ Target.create "Rebuild test data and validate" (fun _ -> Trace.log "Done." )
   ==> "Unit Tests"
   ==> "Integration Tests"
   ==> "Consolidate code coverage"
-  ==> "Stryker"
-  ==> "Package dotnet tool"
-
+  
 "Build"
   ==> "Run Sample benchmarks" 
   ==> "Copy benchmark results"
   ==> "Integration Tests Standalone"
-  ==> "Rebuild test data and validate"
+  ==> "RebuildTestDataValidate"
   
-Target.runOrDefaultWithArguments  "Package dotnet tool"
+"Build"
+  ==> "Package"
+
+"Build"
+  ==> "Stryker"
+
+"Package"
+  ==> "BuildTestAndPackage"
+
+"Stryker"
+  ==> "BuildTestAndPackage"
+
+"Consolidate code coverage"
+  ==> "BuildTestAndPackage"
+
+Target.runOrDefaultWithArguments  "BuildTestAndPackage"
