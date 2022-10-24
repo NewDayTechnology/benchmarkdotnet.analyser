@@ -135,6 +135,7 @@ Target.create "Stryker" (fun _ ->
   let strykerTargetPath = "stryker" |> combine publishDir
   
   strykerFiles |> Fake.IO.Shell.copy strykerTargetPath
+  sprintf "Stryker reports copied to %s."  strykerTargetPath |> Trace.log
 )
 
 Target.create "Run Sample benchmarks" (fun _ ->

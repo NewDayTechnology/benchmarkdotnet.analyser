@@ -114,7 +114,7 @@ jobs:
       run: dotnet fake run FakeBuild.fsx -t "Stryker"
         
     - name: Archive Stryker results
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       if: always()
       with:
         name: stryker.results
