@@ -194,9 +194,6 @@ Target.create "BuildTestAndPackage" (fun _ -> Trace.log "Done." )
 "Package"
   ==> "BuildTestAndPackage"
 
-"Stryker"
-  ==> "BuildTestAndPackage"
-
 "Consolidate code coverage"
   ==> "BuildTestAndPackage"
 
