@@ -1,11 +1,16 @@
 name: "Code Scan"
 
 on:
-  push:
-  pull_request:
-    branches: [ main ]
+  workflow_call:
+    inputs:
+      username:
+        required: false
+        type: string
+    secrets:
+      token:
+        required: false
   schedule:
-    - cron: '0 0 * * 1'
+        - cron: '0 0 * * 1'
 
 jobs:
   analyze:
