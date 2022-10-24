@@ -61,20 +61,6 @@ jobs:
         path: ${{ github.workspace }}/test/BenchmarkDotNetAnalyser.Tests.Integration/TestResults/test_results.trx
         reporter: dotnet-trx
         token: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Code coverage results
-      uses: 5monkeys/cobertura-action@master
-      with:
-        path: ${{ github.workspace }}/test/BenchmarkDotNetAnalyser.Tests.Unit/TestResults/coverage.info
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        minimum_coverage: 50
-        fail_below_threshold: true
-        show_line: true
-        show_branch: true
-        show_missing: true
-        show_class_names: true
-        link_missing_lines: true
-        report_name: code coverage results
         
   SCA:
     runs-on: ubuntu-latest
@@ -141,7 +127,6 @@ jobs:
   Release:
     runs-on: ubuntu-latest
     needs:   [ Build, SCA, Stryker, SAST ]
-    #if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev'
     if: github.event_name == 'push'
         
     steps:
