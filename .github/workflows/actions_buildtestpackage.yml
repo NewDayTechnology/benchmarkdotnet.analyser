@@ -24,6 +24,12 @@ jobs:
     - name: Build test and package
       run: dotnet fake run FakeBuild.fsx -t "BuildTestAndPackage"       
         
+    - name: Archive dotnet tool nupkg
+      uses: actions/upload-artifact@v3
+      with:
+        name: benchmarkdotnet.analyser.nupkg
+        path: ./publish/toolpackage/*
+
     - name: Archive Test results
       uses: actions/upload-artifact@v3
       with:
