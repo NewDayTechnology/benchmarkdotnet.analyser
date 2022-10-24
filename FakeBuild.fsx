@@ -179,23 +179,16 @@ Target.create "BuildTestAndPackage" (fun _ -> Trace.log "Done." )
   ==> "Unit Tests"
   ==> "Integration Tests"
   ==> "Consolidate code coverage"
-  
+  ==> "Package"
+  ==> "BuildTestAndPackage"  
+
 "Build"
   ==> "Run Sample benchmarks" 
   ==> "Copy benchmark results"
   ==> "Integration Tests Standalone"
   ==> "RebuildTestDataValidate"
-  
-"Build"
-  ==> "Package"
 
 "Build"
   ==> "Stryker"
-
-"Package"
-  ==> "BuildTestAndPackage"
-
-"Consolidate code coverage"
-  ==> "BuildTestAndPackage"
 
 Target.runOrDefaultWithArguments  "BuildTestAndPackage"
