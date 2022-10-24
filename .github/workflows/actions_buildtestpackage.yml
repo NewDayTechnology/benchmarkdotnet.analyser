@@ -1,162 +1,163 @@
 name: Build Test and Package
 
 on:
-	push:		
-	pull_request:
-		branches: [ main ]
+  push:    
+  pull_request:
+    branches: [ main ]
 
 jobs:
-	Build:
+  Build:
 
-		runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
-		steps:
-		- uses: actions/checkout@v3
+    steps:
+    - uses: actions/checkout@v3
 
-		- name: Setup .NET
-			uses: actions/setup-dotnet@v3
-			with:
-				dotnet-version: 6.0.x
-		
-		- name: Restore tools
-			run: dotnet tool restore
-		
-		- name: Build test and package
-			run: dotnet fake run FakeBuild.fsx -t "BuildTestAndPackage"			 
-		
-		- name: Archive dotnet tool nupkg
-			uses: actions/upload-artifact@v3
-			with:
-				name: benchmarkdotnet.analyser.nupkg
-				path: ./publish/toolpackage/*
-		
-		- name: Archive Test results
-			uses: actions/upload-artifact@v3
-			with:
-				name: tests.results
-				path: |
-					./test/**/TestResults/*
-					./test/BenchmarkDotNetAnalyser.Tests.Integration/**/BDDfy.html
-		
-		- name: Archive Code coverage
-			uses: actions/upload-artifact@v3
-			with:
-				name: codecoverage
-				path: ./publish/codecoverage/*.html
-		
-		- name: Unit tests
-			uses: dorny/test-reporter@v1
-			if: always()
-			with:
-				name: Unit tests
-				path: ${{ github.workspace }}/test/BenchmarkDotNetAnalyser.Tests.Unit/TestResults/test_results.trx
-				reporter: dotnet-trx
-				token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    
+    - name: Restore tools
+      run: dotnet tool restore
+    
+    - name: Build test and package
+      run: dotnet fake run FakeBuild.fsx -t "BuildTestAndPackage"       
+    
+    - name: Archive dotnet tool nupkg
+      uses: actions/upload-artifact@v3
+      with:
+        name: benchmarkdotnet.analyser.nupkg
+        path: ./publish/toolpackage/*
+    
+    - name: Archive Test results
+      uses: actions/upload-artifact@v3
+      with:
+        name: tests.results
+        path: |
+          ./test/**/TestResults/*
+          ./test/BenchmarkDotNetAnalyser.Tests.Integration/**/BDDfy.html
+    
+    - name: Archive Code coverage
+      uses: actions/upload-artifact@v3
+      with:
+        name: codecoverage
+        path: ./publish/codecoverage/*.html
+    
+    - name: Unit tests
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: Unit tests
+        path: ${{ github.workspace }}/test/BenchmarkDotNetAnalyser.Tests.Unit/TestResults/test_results.trx
+        reporter: dotnet-trx
+        token: ${{ secrets.GITHUB_TOKEN }}
 
-		- name: Integration tests
-			uses: dorny/test-reporter@v1
-			if: always()
-			with:
-				name: Integration tests
-				path: ${{ github.workspace }}/test/BenchmarkDotNetAnalyser.Tests.Integration/TestResults/test_results.trx
-				reporter: dotnet-trx
-				token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Integration tests
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: Integration tests
+        path: ${{ github.workspace }}/test/BenchmarkDotNetAnalyser.Tests.Integration/TestResults/test_results.trx
+        reporter: dotnet-trx
+        token: ${{ secrets.GITHUB_TOKEN }}
 
-		- name: Code coverage results
-			uses: 5monkeys/cobertura-action@master
-			with:
-				path: ${{ github.workspace }}/test/BenchmarkDotNetAnalyser.Tests.Unit/TestResults/coverage.info
-				repo_token: ${{ secrets.GITHUB_TOKEN }}
-				minimum_coverage: 80
-				fail_below_threshold: true
-				show_line: true
-				show_branch: true
-				show_missing: true
-				show_class_names: true
-				link_missing_lines: true
-				report_name: code coverage results
+    - name: Code coverage results
+      uses: 5monkeys/cobertura-action@master
+      with:
+        path: ${{ github.workspace }}/test/BenchmarkDotNetAnalyser.Tests.Unit/TestResults/coverage.info
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        minimum_coverage: 80
+        fail_below_threshold: true
+        show_line: true
+        show_branch: true
+        show_missing: true
+        show_class_names: true
+        link_missing_lines: true
+        report_name: code coverage results
 
-	SCA:
-		runs-on: ubuntu-latest
+  SCA:
+    runs-on: ubuntu-latest
 
-		steps:
-			- uses: actions/checkout@v2
+    steps:
+      - uses: actions/checkout@v2
 
-			- name: Setup .NET Core SDK
-				uses: actions/setup-dotnet@v1.9.0
-				with:
-					dotnet-version: "6.0.x"
-				
-			- name: dotnet SCA
-				run: |
-					dotnet tool restore
-					dotnet restore
-					dotnet list package --vulnerable --include-transitive | tee results.log
-					FOUND_VULN=`grep -c 'has the following vulnerable packages' results.log` || true
-					FOUND_CRIT=`grep -c 'Critical' results.log` || true
-					FOUND_HIGH=`grep -c 'High' results.log` || true
-					
-					if [[ "$FOUND_VULN" != "0" ]]
-					then
-						if [ "$FOUND_CRIT" == "0" -a "$FOUND_HIGH" == "0"]
-						then
-							echo "### Vulnerable packages found ###"
-							exit 0
-						fi
-						echo "### Critical/High vulnerable packages found ###"
-						exit 1
-					fi
-					echo "## No problems found ##"
-					exit 0
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v1.9.0
+        with:
+          dotnet-version: "6.0.x"
+        
+      - name: dotnet SCA
+        run: |
+          dotnet tool restore
+          dotnet restore
+          dotnet list package --vulnerable --include-transitive | tee results.log
+          FOUND_VULN=`grep -c 'has the following vulnerable packages' results.log` || true
+          FOUND_CRIT=`grep -c 'Critical' results.log` || true
+          FOUND_HIGH=`grep -c 'High' results.log` || true
+          
+          if [[ "$FOUND_VULN" != "0" ]]
+          then
+            if [ "$FOUND_CRIT" == "0" -a "$FOUND_HIGH" == "0"]
+            then
+              echo "### Vulnerable packages found ###"
+              exit 0
+            fi
+            echo "### Critical/High vulnerable packages found ###"
+            exit 1
+          fi
+          echo "## No problems found ##"
+          exit 0
 
-	Stryker:
-		runs-on: ubuntu-latest
+  Stryker:
+    runs-on: ubuntu-latest
 
-		steps: 
-		- name: Setup .NET
-			uses: actions/setup-dotnet@v3
-			with:
-				dotnet-version: 6.0.x
-		
-		- name: Restore tools
-			run: dotnet tool restore
-							
-		- name: Run Stryker
-			run: dotnet fake run FakeBuild.fsx -t "Stryker"
-				
-		- name: Archive Stryker results
-			uses: actions/upload-artifact@v2
-			if: always()
-			with:
-				name: stryker.results
-				path: |
-					path: ./publish/stryker/*
+    steps: 
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    
+    - name: Restore tools
+      run: dotnet tool restore
 
-	SAST:
-		uses: ./.github/workflows/actions_sast.yml
+              
+    - name: Run Stryker
+      run: dotnet fake run FakeBuild.fsx -t "Stryker"
+        
+    - name: Archive Stryker results
+      uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: stryker.results
+        path: |
+          path: ./publish/stryker/*
 
-	Release:
-		runs-on: ubuntu-latest
-		needs:	 [ Build, SCA, Stryker, SAST ]
-		#if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev'
-		if: github.event_name == 'push'
-				
-		steps:
-		- uses: actions/checkout@v3
+  SAST:
+    uses: ./.github/workflows/actions_sast.yml
 
-		- name: Setup .NET
-			uses: actions/setup-dotnet@v3
-			with:
-				dotnet-version: 6.0.x
+  Release:
+    runs-on: ubuntu-latest
+    needs:   [ Build, SCA, Stryker, SAST ]
+    #if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev'
+    if: github.event_name == 'push'
+        
+    steps:
+    - uses: actions/checkout@v3
 
-		- name: Download package
-			uses: actions/download-artifact@v3
-			with:
-				name: benchmarkdotnet.analyser.nupkg
-				path: ${{ github.workspace }}/artifacts
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
 
-		- name: Setup nuget source
-			run: dotnet nuget add source --username USERNAME --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/NewDayTechnology/index.json"
+    - name: Download package
+      uses: actions/download-artifact@v3
+      with:
+        name: benchmarkdotnet.analyser.nupkg
+        path: ${{ github.workspace }}/artifacts
 
-		- name: Push nuget package
-			run: dotnet nuget push "artifacts/*.nupkg"	--api-key ${{ secrets.GITHUB_TOKEN }} --source "github"
+    - name: Setup nuget source
+      run: dotnet nuget add source --username USERNAME --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/NewDayTechnology/index.json"
+
+    - name: Push nuget package
+      run: dotnet nuget push "artifacts/*.nupkg"  --api-key ${{ secrets.GITHUB_TOKEN }} --source "github"
