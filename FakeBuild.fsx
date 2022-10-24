@@ -70,7 +70,7 @@ let buildOptions (opts: DotNet.BuildOptions) =
                     MSBuildParams = { opts.MSBuildParams with Properties = assemblyInfoParams opts.MSBuildParams.Properties; WarnAsError = Some [ "*" ] } }
 
 let testOptions (opts: DotNet.TestOptions)=
-    { opts with NoBuild = true; 
+    { opts with NoBuild = false; 
                     Configuration = DotNet.BuildConfiguration.Release; 
                     Logger = Some "trx;LogFileName=test_results.trx";
                     MSBuildParams = { opts.MSBuildParams with Properties = codeCoverageParams opts.MSBuildParams.Properties } }
