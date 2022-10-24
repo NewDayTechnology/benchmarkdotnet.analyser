@@ -63,18 +63,18 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Code coverage results
-        uses: 5monkeys/cobertura-action@master
-        with:
-          path: ${{ github.workspace }}/test/BenchmarkDotNetAnalyser.Tests.Unit/TestResults/coverage.info
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          minimum_coverage: 80
-          fail_below_threshold: true
-          show_line: true
-          show_branch: true
-          show_missing: true
-          show_class_names: true
-          link_missing_lines: true
-          report_name: code coverage results
+      uses: 5monkeys/cobertura-action@master
+      with:
+        path: ${{ github.workspace }}/test/BenchmarkDotNetAnalyser.Tests.Unit/TestResults/coverage.info
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        minimum_coverage: 80
+        fail_below_threshold: true
+        show_line: true
+        show_branch: true
+        show_missing: true
+        show_class_names: true
+        link_missing_lines: true
+        report_name: code coverage results
 
   SCA:
     runs-on: ubuntu-latest
