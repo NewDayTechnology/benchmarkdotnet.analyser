@@ -24,13 +24,13 @@ let publishDir = "publish"
 let unitTestDir = "test/BenchmarkDotNetAnalyser.Tests.Unit"
 let integrationTestDir = "test/BenchmarkDotNetAnalyser.Tests.Integration"
 let integrationTestResultsDir = "BenchmarkDotNetResults"
-let sampleBenchmarksDir = "test/BenchmarkDotNetAnalyser.SampleBenchmarks/bin/Release/net5.0"
+let sampleBenchmarksDir = "test/BenchmarkDotNetAnalyser.SampleBenchmarks/bin/Release/net6.0"
 let sampleBenchmarksResults = "BenchmarkDotNet.Artifacts/results"
 let sampleBenchmarksResultsDir = combine sampleBenchmarksDir sampleBenchmarksResults
 
-let unitTestResultsOutputDir = unitTestDir + "/TestResults"
-let integrationTestResultsOutputDir = integrationTestDir + "/TestResults"
-let strykerOutputDir = unitTestDir + "/StrykerOutput"
+let unitTestResultsOutputDir = combine unitTestDir "TestResults"
+let integrationTestResultsOutputDir = combine integrationTestDir "TestResults"
+let strykerOutputDir = combine unitTestDir "StrykerOutput"
 
 let strykerBreak = 69
 let strykerHigh = 80
@@ -70,7 +70,7 @@ let buildOptions (opts: DotNet.BuildOptions) =
                     MSBuildParams = { opts.MSBuildParams with Properties = assemblyInfoParams opts.MSBuildParams.Properties; WarnAsError = Some [ "*" ] } }
 
 let testOptions (opts: DotNet.TestOptions)=
-    { opts with NoBuild = true; 
+    { opts with NoBuild = false; 
                     Configuration = DotNet.BuildConfiguration.Release; 
                     Logger = Some "trx;LogFileName=test_results.trx";
                     MSBuildParams = { opts.MSBuildParams with Properties = codeCoverageParams opts.MSBuildParams.Properties } }
@@ -111,7 +111,7 @@ Target.create "Unit Tests" (fun _ ->
   DotNet.test testOptions proj
 )
 
-Target.create "Package dotnet tool" (fun _ -> 
+Target.create "Package" (fun _ -> 
   DotNet.pack packOptions mainProj
 )
 
@@ -132,9 +132,10 @@ Target.create "Stryker" (fun _ ->
 
   
   let strykerFiles = !! (strykerOutputDir + "/**/mutation-report.html") 
-  let strykerTargetPath = "stryker" |> combine publishDir
+  let strykerTargetPath = combine publishDir "stryker"
   
   strykerFiles |> Fake.IO.Shell.copy strykerTargetPath
+  sprintf "Stryker reports copied to %s."  strykerTargetPath |> Trace.log
 )
 
 Target.create "Run Sample benchmarks" (fun _ ->
@@ -167,7 +168,9 @@ Target.create "Integration Tests" runIntegrationTests
 
 Target.create "Integration Tests Standalone" runIntegrationTests
 
-Target.create "Rebuild test data and validate" (fun _ -> Trace.log "Done." )
+Target.create "RebuildTestDataValidate" (fun _ -> Trace.log "Done." )
+
+Target.create "BuildTestAndPackage" (fun _ -> Trace.log "Done." )
 
 // Declare build dependencies
 "Clean"
@@ -176,13 +179,16 @@ Target.create "Rebuild test data and validate" (fun _ -> Trace.log "Done." )
   ==> "Unit Tests"
   ==> "Integration Tests"
   ==> "Consolidate code coverage"
-  ==> "Stryker"
-  ==> "Package dotnet tool"
+  ==> "Package"
+  ==> "BuildTestAndPackage"  
 
 "Build"
   ==> "Run Sample benchmarks" 
   ==> "Copy benchmark results"
   ==> "Integration Tests Standalone"
-  ==> "Rebuild test data and validate"
-  
-Target.runOrDefaultWithArguments  "Package dotnet tool"
+  ==> "RebuildTestDataValidate"
+
+"Build"
+  ==> "Stryker"
+
+Target.runOrDefaultWithArguments  "BuildTestAndPackage"

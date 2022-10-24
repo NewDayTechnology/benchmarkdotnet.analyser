@@ -11,27 +11,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
     
     - name: Restore tools
-      run: dotnet tool restore 
+      run: dotnet tool restore
     
     - name: Build test and package
-      run: dotnet fake run FakeBuild.fsx        
-    
+      run: dotnet fake run FakeBuild.fsx -t "BuildTestAndPackage"       
+        
     - name: Archive dotnet tool nupkg
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: benchmarkdotnet.analyser.nupkg
         path: ./publish/toolpackage/*
-    
+
     - name: Archive Test results
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: tests.results
         path: |
@@ -39,16 +39,10 @@ jobs:
           ./test/BenchmarkDotNetAnalyser.Tests.Integration/**/BDDfy.html
     
     - name: Archive Code coverage
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: codecoverage
         path: ./publish/codecoverage/*.html
-    
-    - name: Archive Stryker results
-      uses: actions/upload-artifact@v2
-      with:
-        name: stryker.results
-        path: ./publish/stryker/*
     
     - name: Unit tests
       uses: dorny/test-reporter@v1
@@ -67,22 +61,84 @@ jobs:
         path: ${{ github.workspace }}/test/BenchmarkDotNetAnalyser.Tests.Integration/TestResults/test_results.trx
         reporter: dotnet-trx
         token: ${{ secrets.GITHUB_TOKEN }}
+        
+  SCA:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "6.0.x"
+        
+      - name: dotnet SCA
+        run: |
+          dotnet tool restore
+          dotnet restore
+          dotnet list package --vulnerable --include-transitive | tee results.log
+          FOUND_VULN=`grep -c 'has the following vulnerable packages' results.log` || true
+          FOUND_CRIT=`grep -c 'Critical' results.log` || true
+          FOUND_HIGH=`grep -c 'High' results.log` || true
+          
+          if [[ "$FOUND_VULN" != "0" ]]
+          then
+            if [ "$FOUND_CRIT" == "0" -a "$FOUND_HIGH" == "0"]
+            then
+              echo "### Vulnerable packages found ###"
+              exit 0
+            fi
+            echo "### Critical/High vulnerable packages found ###"
+            exit 1
+          fi
+          echo "## No problems found ##"
+          exit 0
+
+  Stryker:
+    runs-on: ubuntu-latest
+
+    steps: 
+    - uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    
+    - name: Restore tools
+      run: dotnet tool restore
+
+              
+    - name: Run Stryker
+      run: dotnet fake run FakeBuild.fsx -t "Stryker"
+        
+    - name: Archive Stryker results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: stryker.results
+        path: |
+          ./publish/**/*
+
+  SAST:
+    uses: ./.github/workflows/actions_sast.yml
 
   Release:
     runs-on: ubuntu-latest
-    needs:   [ Build ]
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev'
+    needs:   [ Build, SCA, Stryker, SAST ]
+    if: github.event_name == 'push'
         
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
 
     - name: Download package
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: benchmarkdotnet.analyser.nupkg
         path: ${{ github.workspace }}/artifacts
