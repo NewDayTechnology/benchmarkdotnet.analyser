@@ -122,7 +122,7 @@ jobs:
       run: dotnet tool restore
               
     - name: Run build
-      run: dotnet fake run "build.fsx" -t "Stryker"
+      run: dotnet fake run FakeBuild.fsx -t "Stryker"       
         
     - name: Archive Stryker results
       uses: actions/upload-artifact@v2
