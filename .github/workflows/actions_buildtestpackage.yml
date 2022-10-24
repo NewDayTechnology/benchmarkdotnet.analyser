@@ -113,7 +113,7 @@ jobs:
       with:
         name: stryker.results
         path: |
-          path: ./publish/stryker/*
+          ./publish/**/*
 
   SAST:
     uses: ./.github/workflows/actions_sast.yml
