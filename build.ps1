@@ -8,7 +8,7 @@ $ErrorActionPreference = "Stop"
 & dotnet tool restore
 
 if($Target -eq "") {
-    & dotnet fake run FakeBuild.fsx --target "BuildTestAndPackage"
+    & dotnet run --project build.fsproj -- -t "BuildTestAndPackage"
 } else {
-    & dotnet fake run FakeBuild.fsx --target $Target
+    & dotnet run --project build.fsproj -- -t $Target
 }

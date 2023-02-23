@@ -22,7 +22,7 @@ jobs:
       run: dotnet tool restore
     
     - name: Build test and package
-      run: dotnet fake run FakeBuild.fsx -t "BuildTestAndPackage"       
+      run: dotnet run --project build.fsproj -- -t "BuildTestAndPackage"       
         
     - name: Archive dotnet tool nupkg
       uses: actions/upload-artifact@v3
@@ -111,7 +111,7 @@ jobs:
 
               
     - name: Run Stryker
-      run: dotnet fake run FakeBuild.fsx -t "Stryker"
+      run: dotnet run --project build.fsproj -- -t "Stryker"
         
     - name: Archive Stryker results
       uses: actions/upload-artifact@v3
