@@ -1,10 +1,13 @@
-![Build](https://github.com/NewDayTechnology/benchmarkdotnet.analyser/actions/workflows/actions_buildtestpackage.yml/badge.svg)
- ![SAST](https://github.com/NewDayTechnology/benchmarkdotnet.analyser/actions/workflows/actions_sast.yml/badge.svg)
- [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)](code_of_conduct.md)
-
 # BenchmarkDotNet Analyser
 
 ![Front](./docs/cli_front.png)
+
+![Nuget](https://img.shields.io/nuget/v/bdna)
+
+![Build](https://github.com/NewDayTechnology/benchmarkdotnet.analyser/actions/workflows/actions_buildtestpackage.yml/badge.svg)
+![SAST](https://github.com/NewDayTechnology/benchmarkdotnet.analyser/actions/workflows/actions_sast.yml/badge.svg)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)](code_of_conduct.md)
+
 
 A .NET CLI tool for analysing [BenchmarkDotNet](https://benchmarkdotnet.org/) results.
 
@@ -18,7 +21,7 @@ BDNA aggregates and analyses [BenchmarkDotNet](https://benchmarkdotnet.org/) res
 
 ## Installation
 
-To install BDNA, you'll need the [.NET 6 SDK or runtime](https://dotnet.microsoft.com/download/dotnet/6.0). BDNA can be downloaded and installed from [Github Packages](https://github.com/orgs/NewDayTechnology/packages). 
+To install BDNA, you'll need the [.NET 6 SDK or runtime](https://dotnet.microsoft.com/download/dotnet/6.0). BDNA can be downloaded and installed from [Nuget](https://www.nuget.org/packages/bdna/). 
 
 
 ---
