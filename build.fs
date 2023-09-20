@@ -40,7 +40,7 @@ let versionSuffix = match Fake.BuildServer.GitHubActions.Environment.Ref with
                     | "refs/heads/main" ->  ""
                     | _ ->                  "-preview"
 
-let version =  sprintf "0.1.%s%s" runNumber versionSuffix
+let version =  sprintf "0.2.%s%s" runNumber versionSuffix
 let infoVersion = match commitSha with
                     | null -> version
                     | sha -> sprintf "%s.%s" version sha
