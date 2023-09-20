@@ -143,8 +143,9 @@ jobs:
         name: benchmarkdotnet.analyser.nupkg
         path: ${{ github.workspace }}/artifacts
 
-    - name: Setup nuget source
-      run: dotnet nuget add source --username USERNAME --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/NewDayTechnology/index.json"
+    #- name: Setup nuget source
+    #  run: dotnet nuget add source --username USERNAME --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/NewDayTechnology/index.json"
 
     - name: Push nuget package
-      run: dotnet nuget push "artifacts/*.nupkg"  --api-key ${{ secrets.GITHUB_TOKEN }} --source "github"
+      #run: dotnet nuget push "artifacts/*.nupkg"  --api-key ${{ secrets.GITHUB_TOKEN }} --source "github"
+      run: dotnet nuget push "artifacts/*.nupkg"  --api-key ${{ secrets.NUGET_TOKEN }} --source "nuget.org"
