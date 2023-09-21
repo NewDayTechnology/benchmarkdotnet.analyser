@@ -19,7 +19,7 @@ let publishDir = "publish"
 let unitTestDir = "test/BenchmarkDotNetAnalyser.Tests.Unit"
 let integrationTestDir = "test/BenchmarkDotNetAnalyser.Tests.Integration"
 let integrationTestResultsDir = "BenchmarkDotNetResults"
-let sampleBenchmarksDir = "test/BenchmarkDotNetAnalyser.SampleBenchmarks/bin/Release/net6.0"
+let sampleBenchmarksDir = "test/BenchmarkDotNetAnalyser.SampleBenchmarks/bin/Release/net7.0"
 let sampleBenchmarksResults = "BenchmarkDotNet.Artifacts/results"
 let sampleBenchmarksResultsDir = combine sampleBenchmarksDir sampleBenchmarksResults
 
@@ -85,11 +85,6 @@ let publishOptions(runtime: string)(opts: DotNet.PublishOptions)=
      }
 
 let initTargets() = 
-  (*
-  BuildServer.install [
-        GitHubActions.Installer
-    ]
-  *)
   // Declare build targets
   Target.create "Clean" (fun _ ->   
     Fake.IO.Directory.delete publishDir

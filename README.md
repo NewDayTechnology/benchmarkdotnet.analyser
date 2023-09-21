@@ -21,7 +21,7 @@ BDNA aggregates and analyses [BenchmarkDotNet](https://benchmarkdotnet.org/) res
 
 ## Installation
 
-To install BDNA, you'll need the [.NET 6 SDK or runtime](https://dotnet.microsoft.com/download/dotnet/6.0). BDNA can be downloaded and installed from [Nuget](https://www.nuget.org/packages/bdna/). 
+To install BDNA, you'll need the [.NET 7 SDK or runtime](https://dotnet.microsoft.com/download/dotnet/7.0). BDNA can be downloaded and installed from [Nuget](https://www.nuget.org/packages/bdna/). 
 
 
 ---
@@ -29,8 +29,7 @@ To install BDNA, you'll need the [.NET 6 SDK or runtime](https://dotnet.microsof
 
 ## Building locally
 
-To build, you'll need the [.NET 6 SDK](https://dotnet.microsoft.com/download/dotnet/6.0).
-The local build scripts are a [FAKE build script](FakeBuild.fsx) and a [Powershell bootstrapper](build.ps1). 
+To build, you'll need the [.NET 7 SDK](https://dotnet.microsoft.com/download/dotnet/7.0).
 
 By default, the build script will restore, build, run tests and package:
 
@@ -38,7 +37,7 @@ By default, the build script will restore, build, run tests and package:
 .\build.ps1
 ```
 
-If you need to build up to a [certain target](FakeBuild.fsx) just give the target's name:
+If you need to build up to a [certain target](build.fs) just give the target's name:
 
 ```powershell
 .\build.ps1 "Unit Tests"
