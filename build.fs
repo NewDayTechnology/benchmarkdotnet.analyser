@@ -19,7 +19,7 @@ let publishDir = "publish"
 let unitTestDir = "test/BenchmarkDotNetAnalyser.Tests.Unit"
 let integrationTestDir = "test/BenchmarkDotNetAnalyser.Tests.Integration"
 let integrationTestResultsDir = "BenchmarkDotNetResults"
-let sampleBenchmarksDir = "test/BenchmarkDotNetAnalyser.SampleBenchmarks/bin/Release/net6.0"
+let sampleBenchmarksDir = "test/BenchmarkDotNetAnalyser.SampleBenchmarks/bin/Release/net7.0"
 let sampleBenchmarksResults = "BenchmarkDotNet.Artifacts/results"
 let sampleBenchmarksResultsDir = combine sampleBenchmarksDir sampleBenchmarksResults
 
@@ -40,7 +40,7 @@ let versionSuffix = match Fake.BuildServer.GitHubActions.Environment.Ref with
                     | "refs/heads/main" ->  ""
                     | _ ->                  "-preview"
 
-let version =  sprintf "0.2.%s%s" runNumber versionSuffix
+let version =  sprintf "0.3.%s%s" runNumber versionSuffix
 let infoVersion = match commitSha with
                     | null -> version
                     | sha -> sprintf "%s.%s" version sha
@@ -85,11 +85,6 @@ let publishOptions(runtime: string)(opts: DotNet.PublishOptions)=
      }
 
 let initTargets() = 
-  (*
-  BuildServer.install [
-        GitHubActions.Installer
-    ]
-  *)
   // Declare build targets
   Target.create "Clean" (fun _ ->   
     Fake.IO.Directory.delete publishDir

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30907.101
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34003.232
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "source", "source", "{B8167426-C3AA-49BB-8B3A-371A97800CD6}"
 EndProject
@@ -23,7 +23,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{FBD4B9A3-76D2-4237-BDF1-916CD9085D83}"
 	ProjectSection(SolutionItems) = preProject
 		build.ps1 = build.ps1
-		FakeBuild.fsx = FakeBuild.fsx
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BenchmarkDotNetAnalyser.Tests.Unit", "test\BenchmarkDotNetAnalyser.Tests.Unit\BenchmarkDotNetAnalyser.Tests.Unit.csproj", "{423AEEF3-7F23-410E-AFA2-75DAD14036F3}"
@@ -41,6 +40,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BenchmarkDotNetAnalyser.SampleBenchmarks", "test\BenchmarkDotNetAnalyser.SampleBenchmarks\BenchmarkDotNetAnalyser.SampleBenchmarks.csproj", "{6F8331FF-46E9-4DFE-9666-6819EF25342C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BenchmarkDotNetAnalyser.Tests.Integration", "test\BenchmarkDotNetAnalyser.Tests.Integration\BenchmarkDotNetAnalyser.Tests.Integration.csproj", "{BB5D99A6-6283-47BE-B004-2AA13DD2869C}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "build", "build.fsproj", "{6AB2D9FC-C297-4E74-BA60-4CF687558367}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -64,6 +65,10 @@ Global
 		{BB5D99A6-6283-47BE-B004-2AA13DD2869C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB5D99A6-6283-47BE-B004-2AA13DD2869C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB5D99A6-6283-47BE-B004-2AA13DD2869C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AB2D9FC-C297-4E74-BA60-4CF687558367}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AB2D9FC-C297-4E74-BA60-4CF687558367}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AB2D9FC-C297-4E74-BA60-4CF687558367}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AB2D9FC-C297-4E74-BA60-4CF687558367}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +78,7 @@ Global
 		{1B0573B7-E6CD-4318-A9B0-F4CCB67A9818} = {B8167426-C3AA-49BB-8B3A-371A97800CD6}
 		{6F8331FF-46E9-4DFE-9666-6819EF25342C} = {3F496CEB-C6A9-4861-A44B-A737DE4F76EA}
 		{BB5D99A6-6283-47BE-B004-2AA13DD2869C} = {3F496CEB-C6A9-4861-A44B-A737DE4F76EA}
+		{6AB2D9FC-C297-4E74-BA60-4CF687558367} = {FBD4B9A3-76D2-4237-BDF1-916CD9085D83}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {368CCD8F-9A9E-400A-8CD2-044766E97284}
