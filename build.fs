@@ -177,15 +177,18 @@ let initTargets() =
     ==> "Consolidate code coverage"
     ==> "Package"
     ==> "BuildTestAndPackage"  
+    |> ignore
 
   "Build"
     ==> "Run Sample benchmarks" 
     ==> "Copy benchmark results"
     ==> "Integration Tests Standalone"
     ==> "RebuildTestDataValidate"
+    |> ignore
 
   "Build"
     ==> "Stryker"
+    |> ignore
 
 
 [<EntryPoint>]
