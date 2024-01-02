@@ -21,7 +21,7 @@ BDNA aggregates and analyses [BenchmarkDotNet](https://benchmarkdotnet.org/) res
 
 ## Installation
 
-To install BDNA, you'll need the [.NET 7 SDK or runtime](https://dotnet.microsoft.com/download/dotnet/7.0). BDNA can be downloaded and installed from [Nuget](https://www.nuget.org/packages/bdna/). 
+To install BDNA, you'll need the [.NET 8 SDK or runtime](https://dotnet.microsoft.com/download/dotnet/8.0). BDNA can be downloaded and installed from [Nuget](https://www.nuget.org/packages/bdna/). 
 
 
 ---
@@ -29,7 +29,7 @@ To install BDNA, you'll need the [.NET 7 SDK or runtime](https://dotnet.microsof
 
 ## Building locally
 
-To build, you'll need the [.NET 7 SDK](https://dotnet.microsoft.com/download/dotnet/7.0).
+To build, you'll need the [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0).
 
 By default, the build script will restore, build, run tests and package:
 
@@ -260,7 +260,7 @@ Options:
 
 
 ## Technologies used
-We use C# and .NET 6.0 for this project. Some 3rd party packages that we depend on:-
+We use C# and .NET 8.0 for this project. Some 3rd party packages that we depend on:-
 * [Newtonsoft.Json](https://www.nuget.org/packages/Newtonsoft.Json/)
 * [Nate McMaster's Command line utils](https://www.nuget.org/packages/McMaster.Extensions.CommandLineUtils)
 * [Microsoft's Dependency Injection](https://www.nuget.org/packages/Microsoft.Extensions.DependencyInjection)

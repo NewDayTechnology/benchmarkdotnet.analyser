@@ -19,7 +19,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 7.0.x
+        dotnet-version: 8.x
     
     - name: Restore tools
       run: dotnet tool restore
@@ -74,13 +74,13 @@ jobs:
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: "7.0.x"
+          dotnet-version: "8.x"
         
       - name: dotnet SCA
         run: |
           dotnet tool restore
           dotnet restore benchmarkdotnetanalyser.sln
-          dotnet list benchmarkdotnetanalyser.sln package --vulnerable --include-transitive | tee results.log
+          dotnet list package --vulnerable --include-transitive | tee results.log
           FOUND_VULN=`grep -c 'has the following vulnerable packages' results.log` || true
           FOUND_CRIT=`grep -c 'Critical' results.log` || true
           FOUND_HIGH=`grep -c 'High' results.log` || true
@@ -107,7 +107,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 7.0.x
+        dotnet-version: 8.x
     
     - name: Restore tools
       run: dotnet tool restore
@@ -138,7 +138,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 7.0.x
+        dotnet-version: 8.x
 
     - name: Download package
       uses: actions/download-artifact@v3
