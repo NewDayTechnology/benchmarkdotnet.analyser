@@ -14,10 +14,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.x
     
@@ -28,13 +28,13 @@ jobs:
       run: dotnet run --project build.fsproj -- -t "BuildTestAndPackage"       
         
     - name: Archive dotnet tool nupkg
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: benchmarkdotnet.analyser.nupkg
         path: ./publish/toolpackage/*
 
     - name: Archive Test results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: tests.results
         path: |
@@ -42,7 +42,7 @@ jobs:
           ./test/BenchmarkDotNetAnalyser.Tests.Integration/**/BDDfy.html
     
     - name: Archive Code coverage
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: codecoverage
         path: ./publish/codecoverage/*.html
@@ -69,10 +69,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup .NET Core SDK
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "8.x"
         
@@ -102,10 +102,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps: 
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.x
     
@@ -117,7 +117,7 @@ jobs:
       run: dotnet run --project build.fsproj -- -t "Stryker"
         
     - name: Archive Stryker results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: stryker.results
@@ -133,15 +133,15 @@ jobs:
     if: github.event_name == 'push'
         
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.x
 
     - name: Download package
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: benchmarkdotnet.analyser.nupkg
         path: ${{ github.workspace }}/artifacts
