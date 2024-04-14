@@ -21,11 +21,6 @@ jobs:
       contents: read
       security-events: write
 
-    strategy:
-      fail-fast: false
-      matrix:
-        language: [ 'csharp' ]        
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -33,7 +28,7 @@ jobs:
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
       with:
-        languages: ${{ matrix.language }}
+        languages: 'csharp'
         config-file: ./.github/codeql/codeql-config.yml
 
     - name: Autobuild
