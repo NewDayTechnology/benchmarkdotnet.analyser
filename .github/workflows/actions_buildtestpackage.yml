@@ -14,10 +14,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.x
     
@@ -28,13 +28,13 @@ jobs:
       run: dotnet run --project build.fsproj -- -t "BuildTestAndPackage"       
         
     - name: Archive dotnet tool nupkg
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: benchmarkdotnet.analyser.nupkg
         path: ./publish/toolpackage/*
 
     - name: Archive Test results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: tests.results
         path: |
@@ -42,7 +42,7 @@ jobs:
           ./test/BenchmarkDotNetAnalyser.Tests.Integration/**/BDDfy.html
     
     - name: Archive Code coverage
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: codecoverage
         path: ./publish/codecoverage/*.html
@@ -69,43 +69,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup .NET Core SDK
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "8.x"
         
-      - name: dotnet SCA
-        run: |
-          dotnet tool restore
-          dotnet restore benchmarkdotnetanalyser.sln
-          dotnet list package --vulnerable --include-transitive | tee results.log
-          FOUND_VULN=`grep -c 'has the following vulnerable packages' results.log` || true
-          FOUND_CRIT=`grep -c 'Critical' results.log` || true
-          FOUND_HIGH=`grep -c 'High' results.log` || true
-          
-          if [[ "$FOUND_VULN" != "0" ]]
-          then
-            if [ "$FOUND_CRIT" == "0" -a "$FOUND_HIGH" == "0"]
-            then
-              echo "### Vulnerable packages found ###"
-              exit 0
-            fi
-            echo "### Critical/High vulnerable packages found ###"
-            exit 1
-          fi
-          echo "## No problems found ##"
-          exit 0
+      - name: Vulnerability scans
+        uses: tonycknight/pkgchk-action@v1.0.15
+        with:
+          project-path: benchmarkdotnetanalyser.sln
 
   Stryker:
     runs-on: ubuntu-latest
 
     steps: 
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.x
     
@@ -117,7 +100,7 @@ jobs:
       run: dotnet run --project build.fsproj -- -t "Stryker"
         
     - name: Archive Stryker results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: stryker.results
@@ -133,15 +116,15 @@ jobs:
     if: github.event_name == 'push'
         
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.x
 
     - name: Download package
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: benchmarkdotnet.analyser.nupkg
         path: ${{ github.workspace }}/artifacts
