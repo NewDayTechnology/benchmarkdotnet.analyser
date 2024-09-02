@@ -8,7 +8,7 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
     {
         private readonly Dictionary<string, Func<BenchmarkResult, decimal?>> _accessors;
         private readonly string _defaultAccessorName = nameof(BenchmarkResult.MeanTime);
-
+        
         public BenchmarkStatisticAccessorProvider()
         {
             _accessors =
@@ -20,6 +20,11 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
                     {nameof(BenchmarkResult.MaxTime), br => br.MaxTime},
                     {nameof(BenchmarkResult.Q1Time), br => br.Q1Time},
                     {nameof(BenchmarkResult.Q3Time), br => br.Q3Time},
+                    {nameof(BenchmarkResult.Gen0Collections), br => br.Gen0Collections},
+                    {nameof(BenchmarkResult.Gen1Collections), br => br.Gen1Collections},
+                    {nameof(BenchmarkResult.Gen2Collections), br => br.Gen2Collections},
+                    {nameof(BenchmarkResult.TotalOps), br => br.TotalOps},
+                    {nameof(BenchmarkResult.BytesAllocatedPerOp), br => br.BytesAllocatedPerOp},
                 };
         }
 
