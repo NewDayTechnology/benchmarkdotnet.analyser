@@ -19,6 +19,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
             var baseline = (new BenchmarkRunInfo(), new BenchmarkResult() {MeanTime = baselineValue});
             var test = (new BenchmarkRunInfo(), new BenchmarkResult() {MeanTime = testValue});
             
+            // ReSharper disable once PossibleInvalidOperationException
             var analyser = new BaselineDevianceAnalyser("MeanTime", br => br.MeanTime.Value, tolerance);
 
             var name = "abc";
@@ -41,6 +42,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
             var baseline = (new BenchmarkRunInfo(), new BenchmarkResult() {MeanTime = baselineValue});
             var test = (new BenchmarkRunInfo(), new BenchmarkResult() {MeanTime = testValue});
             
+            // ReSharper disable once PossibleInvalidOperationException
             var analyser = new BaselineDevianceAnalyser(statistic, br => br.MeanTime.Value, tolerance);
 
             var name = "abc";
@@ -65,6 +67,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
             var test = (new BenchmarkRunInfo(), new BenchmarkResult() {MeanTime = testValue});
             var statistic = "MeanTime";
 
+            // ReSharper disable once PossibleInvalidOperationException
             var analyser = new BaselineDevianceAnalyser(statistic, br => br.MeanTime.Value, tolerance);
             
             var result = analyser.CreateAnalysis("", baseline, test);
@@ -81,6 +84,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
             var test = (new BenchmarkRunInfo(), new BenchmarkResult() {MeanTime = testValue});
             var statistic = "MeanTime";
 
+            // ReSharper disable once PossibleInvalidOperationException
             var analyser = new BaselineDevianceAnalyser(statistic, br => br.MeanTime.Value, tolerance);
             
             var result = analyser.CreateAnalysis("", baseline, test);
