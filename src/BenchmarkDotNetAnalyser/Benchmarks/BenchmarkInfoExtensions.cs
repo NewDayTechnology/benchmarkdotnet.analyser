@@ -117,7 +117,12 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
                                     Q1Time = br.Q1Time,
                                     Q3Time = br.Q3Time,
                                     MedianTime = br.MedianTime,
-                                    MinTime = br.MinTime
+                                    MinTime = br.MinTime,
+                                    Gen0Collections = br.Gen0Collections,
+                                    Gen1Collections = br.Gen1Collections,
+                                    Gen2Collections = br.Gen2Collections,
+                                    TotalOps = br.TotalOps,
+                                    BytesAllocatedPerOp = br.BytesAllocatedPerOp
                                 },
                             }
                         })));
