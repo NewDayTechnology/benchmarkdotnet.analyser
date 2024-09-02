@@ -38,5 +38,17 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
 
         [JsonProperty("maxTime")]
         public decimal? MaxTime { get; set; }
+
+        [JsonProperty("gen0Collections")]
+        public decimal? Gen0Collections { get; set; }
+
+        [JsonProperty("gen1Collections")]
+        public decimal? Gen1Collections { get; set; }
+
+        [JsonProperty("gen2Collections")]
+        public decimal? Gen2Collections { get; set; }
+        
+        [JsonProperty("bytesAllocatedPerOp")]
+        public decimal? BytesAllocatedPerOp { get; set; }
     }
 }

@@ -27,5 +27,10 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
         public decimal? Q3Time { get; set; }
 
         public decimal? MaxTime { get; set; }
+
+        public decimal? Gen0Collections { get; set; }
+        public decimal? Gen1Collections { get; set; }
+        public decimal? Gen2Collections { get; set; }
+        public decimal? BytesAllocatedPerOp { get; set; }
     }
 }

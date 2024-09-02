@@ -50,6 +50,8 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
             BenchmarkResult ParseResult(JObject bm)
             {
                 var stat = bm.GetToken("Statistics");
+                
+                var memory = bm.GetToken("Memory");
 
                 return new BenchmarkResult()
                 {
@@ -63,7 +65,11 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
                     MeanTime = stat?.GetDecimalValue("Mean"),
                     MedianTime = stat?.GetDecimalValue("Median"),
                     Q1Time = stat?.GetDecimalValue("Q1"),
-                    Q3Time = stat?.GetDecimalValue("Q3")
+                    Q3Time = stat?.GetDecimalValue("Q3"),
+                    Gen0Collections = memory?.GetDecimalValue("Gen0Collections"),
+                    Gen1Collections = memory?.GetDecimalValue("Gen1Collections"),
+                    Gen2Collections = memory?.GetDecimalValue("Gen2Collections"),
+                    BytesAllocatedPerOp = memory?.GetDecimalValue("BytesAllocatedPerOperation")
                 };
             }
 

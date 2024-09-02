@@ -195,7 +195,7 @@ Options:
 
 ``--maxerrors``: the maximum number of errors for the analysis to pass. If this is 0 then any error will cause the analysis to fail.
 
-``--statistic``: the statistic value, for each run, to use. By default this is ``MeanTime`` with ``MinTime``, ``MaxTime``,  ``MedianTime``, ``Q1Time`` & ``Q3Time``.
+``--statistic``: the statistic value, for each run, to use. By default this is ``MeanTime`` with ``MinTime``, ``MaxTime``,  ``MedianTime``, ``Q1Time``, ``Q3Time``, ``Gen0Collections``, ``Gen1Collections``, ``Gen2Collections`` & ``BytesAllocatedPerOp``.
 
 ``--filter``:    Filter for specific namespaces, types or methods. Simple wildcards are supported, e.g. ``-f * -f *Benchmark -f Benchmark*``. Multiple filters can be specified and will be applied conjunctively. 
 
