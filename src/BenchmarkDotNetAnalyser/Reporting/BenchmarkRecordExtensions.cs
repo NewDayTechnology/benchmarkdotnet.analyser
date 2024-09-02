@@ -32,7 +32,12 @@ namespace BenchmarkDotNetAnalyser.Reporting
                     MeanTime = c.MeanTime, 
                     MedianTime = c.MedianTime, 
                     Q1Time = c.Q1Time, 
-                    Q3Time = c.Q3Time
+                    Q3Time = c.Q3Time,
+                    Gen0Collections = c.Gen0Collections,
+                    Gen1Collections = c.Gen1Collections,
+                    Gen2Collections = c.Gen2Collections,
+                    TotalOps = c.TotalOps,
+                    BytesAllocatedPerOp = c.BytesAllocatedPerOp
                 }));
     }
 }

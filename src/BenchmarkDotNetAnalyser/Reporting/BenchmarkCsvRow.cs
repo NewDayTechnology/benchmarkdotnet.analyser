@@ -28,5 +28,11 @@ namespace BenchmarkDotNetAnalyser.Reporting
         public decimal? MedianTime { get; init; }
         public decimal? Q1Time { get; init; }
         public decimal? Q3Time { get; init; }
+        public decimal? Gen0Collections { get; init; }
+        public decimal? Gen1Collections { get; init; }
+        public decimal? Gen2Collections { get; init; }
+
+        public decimal? TotalOps { get; init; }
+        public decimal? BytesAllocatedPerOp { get; init; }
     }
 }
