@@ -6,11 +6,13 @@ namespace BenchmarkDotNetAnalyser.Analysis
     public class BaselineDevianceAnalyser
     {
         private readonly Func<BenchmarkResult, decimal> _getResultValue;
+        private readonly string _statistic;
         private readonly decimal _devianceTolerance;
 
-        public BaselineDevianceAnalyser(Func<BenchmarkResult, decimal> getResultValue, decimal devianceTolerance)
+        public BaselineDevianceAnalyser(string statistic, Func<BenchmarkResult, decimal> getResultValue, decimal devianceTolerance)
         {
             _getResultValue = getResultValue.ArgNotNull(nameof(getResultValue));
+            _statistic = statistic;
             _devianceTolerance = devianceTolerance;
         }
 
@@ -30,7 +32,7 @@ namespace BenchmarkDotNetAnalyser.Analysis
 
             if (!withinTolerance)
             {
-                message = $"Benchmark {name} does not meet requirements.{Environment.NewLine}Baseline: {baselineValue}\ttolerance: +/- {e}\tActual: {testValue}";
+                message = $"Benchmark {name} does not meet requirements.{Environment.NewLine}Baseline {_statistic}: {baselineValue}\ttolerance: +/- {e}\tActual: {testValue}";
             }
 
             return new BenchmarkResultAnalysis()

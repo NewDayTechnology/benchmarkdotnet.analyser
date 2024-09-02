@@ -19,7 +19,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
             var baseline = (new BenchmarkRunInfo(), new BenchmarkResult() {MeanTime = baselineValue});
             var test = (new BenchmarkRunInfo(), new BenchmarkResult() {MeanTime = testValue});
             
-            var analyser = new BaselineDevianceAnalyser(br => br.MeanTime.Value, tolerance);
+            var analyser = new BaselineDevianceAnalyser("MeanTime", br => br.MeanTime.Value, tolerance);
 
             var name = "abc";
 
@@ -36,16 +36,19 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
             var baselineValue = meanValue.Get;
             var tolerance = toleranceValue.Get / 100.0m;
             var testValue = (meanValue.Get * (1 + tolerance)) + 1;
-            
+            var statistic = "MeanTime";
+
             var baseline = (new BenchmarkRunInfo(), new BenchmarkResult() {MeanTime = baselineValue});
             var test = (new BenchmarkRunInfo(), new BenchmarkResult() {MeanTime = testValue});
-            var analyser = new BaselineDevianceAnalyser(br => br.MeanTime.Value, tolerance);
+            
+            var analyser = new BaselineDevianceAnalyser(statistic, br => br.MeanTime.Value, tolerance);
 
             var name = "abc";
             var result = analyser.CreateAnalysis(name, baseline, test);
 
             return !result.MeetsRequirements &&
                 !string.IsNullOrWhiteSpace(result.Message) &&
+                result.Message.Contains(statistic) &&
                 result.BenchmarkName == name;
         }
 
@@ -60,8 +63,9 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
         {
             var baseline = (new BenchmarkRunInfo(), new BenchmarkResult() {MeanTime = baselineValue});
             var test = (new BenchmarkRunInfo(), new BenchmarkResult() {MeanTime = testValue});
-            
-            var analyser = new BaselineDevianceAnalyser(br => br.MeanTime.Value, tolerance);
+            var statistic = "MeanTime";
+
+            var analyser = new BaselineDevianceAnalyser(statistic, br => br.MeanTime.Value, tolerance);
             
             var result = analyser.CreateAnalysis("", baseline, test);
 
@@ -75,8 +79,9 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
         {
             var baseline = (new BenchmarkRunInfo(), new BenchmarkResult() {MeanTime = baselineValue});
             var test = (new BenchmarkRunInfo(), new BenchmarkResult() {MeanTime = testValue});
-            
-            var analyser = new BaselineDevianceAnalyser(br => br.MeanTime.Value, tolerance);
+            var statistic = "MeanTime";
+
+            var analyser = new BaselineDevianceAnalyser(statistic, br => br.MeanTime.Value, tolerance);
             
             var result = analyser.CreateAnalysis("", baseline, test);
 

@@ -41,7 +41,7 @@ namespace BenchmarkDotNetAnalyser.Analysis
                 var baseline = items.MinBy(t => getResultValue(t.Item2));
                 var test = items[0];
 
-                var analysis = new BaselineDevianceAnalyser(getResultValue, _deviance).CreateAnalysis(group.Name, baseline, test);
+                var analysis = new BaselineDevianceAnalyser(_statistic, getResultValue, _deviance).CreateAnalysis(group.Name, baseline, test);
 
                 if (!analysis.MeetsRequirements)
                 {
