@@ -3,7 +3,7 @@
 namespace BenchmarkDotNetAnalyser.SampleBenchmarks.Benchmarks
 {
     [MemoryDiagnoser]
-    [RankColumn, MinColumn, MaxColumn, Q1Column, Q3Column, AllStatisticsColumn]
+    [RankColumn, MinColumn, MaxColumn, Q1Column, Q3Column]
     [JsonExporterAttribute.Full, HtmlExporter]
     [GcServer(true)]
     [IterationCount(3)]
