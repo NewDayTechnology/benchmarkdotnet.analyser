@@ -47,10 +47,7 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
 
         [JsonProperty("gen2Collections")]
         public decimal? Gen2Collections { get; set; }
-
-        [JsonProperty("totalOps")]
-        public decimal? TotalOps { get; set; }
-
+        
         [JsonProperty("bytesAllocatedPerOp")]
         public decimal? BytesAllocatedPerOp { get; set; }
     }

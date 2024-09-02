@@ -69,7 +69,6 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
                     Gen0Collections = memory?.GetDecimalValue("Gen0Collections"),
                     Gen1Collections = memory?.GetDecimalValue("Gen1Collections"),
                     Gen2Collections = memory?.GetDecimalValue("Gen2Collections"),
-                    TotalOps = memory?.GetDecimalValue("TotalOperations"),
                     BytesAllocatedPerOp = memory?.GetDecimalValue("BytesAllocatedPerOperation")
                 };
             }

@@ -36,7 +36,6 @@ namespace BenchmarkDotNetAnalyser.Reporting
                     Gen0Collections = c.Gen0Collections,
                     Gen1Collections = c.Gen1Collections,
                     Gen2Collections = c.Gen2Collections,
-                    TotalOps = c.TotalOps,
                     BytesAllocatedPerOp = c.BytesAllocatedPerOp
                 }));
     }

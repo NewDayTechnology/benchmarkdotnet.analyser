@@ -31,8 +31,6 @@ namespace BenchmarkDotNetAnalyser.Reporting
         public decimal? Gen0Collections { get; init; }
         public decimal? Gen1Collections { get; init; }
         public decimal? Gen2Collections { get; init; }
-
-        public decimal? TotalOps { get; init; }
         public decimal? BytesAllocatedPerOp { get; init; }
     }
 }

@@ -130,7 +130,6 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
         [InlineData(nameof(BenchmarkResult.Gen0Collections), 5)]
         [InlineData(nameof(BenchmarkResult.Gen1Collections), 6)]
         [InlineData(nameof(BenchmarkResult.Gen2Collections), 7)]
-        [InlineData(nameof(BenchmarkResult.TotalOps), 8)]
         [InlineData(nameof(BenchmarkResult.BytesAllocatedPerOp), 9)]
         [InlineData("", 3)]
         public void GetNullableAccessor_AccessorFound_AccessorEvaluates(string name, decimal expected)
@@ -147,7 +146,6 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
                 Gen0Collections = expected,
                 Gen1Collections = expected,
                 Gen2Collections = expected,
-                TotalOps = expected,
                 BytesAllocatedPerOp = expected,
             };
 
@@ -164,7 +162,6 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
         [InlineData(nameof(BenchmarkResult.Gen0Collections))]
         [InlineData(nameof(BenchmarkResult.Gen1Collections))]
         [InlineData(nameof(BenchmarkResult.Gen2Collections))]
-        [InlineData(nameof(BenchmarkResult.TotalOps))]
         [InlineData(nameof(BenchmarkResult.BytesAllocatedPerOp))]
         [InlineData("")]
         public void GetNullableAccessor_AccessorFound_AccessorEvaluates_2(string name)
@@ -181,7 +178,6 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
                 Gen0Collections = default,
                 Gen1Collections = default,
                 Gen2Collections = default,
-                TotalOps = default,
                 BytesAllocatedPerOp = default,
             };
 

@@ -118,7 +118,6 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
             results[0].Gen0Collections.Should().Be(benchmark.Memory.Gen0Collections);
             results[0].Gen1Collections.Should().Be(benchmark.Memory.Gen1Collections);
             results[0].Gen2Collections.Should().Be(benchmark.Memory.Gen2Collections);
-            results[0].TotalOps.Should().Be(benchmark.Memory.TotalOperations);
             results[0].BytesAllocatedPerOp.Should().Be(benchmark.Memory.BytesAllocatedPerOperation);
         }
 
@@ -170,7 +169,6 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
             results[0].Gen0Collections.Should().BeNull();
             results[0].Gen1Collections.Should().BeNull(); ;
             results[0].Gen2Collections.Should().BeNull(); ;
-            results[0].TotalOps.Should().BeNull(); ;
             results[0].BytesAllocatedPerOp.Should().BeNull();
         }
 

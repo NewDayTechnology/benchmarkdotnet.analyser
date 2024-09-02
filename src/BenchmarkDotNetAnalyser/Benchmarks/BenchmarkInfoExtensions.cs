@@ -121,7 +121,6 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
                                     Gen0Collections = br.Gen0Collections,
                                     Gen1Collections = br.Gen1Collections,
                                     Gen2Collections = br.Gen2Collections,
-                                    TotalOps = br.TotalOps,
                                     BytesAllocatedPerOp = br.BytesAllocatedPerOp
                                 },
                             }

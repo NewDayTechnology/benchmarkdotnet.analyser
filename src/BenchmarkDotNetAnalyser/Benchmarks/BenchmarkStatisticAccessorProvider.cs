@@ -23,7 +23,6 @@ namespace BenchmarkDotNetAnalyser.Benchmarks
                     {nameof(BenchmarkResult.Gen0Collections), br => br.Gen0Collections},
                     {nameof(BenchmarkResult.Gen1Collections), br => br.Gen1Collections},
                     {nameof(BenchmarkResult.Gen2Collections), br => br.Gen2Collections},
-                    {nameof(BenchmarkResult.TotalOps), br => br.TotalOps},
                     {nameof(BenchmarkResult.BytesAllocatedPerOp), br => br.BytesAllocatedPerOp},
                 };
         }
