@@ -83,6 +83,14 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
                     Median = seedStats * 10,
                     Q1 = seedStats * 5,
                     Q3 = seedStats * 500,
+                },
+                Memory = new
+                {
+                    Gen0Collections = seedStats * 1111,
+                    Gen1Collections = seedStats * 111,
+                    Gen2Collections = seedStats * 11,
+                    TotalOperations = seedStats * 111000000,
+                    BytesAllocatedPerOperation = seedStats * 42,
                 }
             };
 
@@ -106,9 +114,67 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
             results[0].MedianTime.Should().Be(benchmark.Statistics.Median);
             results[0].Q1Time.Should().Be(benchmark.Statistics.Q1);
             results[0].Q3Time.Should().Be(benchmark.Statistics.Q3);
+
+            results[0].Gen0Collections.Should().Be(benchmark.Memory.Gen0Collections);
+            results[0].Gen1Collections.Should().Be(benchmark.Memory.Gen1Collections);
+            results[0].Gen2Collections.Should().Be(benchmark.Memory.Gen2Collections);
+            results[0].TotalOps.Should().Be(benchmark.Memory.TotalOperations);
+            results[0].BytesAllocatedPerOp.Should().Be(benchmark.Memory.BytesAllocatedPerOperation);
         }
 
-        
+        [Theory]
+        [InlineData("fullName1", "benchmarknamespace1", "benchmarktype1", "benchmarkMethod1", "benchmarkparams1", 0.1)]
+        [InlineData("fullName2", "benchmarknamespace2", "benchmarktype2", "benchmarkMethod2", "benchmarkparams2", 0.001)]
+        public void GetBenchmarkResults_WithoutMemory_ValuesParsed(string fullName, string benchmarkNamespace, string benchmarkType,
+                                                     string benchmarkMethod, string benchmarkParameters, decimal seedStats)
+        {
+            var benchmark = new
+            {
+                FullName = fullName,
+                Namespace = benchmarkNamespace,
+                Type = benchmarkType,
+                Method = benchmarkMethod,
+                Parameters = benchmarkParameters,
+                Statistics = new
+                {
+                    Min = seedStats,
+                    Max = seedStats * 1000,
+                    Mean = seedStats * 100,
+                    Median = seedStats * 10,
+                    Q1 = seedStats * 5,
+                    Q3 = seedStats * 500,
+                }
+            };
+
+            var benchmarks = new
+            {
+                Benchmarks = new[] { benchmark },
+            };
+
+            var json = JsonConvert.SerializeObject(benchmarks);
+
+            var results = new BenchmarkParser(json).GetBenchmarkResults().ToList();
+
+            results[0].FullName.Should().Be(benchmark.FullName);
+            results[0].Namespace.Should().Be(benchmark.Namespace);
+            results[0].Type.Should().Be(benchmark.Type);
+            results[0].Method.Should().Be(benchmark.Method);
+            results[0].Parameters.Should().Be(benchmark.Parameters);
+            results[0].MinTime.Should().Be(benchmark.Statistics.Min);
+            results[0].MaxTime.Should().Be(benchmark.Statistics.Max);
+            results[0].MeanTime.Should().Be(benchmark.Statistics.Mean);
+            results[0].MedianTime.Should().Be(benchmark.Statistics.Median);
+            results[0].Q1Time.Should().Be(benchmark.Statistics.Q1);
+            results[0].Q3Time.Should().Be(benchmark.Statistics.Q3);
+
+            results[0].Gen0Collections.Should().BeNull();
+            results[0].Gen1Collections.Should().BeNull(); ;
+            results[0].Gen2Collections.Should().BeNull(); ;
+            results[0].TotalOps.Should().BeNull(); ;
+            results[0].BytesAllocatedPerOp.Should().BeNull();
+        }
+
+
         [Theory]
         [InlineData("fullName1", "benchmarknamespace1", "benchmarktype1", "benchmarkMethod1", "benchmarkparams1")]
         [InlineData("fullName2", "benchmarknamespace2", "benchmarktype2", "benchmarkMethod2", "benchmarkparams2")]
