@@ -151,7 +151,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
 
             var result = a(br);
 
-            result.Should().Be((decimal)expected);
+            result.Should().Be(expected);
         }
 
         [Theory]
