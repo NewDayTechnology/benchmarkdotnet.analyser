@@ -1,0 +1,24 @@
+name: SCA
+
+on:
+  workflow_call:
+  workflow_dispatch:
+  schedule:
+    # Runs at 00:00 every Monday
+    - cron: '0 0 * * 1'
+
+env:
+  SOLUTION_NAME: benchmarkdotnetanalyser.sln
+  DOTNET_VERSION: 8.x 
+
+jobs:
+  dotnet-sca:
+    name: Generate & Archive SCA Report
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Dependency scan
+        uses: tonycknight/pkgchk-action@v1.0.19
+        with: 
+          project-path: ${{ env.SOLUTION_NAME }}
