@@ -10,7 +10,7 @@ permissions: # set permissions to principle of least privilege, codeql requires 
 on:
   push:    
   workflow_dispatch:
-  
+
 env:
   build-version-number: 0.3.${{ github.run_number }}  
 
@@ -107,7 +107,7 @@ jobs:
   Release:
     runs-on: ubuntu-latest
     needs:   [ Build, SCA, Stryker, SAST ]
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' && ${{ github.actor != 'dependabot[bot]' }}
         
     steps:
     - uses: actions/checkout@v4
