@@ -1,5 +1,12 @@
 name: SCA
 
+permissions: # set permissions to principle of least privilege, codeql requires read permission to the repo content and PRs (if that option is set), and must have write permissions to security events in order to push results
+  actions: read
+  pull-requests: write
+  security-events: write
+  contents: write
+  checks: write
+
 on:
   workflow_call:
   workflow_dispatch:
