@@ -1,0 +1,48 @@
+ci/cd:
+- any:
+  - changed-files:
+    - any-glob-to-any-file: '.github/**'
+    - any-glob-to-any-file: 'build.*'
+
+dotnet-tools:
+- any:
+  - changed-files:
+    - any-glob-to-any-file: '.config/**'
+
+app:
+- any:
+  - changed-files:
+    - any-glob-to-any-file: 'src/**'
+
+tests:
+- any:
+  - changed-files:
+    - any-glob-to-any-file: 'test/**'  
+    - any-glob-to-any-file: 'tests/**'  
+
+documentation:
+- any:
+  - changed-files:
+    - any-glob-to-any-file: ['*.md*', '**/*.md*', 'docs/**']
+
+sql-scripts:
+- any:
+  - changed-files:
+    - any-glob-to-any-file: [ 'src/**/*.sql', 'src/**/*.sqlproj' ]
+
+uncle:
+- any:
+  - changed-files:
+    - any-glob-to-any-file: '**'  
+
+feature:
+- head-branch: ['^feature', 'feature']
+
+chore:
+- head-branch: ['^chore', 'chore']
+
+bugfix:
+- head-branch: ['^bugfix', 'bugfix']
+
+experiment:
+- head-branch: ['^experiment', 'experiment']
