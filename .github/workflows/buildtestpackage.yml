@@ -1,5 +1,11 @@
 name: Build Test and Package
 
+permissions: # set permissions to principle of least privilege, codeql requires read permission to the repo content and PRs (if that option is set), and must have write permissions to security events in order to push results
+  actions: read
+  pull-requests: write
+  security-events: write
+  contents: read
+
 on:
   push:    
   pull_request:
