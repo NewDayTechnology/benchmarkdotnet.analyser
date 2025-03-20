@@ -3,30 +3,31 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using FsCheck;
+using FsCheck.Fluent;
 
 namespace BenchmarkDotNetAnalyser.Tests.Unit
 {
     public static class AlphanumericStringArbitrary
     {
-        public static Arbitrary<string> GetArbitrary() => Arb.Default.NonEmptyString().Generator
-            .Where(s => s.Get.All(c => char.IsDigit(c) || char.IsLetter(c)))
-            .Select(s => s.Get)
+        public static Arbitrary<string> GetArbitrary() => ArbMap.Default.ArbFor<string>().Generator
+            .Where(s => !string.IsNullOrEmpty(s))
+            .Where(s => s.All(c => char.IsDigit(c) || char.IsLetter(c)))
             .ToArbitrary();
     }
 
     public static class NonIntegerStringArbitrary
     {
-        public static Arbitrary<string> GetArbitrary() => Arb.Default.NonEmptyString().Generator
-            .Where(s => !int.TryParse(s.Get, out _))
-            .Select(s => s.Get)
+        public static Arbitrary<string> GetArbitrary() => ArbMap.Default.ArbFor<string>().Generator
+            .Where(s => !string.IsNullOrEmpty(s))
+            .Where(s => !int.TryParse(s, out _))
             .ToArbitrary();
     }
 
     public static class NonDecimalStringArbitrary
     {
-        public static Arbitrary<string> GetArbitrary() => Arb.Default.NonEmptyString().Generator
-            .Where(s => !decimal.TryParse(s.Get, out _))
-            .Select(s => s.Get)
+        public static Arbitrary<string> GetArbitrary() => ArbMap.Default.ArbFor<string>().Generator
+            .Where(s => !string.IsNullOrEmpty(s))
+            .Where(s => !decimal.TryParse(s, out _))
             .ToArbitrary();
     }
 
@@ -62,10 +63,10 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit
         public static Arbitrary<string> GetArbitrary()
         {
             var disallowed = new HashSet<string>() { ".", "/", @"\"};
-            return Arb.Default.NonEmptyString().Generator
-                .Where(s => !disallowed.Contains(s.Get) &&
-                            !s.Get.All(c => char.IsDigit(c) || char.IsLetter(c)))
-                .Select(s => s.Get)
+            return ArbMap.Default.ArbFor<string>().Generator
+                .Where(s => !string.IsNullOrEmpty(s))
+                .Where(s => !disallowed.Contains(s) &&
+                            !s.All(c => char.IsDigit(c) || char.IsLetter(c)))
                 .ToArbitrary();
         }
     }
