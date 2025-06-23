@@ -1,11 +1,16 @@
 name: All Pull Request Checks
+
+permissions: # set permissions to principle of least privilege, codeql requires read permission to the repo content and PRs (if that option is set), and must have write permissions to security events in order to push results
+  actions: read
+  pull-requests: write
+  security-events: write
+  contents: write
+  checks: write
+  issues: write
+
 on:
   pull_request:
-    types:
-      - opened
-      - edited
-      - synchronize
-      - reopened
+
 jobs:
 
   pr-scope:
@@ -13,6 +18,7 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
+      issues: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/labeler@v5
