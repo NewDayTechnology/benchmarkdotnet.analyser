@@ -1,0 +1,43 @@
+name: Build Test and Package
+
+permissions: # set permissions to principle of least privilege, codeql requires read permission to the repo content and PRs (if that option is set), and must have write permissions to security events in order to push results
+  actions: read
+  pull-requests: write
+  security-events: write
+  contents: write
+  checks: write
+
+on:
+  workflow_dispatch:
+
+env:
+  build-version-number: 0.4.${{ github.run_number }}  
+
+  Release:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+        
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.x
+
+    - name: Restore tools
+      run: dotnet tool restore
+    
+    - name: Build test and package
+      run: dotnet run --project build.fsproj -- -t "BuildTestAndPackage"     
+
+    - name: Push nuget package
+      run: dotnet nuget push "publish/toolpackage/*.nupkg"  --api-key ${{ secrets.NUGET_TOKEN }} --source "nuget.org"
+
+    - name: Create Github Release
+      uses: ncipollo/release-action@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        tag: v${{ env.build-version-number }}
+        prerelease: false
+        generateReleaseNotes: true
