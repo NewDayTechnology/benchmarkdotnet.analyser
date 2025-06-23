@@ -11,8 +11,8 @@ on:
   workflow_call:
   workflow_dispatch:
   schedule:
-    # Runs at 00:00 every Monday
-    - cron: '0 0 * * 1'
+    # Runs at 00:00 every day
+    - cron: '0 0 * * *'
 
 env:
   SOLUTION_NAME: benchmarkdotnetanalyser.sln
@@ -26,6 +26,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Dependency scan
-        uses: tonycknight/pkgchk-action@v1.0.19
+        uses: tonycknight/pkgchk-action@v1
         with: 
           project-path: ${{ env.SOLUTION_NAME }}
