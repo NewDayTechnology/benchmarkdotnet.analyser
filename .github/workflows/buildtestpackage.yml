@@ -104,34 +104,4 @@ jobs:
   SAST:
     uses: ./.github/workflows/sast.yml
 
-  Release:
-    runs-on: ubuntu-latest
-    needs:   [ Build, SCA, Stryker, SAST ]
-    # if: github.event_name == 'push' && github.actor != 'dependabot[bot]'
-    if: false
-        
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.x
-
-    - name: Download package
-      uses: actions/download-artifact@v4
-      with:
-        name: benchmarkdotnet.analyser.nupkg
-        path: ${{ github.workspace }}/artifacts
-
-    - name: Push nuget package
-      run: dotnet nuget push "artifacts/*.nupkg"  --api-key ${{ secrets.NUGET_TOKEN }} --source "nuget.org"
-
-    - name: Create Github Release
-      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      uses: ncipollo/release-action@v1
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        tag: v${{ env.build-version-number }}
-        prerelease: false
-        generateReleaseNotes: true
+  
