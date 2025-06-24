@@ -1,7 +1,5 @@
 # BenchmarkDotNet Analyser
 
-![Front](./docs/cli_front.png)
-
 [![Nuget](https://img.shields.io/nuget/v/bdna)](https://www.nuget.org/packages/bdna)
 
 [![Build](https://github.com/NewDayTechnology/benchmarkdotnet.analyser/actions/workflows/actions_buildtestpackage.yml/badge.svg)](https://github.com/NewDayTechnology/benchmarkdotnet.analyser/actions/workflows/actions_buildtestpackage.yml)
@@ -9,9 +7,9 @@
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)](code_of_conduct.md)
 
 
-A .NET CLI tool for analysing [BenchmarkDotNet](https://benchmarkdotnet.org/) results.
+A .NET tool for analysing [BenchmarkDotNet](https://benchmarkdotnet.org/) results.
 
-BDNA aggregates and analyses [BenchmarkDotNet](https://benchmarkdotnet.org/) results for performance degredations. If you want to ensure your critical code has acceptable performance in your CI pipelines BDNA may help you.
+BDNA aggregates and analyses [BenchmarkDotNet](https://benchmarkdotnet.org/) results for performance degredations. If you want to ensure your critical code has acceptable performance in your CI pipelines BDNA might help you.
 
 ---
 
@@ -28,8 +26,6 @@ To install BDNA, you'll need the [.NET 8 SDK or runtime](https://dotnet.microsof
 
 
 ## Building locally
-
-To build, you'll need the [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0).
 
 By default, the build script will restore, build, run tests and package:
 
@@ -256,25 +252,6 @@ Options:
 [How we support this project](SUPPORT.md)
 
 
----
-
-
-## Technologies used
-We use C# and .NET 8.0 for this project. Some 3rd party packages that we depend on:-
-* [Newtonsoft.Json](https://www.nuget.org/packages/Newtonsoft.Json/)
-* [Nate McMaster's Command line utils](https://www.nuget.org/packages/McMaster.Extensions.CommandLineUtils)
-* [Microsoft's Dependency Injection](https://www.nuget.org/packages/Microsoft.Extensions.DependencyInjection)
-* [Crayon](https://www.nuget.org/packages/Crayon/)
-* [FluentAssertions](https://www.nuget.org/packages/FluentAssertions)
-* [CsvHelper](https://www.nuget.org/packages/CsvHelper/)
-* [FsCheck](https://www.nuget.org/packages/FsCheck.Xunit)
-* [NSubstitute](https://www.nuget.org/packages/NSubstitute/)
-* [Coverlet](https://www.nuget.org/packages/coverlet.collector/)
-* [Xunit](https://www.nuget.org/packages/xunit/)
-* [Stryker](https://stryker-mutator.io/docs/stryker-net/Introduction/)
-* [FAKE](https://fake.build/)
-* [CRC32](https://www.nuget.org/packages/Crc32.NET/)
-* [ReportGenerator](https://www.nuget.org/packages/dotnet-reportgenerator-globaltool/)
 ---
 
 ## Further reading
