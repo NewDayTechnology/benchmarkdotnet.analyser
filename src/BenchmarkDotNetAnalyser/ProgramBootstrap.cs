@@ -9,6 +9,7 @@ using BenchmarkDotNetAnalyser.Instrumentation;
 using BenchmarkDotNetAnalyser.IO;
 using BenchmarkDotNetAnalyser.Reporting;
 using Crayon;
+using Figgle.Fonts;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -45,7 +46,7 @@ namespace BenchmarkDotNetAnalyser
 
             return new[]
                 {
-                    Output.Bright.Magenta(Resources.ProgramTitle),
+                    Output.Bright.Magenta(FiggleFonts.Standard.Render("bdn analyser")),
                     attrs.GetAttributeValue<AssemblyDescriptionAttribute>(a => a.Description),
                     "",
                     $"{Output.Bright.Yellow(attrs.GetAttributeValue<AssemblyInformationalVersionAttribute>(a => a.InformationalVersion).Format("Version {0}"))}{Output.Bright.Green(" beta ")}",
