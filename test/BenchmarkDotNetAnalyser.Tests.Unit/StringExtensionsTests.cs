@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
-using FluentAssertions;
+using Shouldly;
 using FsCheck;
 using FsCheck.Xunit;
 using Xunit;
@@ -152,7 +152,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit
         [InlineData("Époisses", "Époisses")]
         public void IsMatch_PositiveMatches(string value, string pattern)
         {
-            value.IsMatch(pattern).Should().BeTrue();
+            value.IsMatch(pattern).ShouldBeTrue();
         }
 
         [Theory]
@@ -166,7 +166,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit
         [InlineData("Époisses", "Epoisses")]
         public void IsMatch_NegativeMatches(string value, string pattern)
         {
-            value.IsMatch(pattern).Should().BeFalse();
+            value.IsMatch(pattern).ShouldBeFalse();
         }
     }
 }

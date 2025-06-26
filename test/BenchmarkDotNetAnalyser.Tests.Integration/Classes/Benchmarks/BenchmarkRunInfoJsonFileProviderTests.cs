@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BenchmarkDotNetAnalyser.Benchmarks;
-using FluentAssertions;
+using Shouldly;
 using Xunit;
 
 namespace BenchmarkDotNetAnalyser.Tests.Integration.Classes.Benchmarks
@@ -20,10 +20,10 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.Classes.Benchmarks
 
             var result = await provider.GetRunInfoAsync(path);
 
-            result.Should().NotBeNull();
-            result.BenchmarkDotNetVersion.Should().NotBeNullOrWhiteSpace();
-            result.Creation.Should().NotBe(DateTimeOffset.MinValue);
-            result.Results.Count.Should().BeGreaterThan(0);
+            result.ShouldNotBeNull();
+            result.BenchmarkDotNetVersion.ShouldNotBeNullOrWhiteSpace();
+            result.Creation.ShouldNotBe(DateTimeOffset.MinValue);
+            result.Results.Count.ShouldBeGreaterThan(0);
         }
     }
 }

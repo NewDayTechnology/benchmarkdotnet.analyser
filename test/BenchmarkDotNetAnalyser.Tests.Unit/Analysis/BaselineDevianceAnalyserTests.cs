@@ -1,6 +1,6 @@
 ﻿using BenchmarkDotNetAnalyser.Analysis;
 using BenchmarkDotNetAnalyser.Benchmarks;
-using FluentAssertions;
+using Shouldly;
 using FsCheck;
 using FsCheck.Xunit;
 using Xunit;
@@ -69,7 +69,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
             
             var result = analyser.CreateAnalysis("", baseline, test);
 
-            result.MeetsRequirements.Should().BeFalse();
+            result.MeetsRequirements.ShouldBeFalse();
         }
 
         [Theory]
@@ -85,7 +85,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
             
             var result = analyser.CreateAnalysis("", baseline, test);
 
-            result.MeetsRequirements.Should().BeTrue();
+            result.MeetsRequirements.ShouldBeTrue();
         }
     }
 }

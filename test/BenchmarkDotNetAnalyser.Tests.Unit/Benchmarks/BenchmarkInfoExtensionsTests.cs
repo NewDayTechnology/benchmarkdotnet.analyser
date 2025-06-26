@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using BenchmarkDotNetAnalyser.Benchmarks;
-using FluentAssertions;
+using Shouldly;
 using FsCheck;
 using FsCheck.Xunit;
 using NSubstitute;
@@ -70,7 +70,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
 
             var actual = benchmarks.Select(b => result.Contains(b)).ToArray();
             
-            actual.SequenceEqual(survivors).Should().BeTrue();
+            actual.SequenceEqual(survivors).ShouldBeTrue();
         }
 
         [Fact]
@@ -83,7 +83,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
             
             var _ = benchmarks.PinBest(stats);
 
-            benchmarks.All(b => b.Pinned).Should().BeTrue();
+            benchmarks.All(b => b.Pinned).ShouldBeTrue();
         }
 
         [Fact]
@@ -100,8 +100,8 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
             var lowest = benchmarks.Single(b => b.Runs.Any(r => r.Results.Contains(lowestResult)));
             var others = benchmarks.Where(b => b != lowest);
 
-            lowest.Pinned.Should().BeTrue();
-            others.All(b => !b.Pinned).Should().BeTrue();
+            lowest.Pinned.ShouldBeTrue();
+            others.All(b => !b.Pinned).ShouldBeTrue();
         }
 
         [Fact]
@@ -122,8 +122,8 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
             var lowest = benchmarks.Single(b => b.Runs.Any(r => r.Results.Contains(lowestResult)));
             var others = benchmarks.Where(b => b != lowest);
 
-            lowest.Pinned.Should().BeTrue();
-            others.All(b => !b.Pinned).Should().BeTrue();
+            lowest.Pinned.ShouldBeTrue();
+            others.All(b => !b.Pinned).ShouldBeTrue();
         }
 
         [Theory]
@@ -151,7 +151,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
             };
 
             var result = bi.TrimRunsByFilter(new[] {filter});
-            result.Runs.Sum(ri => ri.Results.Count).Should().Be(expectedCount);
+            result.Runs.Sum(ri => ri.Results.Count).ShouldBe(expectedCount);
         }
 
         [Theory]
@@ -171,7 +171,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
                 Method = m,
             };
 
-            result.IsIncluded(filters).Should().Be(expected);
+            result.IsIncluded(filters).ShouldBe(expected);
         }
 
         private IBenchmarkStatisticAccessorProvider CreateMockStatsProvider()

@@ -6,7 +6,7 @@ using BenchmarkDotNetAnalyser.Analysis;
 using BenchmarkDotNetAnalyser.Benchmarks;
 using BenchmarkDotNetAnalyser.Commands;
 using BenchmarkDotNetAnalyser.Instrumentation;
-using FluentAssertions;
+using Shouldly;
 using FsCheck;
 using FsCheck.Xunit;
 using NSubstitute;
@@ -121,7 +121,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
             }
             catch (InvalidOperationException ex)
             {
-                ex.Message.Should().NotBeNullOrWhiteSpace();
+                ex.Message.ShouldNotBeNullOrWhiteSpace();
                 return true;
             }
         }
@@ -150,7 +150,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
             }
             catch (InvalidOperationException ex)
             {
-                ex.Message.Should().NotBeNullOrWhiteSpace();
+                ex.Message.ShouldNotBeNullOrWhiteSpace();
                 return true;
             }
         }
@@ -214,7 +214,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
             }
             catch (InvalidOperationException ex)
             {
-                ex.Message.Should().NotBeNullOrWhiteSpace();
+                ex.Message.ShouldNotBeNullOrWhiteSpace();
                 return true;
             }
         }
@@ -242,7 +242,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
             }
             catch (InvalidOperationException ex)
             {
-                ex.Message.Should().NotBeNullOrWhiteSpace();
+                ex.Message.ShouldNotBeNullOrWhiteSpace();
                 return true;
             }
         }
@@ -274,7 +274,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
             }
             catch (InvalidOperationException ex)
             {
-                ex.Message.Should().NotBeNullOrWhiteSpace();
+                ex.Message.ShouldNotBeNullOrWhiteSpace();
                 return true;
             }
         }

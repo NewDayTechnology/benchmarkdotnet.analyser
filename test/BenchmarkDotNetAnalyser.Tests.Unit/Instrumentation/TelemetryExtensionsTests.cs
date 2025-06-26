@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using BenchmarkDotNetAnalyser.Instrumentation;
-using FluentAssertions;
+using Shouldly;
 using NSubstitute;
 using Xunit;
 
@@ -18,7 +18,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Instrumentation
 
             var result = await telemetry.InvokeWithLoggingAsync(log, () => Task.FromResult(response));
 
-            result.Should().Be(response);
+            result.ShouldBe(response);
 
             telemetry.Received(2).Write(Arg.Any<TelemetryEntry>());
             telemetry.Received(1).Write(Arg.Is<TelemetryEntry>(x => x.Message == "done." && x.AddLineBreak));
@@ -34,7 +34,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Instrumentation
 
             Func<Task<int>> f = async () => await telemetry.InvokeWithLoggingAsync(log, func);
 
-            f.Should().ThrowAsync<Exception>();
+            f.ShouldThrowAsync<Exception>();
             telemetry.Received(2).Write(Arg.Any<TelemetryEntry>());
             telemetry.Received(1).Write(Arg.Is<TelemetryEntry>(x => x.Message == "" && x.AddLineBreak));
         }
@@ -48,7 +48,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Instrumentation
 
             var result = telemetry.InvokeWithLogging(log, () => response);
 
-            result.Should().Be(response);
+            result.ShouldBe(response);
 
             telemetry.Received(2).Write(Arg.Any<TelemetryEntry>());
         }
@@ -61,9 +61,9 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Instrumentation
             
             Func<int> func = () => throw new Exception();
 
-            Func<int> f = () => telemetry.InvokeWithLogging(log, func);
+            Action f = () => telemetry.InvokeWithLogging(log, func);
 
-            f.Should().Throw<Exception>();
+            f.ShouldThrow<Exception>();
             telemetry.Received(2).Write(Arg.Any<TelemetryEntry>());
         }
 

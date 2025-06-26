@@ -3,7 +3,7 @@ using System.Linq;
 using BenchmarkDotNetAnalyser.Analysis;
 using BenchmarkDotNetAnalyser.Benchmarks;
 using BenchmarkDotNetAnalyser.Instrumentation;
-using FluentAssertions;
+using Shouldly;
 using NSubstitute;
 using Xunit;
 
@@ -41,9 +41,9 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
 
             var result = analyser.Analyse(group).ToList();
 
-            result.Count.Should().Be(1);
-            result[0].MeetsRequirements.Should().BeTrue();
-            result[0].Message.Should().BeNull();
+            result.Count.ShouldBe(1);
+            result[0].MeetsRequirements.ShouldBeTrue();
+            result[0].Message.ShouldBeNull();
             telemetry.Received(0).Write(Arg.Any<TelemetryEntry>());
         }
 
@@ -77,9 +77,9 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
 
             var result = analyser.Analyse(group).ToList();
 
-            result.Count.Should().Be(1);
-            result[0].MeetsRequirements.Should().BeFalse();
-            result[0].Message.Should().NotBeNullOrWhiteSpace();
+            result.Count.ShouldBe(1);
+            result[0].MeetsRequirements.ShouldBeFalse();
+            result[0].Message.ShouldNotBeNullOrWhiteSpace();
             telemetry.Received(1).Write(Arg.Is<TelemetryEntry>(t => t.AddLineBreak && t.IsVerbose && !string.IsNullOrWhiteSpace(t.Message)));
         }
     }

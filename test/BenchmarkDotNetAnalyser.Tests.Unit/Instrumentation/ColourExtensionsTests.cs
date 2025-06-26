@@ -1,6 +1,6 @@
 ﻿using System;
 using BenchmarkDotNetAnalyser.Instrumentation;
-using FluentAssertions;
+using Shouldly;
 using FsCheck.Xunit;
 using Xunit;
 
@@ -15,7 +15,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Instrumentation
 
             var r = value.Colourise(ConsoleColor.Blue);
 
-            r.Should().BeNullOrEmpty();
+            r.ShouldBeNullOrEmpty();
         }
 
         [Property(Verbose = true, Arbitrary = new[] {typeof(AlphanumericStringArbitrary)})]

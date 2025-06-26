@@ -4,7 +4,7 @@ using BenchmarkDotNetAnalyser.Benchmarks;
 using BenchmarkDotNetAnalyser.Commands;
 using BenchmarkDotNetAnalyser.Instrumentation;
 using BenchmarkDotNetAnalyser.IO;
-using FluentAssertions;
+using Shouldly;
 using McMaster.Extensions.CommandLineUtils;
 using Xunit;
 
@@ -27,7 +27,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit
             
             var service = result.GetService(serviceType);
 
-            service.Should().NotBeNull();
+            service.ShouldNotBeNull();
         }
 
         [Fact]
@@ -35,7 +35,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit
         {
             var result = ProgramBootstrap.GetDescription();
 
-            result.Should().NotBeNullOrWhiteSpace();
+            result.ShouldNotBeNullOrWhiteSpace();
         }
     }
 }

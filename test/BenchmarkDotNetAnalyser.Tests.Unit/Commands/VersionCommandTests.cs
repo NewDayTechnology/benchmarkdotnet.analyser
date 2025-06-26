@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using BenchmarkDotNetAnalyser.Commands;
-using FluentAssertions;
+using Shouldly;
 using McMaster.Extensions.CommandLineUtils;
 using NSubstitute;
 using Xunit;
@@ -20,7 +20,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
 
             var result = await cmd.OnExecuteAsync();
 
-            result.Should().Be(0);
+            result.ShouldBe(0);
             console.WriteLine(Arg.Any<string>());
             writer.Received(1).WriteLine(Arg.Any<string>());
         }

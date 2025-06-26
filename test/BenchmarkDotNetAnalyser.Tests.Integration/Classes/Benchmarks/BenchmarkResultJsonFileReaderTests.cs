@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using BenchmarkDotNetAnalyser.Benchmarks;
-using FluentAssertions;
+using Shouldly;
 using Xunit;
 
 namespace BenchmarkDotNetAnalyser.Tests.Integration.Classes.Benchmarks
@@ -19,7 +19,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.Classes.Benchmarks
 
             var result = await reader.GetBenchmarkResultsAsync(path);
 
-            result.Count.Should().BeGreaterThan(0);
+            result.Count.ShouldBeGreaterThan(0);
         }
     }
 }

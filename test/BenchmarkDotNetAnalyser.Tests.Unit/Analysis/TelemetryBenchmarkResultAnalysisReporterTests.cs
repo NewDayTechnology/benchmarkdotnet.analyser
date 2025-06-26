@@ -2,7 +2,7 @@
 using System.Linq;
 using BenchmarkDotNetAnalyser.Analysis;
 using BenchmarkDotNetAnalyser.Instrumentation;
-using FluentAssertions;
+using Shouldly;
 using NSubstitute;
 using Xunit;
 
@@ -23,7 +23,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
             };
 
             var result = reporter.Report(analysis);
-            result.Should().BeTrue();
+            result.ShouldBeTrue();
             telemetry.Received(0).Error(Arg.Any<string>());
             telemetry.Received(1).Success(Arg.Is<string>(s => !string.IsNullOrWhiteSpace(s)));
         }
@@ -42,7 +42,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
 
             var result = reporter.Report(analysis);
 
-            result.Should().BeFalse();
+            result.ShouldBeFalse();
             telemetry.Received(0).Error(Arg.Any<string>());
             telemetry.Received(0).Success(Arg.Any<string>());
         }
@@ -70,7 +70,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
 
             var result = reporter.Report(analysis);
 
-            result.Should().BeFalse();
+            result.ShouldBeFalse();
             telemetry.Received(0).Success(Arg.Any<string>());
             telemetry.Received(1).Error(Arg.Is<string>(s => msgs.Any(s.Contains)));
         }
@@ -96,7 +96,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
 
             var result = reporter.Report(analysis);
 
-            result.Should().BeFalse();
+            result.ShouldBeFalse();
             telemetry.Received(0).Success(Arg.Any<string>());
             telemetry.Received(1).Error(Arg.Any<string>());
             telemetry.Received(0).Error(Arg.Is<string>(s => msgs.Any(s.Contains)));
@@ -125,7 +125,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
 
             var result = reporter.Report(analysis);
 
-            result.Should().BeFalse();
+            result.ShouldBeFalse();
             telemetry.Received(0).Success(Arg.Any<string>());
             telemetry.Received(1).Error(Arg.Is<string>(s => msgs.Any(s.Contains)));
             telemetry.Received(1).Error(Arg.Is<string>(s => !s.Contains(analysis.Message)));
@@ -153,7 +153,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
 
             var result = reporter.Report(analysis);
 
-            result.Should().BeFalse();
+            result.ShouldBeFalse();
             telemetry.Received(0).Success(Arg.Any<string>());
             telemetry.Received(1).Error(Arg.Is<string>(s => msgs.Any(s.Contains)));
             telemetry.Received(1).Error(Arg.Is<string>(s => s.Contains(analysis.Message)));

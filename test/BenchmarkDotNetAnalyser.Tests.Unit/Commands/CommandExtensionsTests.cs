@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using BenchmarkDotNetAnalyser.Commands;
-using FluentAssertions;
+using Shouldly;
 using McMaster.Extensions.CommandLineUtils;
 using Xunit;
 
@@ -29,7 +29,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
         {
             var r = input.ToReturnCode();
 
-            r.Should().Be(expected);
+            r.ShouldBe(expected);
         }
 
         [Theory]
@@ -41,7 +41,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
             
             var name = cmd.GetCommandOptionName(propName);
 
-            name.Should().Be(expected);
+            name.ShouldBe(expected);
         }
 
         [Theory]
@@ -55,7 +55,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
             
             var name = cmd.GetCommandOptionName(propName);
 
-            name.Should().BeNull();
+            name.ShouldBeNull();
         }
         
         [Theory]
@@ -67,7 +67,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
             
             var name = cmd.GetCommandOptionName(propName);
 
-            name.Should().BeNull();
+            name.ShouldBeNull();
         }
         
 
