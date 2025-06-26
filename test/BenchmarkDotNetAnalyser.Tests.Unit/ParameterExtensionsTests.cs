@@ -1,5 +1,5 @@
 ﻿using System;
-using FluentAssertions;
+using Shouldly;
 using FsCheck;
 using FsCheck.Xunit;
 using Xunit;
@@ -29,7 +29,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit
             }
             catch (ArgumentNullException ex)
             {
-                ex.ParamName.Should().Be(paramName);
+                ex.ParamName.ShouldBe(paramName);
             }
         }
 
@@ -62,9 +62,9 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit
         {
             Func<string, bool> sel = null;
 
-            Func<string> f = () => "abc".InvalidOpArg(sel, "message");
+            Action f = () => "abc".InvalidOpArg(sel, "message");
 
-            f.Should().Throw<ArgumentNullException>();
+            f.ShouldThrow<ArgumentNullException>();
         }
     }
 }

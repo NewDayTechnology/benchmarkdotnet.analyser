@@ -4,7 +4,7 @@ using BenchmarkDotNetAnalyser.Analysis;
 using BenchmarkDotNetAnalyser.Benchmarks;
 using BenchmarkDotNetAnalyser.Commands;
 using BenchmarkDotNetAnalyser.Instrumentation;
-using FluentAssertions;
+using Shouldly;
 using NSubstitute;
 using Xunit;
 
@@ -26,7 +26,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
 
             var result = await exec.ExecuteAsync(args);
 
-            result.MeetsRequirements.Should().BeFalse();
+            result.MeetsRequirements.ShouldBeFalse();
             telemetry.Received(1).Write(Arg.Is<TelemetryEntry>(x => x.Message == "Getting benchmarks..."));
             telemetry.Received(1).Error(Arg.Is<string>(x => x == "No benchmarks found."));
         } 
@@ -67,7 +67,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
 
             var result = await exec.ExecuteAsync(args);
 
-            result.MeetsRequirements.Should().BeTrue();
+            result.MeetsRequirements.ShouldBeTrue();
             telemetry.Received(1).Info(Arg.Is<string>(x => x == "Analysing benchmarks..."));
             telemetry.Received(1).Info(Arg.Is<string>(x => x == "Analysis done."));
             telemetry.Received(1).Write(Arg.Is<TelemetryEntry>(x => x.Message == "Getting benchmarks..."));
@@ -104,7 +104,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
 
             var result = await exec.ExecuteAsync(args);
 
-            result.MeetsRequirements.Should().BeFalse();
+            result.MeetsRequirements.ShouldBeFalse();
             telemetry.Received(1).Info(Arg.Is<string>(x => x == "Analysing benchmarks..."));
             telemetry.Received(1).Info(Arg.Is<string>(x => x == "Analysis done."));
             telemetry.Received(1).Write(Arg.Is<TelemetryEntry>(x => x.Message == "Getting benchmarks..."));

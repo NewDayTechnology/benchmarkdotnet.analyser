@@ -7,7 +7,7 @@ using BenchmarkDotNetAnalyser.Benchmarks;
 using BenchmarkDotNetAnalyser.Commands;
 using BenchmarkDotNetAnalyser.Instrumentation;
 using BenchmarkDotNetAnalyser.IO;
-using FluentAssertions;
+using Shouldly;
 using NSubstitute;
 using Xunit;
 
@@ -64,7 +64,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
 
             var r = await exec.ExecuteAsync(args);
 
-            r.Should().BeTrue();
+            r.ShouldBeTrue();
 
             aggregator.Received(1).Aggregate(Arg.Is<BenchmarkAggregationOptions>(x => x.PreservePinned),
                 Arg.Any<IEnumerable<BenchmarkInfo>>(), Arg.Any<BenchmarkInfo>());
@@ -102,7 +102,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
 
             var r = await exec.ExecuteAsync(args);
 
-            r.Should().BeTrue();
+            r.ShouldBeTrue();
 
             telemetry.Received(1).Write(Arg.Is<TelemetryEntry>(x => x.Message == "Getting new benchmark..."));
             telemetry.Received(1).Write(Arg.Is<TelemetryEntry>(x => x.Message == "Getting prior benchmarks..."));

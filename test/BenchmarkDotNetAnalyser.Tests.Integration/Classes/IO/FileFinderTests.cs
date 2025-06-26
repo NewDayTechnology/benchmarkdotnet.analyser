@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using BenchmarkDotNetAnalyser.IO;
-using FluentAssertions;
+using Shouldly;
 using Xunit;
 
 namespace BenchmarkDotNetAnalyser.Tests.Integration.Classes.IO
@@ -18,9 +18,9 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.Classes.IO
 
             var expected = IOHelper.GetSourceResultFilePaths().ToList();
 
-            result.Count.Should().BeGreaterThan(0);
-            result.SequenceEqual(expected).Should().BeTrue();
-            result.All(x => x.EndsWith(ext)).Should().BeTrue();
+            result.Count.ShouldBeGreaterThan(0);
+            result.SequenceEqual(expected).ShouldBeTrue();
+            result.All(x => x.EndsWith(ext)).ShouldBeTrue();
         }
     }
 }

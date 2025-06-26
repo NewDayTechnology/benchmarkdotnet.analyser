@@ -11,8 +11,8 @@ using BenchmarkDotNetAnalyser.Commands;
 using BenchmarkDotNetAnalyser.Instrumentation;
 using BenchmarkDotNetAnalyser.IO;
 using BenchmarkDotNetAnalyser.Reporting;
-using FluentAssertions;
-using FluentAssertions.Execution;
+using Shouldly;
+
 using Newtonsoft.Json;
 using NSubstitute;
 
@@ -89,7 +89,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
 
             _aggregateResult = await aggregator.ExecuteAsync(_aggregateArgs);
 
-            _aggregateResult.Should().Be(expectedResult);
+            _aggregateResult.ShouldBe(expectedResult);
         }
 
         public async Task AggregatedBenchmarkInfosFetched()
@@ -101,34 +101,34 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
 
         public void SingletonBenchmarkInfoIsChecked()
         {
-            _newBenchmarkInfos.Count.Should().Be(1);
+            _newBenchmarkInfos.Count.ShouldBe(1);
 
-            _newBenchmarkInfos[0].BranchName.Should().Be(_aggregateArgs.BranchName);
-            _newBenchmarkInfos[0].CommitSha.Should().Be(_aggregateArgs.CommitSha);
-            _newBenchmarkInfos[0].BuildUri.Should().Be(_aggregateArgs.BuildUri);
-            _newBenchmarkInfos[0].Tags.Should().BeEquivalentTo(_aggregateArgs.Tags);
+            _newBenchmarkInfos[0].BranchName.ShouldBe(_aggregateArgs.BranchName);
+            _newBenchmarkInfos[0].CommitSha.ShouldBe(_aggregateArgs.CommitSha);
+            _newBenchmarkInfos[0].BuildUri.ShouldBe(_aggregateArgs.BuildUri);
+            _newBenchmarkInfos[0].Tags.ShouldBe(_aggregateArgs.Tags);
 
-            _newBenchmarkInfos[0].Runs.Should().HaveCount(_newRunFiles);
+            _newBenchmarkInfos[0].Runs.Count.ShouldBe(_newRunFiles);
             
-            _newBenchmarkInfos[0].Runs.All(p => !string.IsNullOrWhiteSpace(p.BenchmarkDotNetVersion)).Should().BeTrue();
-            _newBenchmarkInfos[0].Runs.All(p => p.Creation > DateTimeOffset.MinValue).Should().BeTrue();
+            _newBenchmarkInfos[0].Runs.All(p => !string.IsNullOrWhiteSpace(p.BenchmarkDotNetVersion)).ShouldBeTrue();
+            _newBenchmarkInfos[0].Runs.All(p => p.Creation > DateTimeOffset.MinValue).ShouldBeTrue();
         }
 
         public void MultipleBenchmarkInfosAreChecked()
         {
-            _newBenchmarkInfos.Count.Should().Be(_aggregateArgs.BenchmarkRuns);
+            _newBenchmarkInfos.Count.ShouldBe(_aggregateArgs.BenchmarkRuns);
 
             foreach (var bi in _newBenchmarkInfos)
             {
-                bi.BranchName.Should().Be(_aggregateArgs.BranchName);
-                bi.CommitSha.Should().Be(_aggregateArgs.CommitSha);
-                bi.BuildUri.Should().Be(_aggregateArgs.BuildUri);
-                bi.Tags.Should().BeEquivalentTo(_aggregateArgs.Tags);
+                bi.BranchName.ShouldBe(_aggregateArgs.BranchName);
+                bi.CommitSha.ShouldBe(_aggregateArgs.CommitSha);
+                bi.BuildUri.ShouldBe(_aggregateArgs.BuildUri);
+                bi.Tags.ShouldBe(_aggregateArgs.Tags);
 
-                bi.Runs.Should().HaveCount(_newRunFiles);
+                bi.Runs.Count.ShouldBe(_newRunFiles);
 
-                bi.Runs.All(p => !string.IsNullOrWhiteSpace(p.BenchmarkDotNetVersion)).Should().BeTrue();
-                bi.Runs.All(p => p.Creation > DateTimeOffset.MinValue).Should().BeTrue();
+                bi.Runs.All(p => !string.IsNullOrWhiteSpace(p.BenchmarkDotNetVersion)).ShouldBeTrue();
+                bi.Runs.All(p => p.Creation > DateTimeOffset.MinValue).ShouldBeTrue();
             }
         }
         
@@ -141,7 +141,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
 
         public void EmptyBenchmarkRunResultsChecked()
         {
-            _benchmarkRunResults.Count.Should().Be(0);
+            _benchmarkRunResults.Count.ShouldBe(0);
         }
 
         public void BenchmarkRunResultsChecked()
@@ -150,12 +150,12 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
 
             foreach (var br in results)
             {
-                br.FullName.Should().NotBeNullOrWhiteSpace();
-                br.Method.Should().NotBeNullOrWhiteSpace();
-                br.Namespace.Should().NotBeNullOrWhiteSpace();
+                br.FullName.ShouldNotBeNullOrWhiteSpace();
+                br.Method.ShouldNotBeNullOrWhiteSpace();
+                br.Namespace.ShouldNotBeNullOrWhiteSpace();
             }
-            _benchmarkRunResults.All(brr => brr.Results.Count > 0).Should().BeTrue();
-            _benchmarkRunResults.All(brr => brr.Run != null).Should().BeTrue();
+            _benchmarkRunResults.All(brr => brr.Results.Count > 0).ShouldBeTrue();
+            _benchmarkRunResults.All(brr => brr.Run != null).ShouldBeTrue();
         }
 
         public void AnalysisArgsCreated(decimal tolerance, int maxErrors)
@@ -175,20 +175,20 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
 
             _analysisResult = await analyser.ExecuteAsync(_analysisArgs);
 
-            _analysisResult.Should().NotBeNull();
+            _analysisResult.ShouldNotBeNull();
         }
 
         public void AnalysisResultCheckedForSuccess()
         {
-            _analysisResult.MeetsRequirements.Should().BeTrue();
-            _analysisResult.InnerResults.Any(bra => bra.MeetsRequirements).Should().BeTrue();
-            _analysisResult.InnerResults.Count.Should().BeGreaterThan(0);
+            _analysisResult.MeetsRequirements.ShouldBeTrue();
+            _analysisResult.InnerResults.Any(bra => bra.MeetsRequirements).ShouldBeTrue();
+            _analysisResult.InnerResults.Count.ShouldBeGreaterThan(0);
         }
 
         public void AnalysisResultCheckedForFailure()
         {
-            _analysisResult.MeetsRequirements.Should().BeFalse();
-            _analysisResult.Message.Should().NotBeNullOrWhiteSpace();
+            _analysisResult.MeetsRequirements.ShouldBeFalse();
+            _analysisResult.Message.ShouldNotBeNullOrWhiteSpace();
         }
 
         public void ReportsDirectoryCreated()
@@ -221,7 +221,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
             {
                 if (!File.Exists(file))
                 {
-                    throw new AssertionFailedException($"File {file} does not exist.");
+                    throw new Exception($"File {file} does not exist.");
                 }
 
                 using (var stream = File.OpenText(file))
@@ -230,7 +230,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
                     {
                         var recs = csvReader.GetRecords<object>().ToList();
 
-                        recs.Count.Should().BeGreaterThan(0);
+                        recs.Count.ShouldBeGreaterThan(0);
                     }
                 }
             }
@@ -244,12 +244,12 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
             {
                 if (!File.Exists(file))
                 {
-                    throw new AssertionFailedException($"File {file} does not exist.");
+                    throw new Exception($"File {file} does not exist.");
                 }
                 
                 var json = File.ReadAllText(file);
                 var records = JsonConvert.DeserializeObject<IList<BenchmarkRecord>>(json);
-                records.Count.Should().BeGreaterThan(0);
+                records.Count.ShouldBeGreaterThan(0);
             }
         }
     }

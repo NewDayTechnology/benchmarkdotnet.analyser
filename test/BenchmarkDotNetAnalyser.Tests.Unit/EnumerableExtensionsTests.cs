@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using FluentAssertions;
-using FluentAssertions.Execution;
+using Shouldly;
+
 using FsCheck;
 using FsCheck.Xunit;
 using Xunit;
@@ -15,9 +15,9 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit
         {
             var xs = Enumerable.Empty<decimal>();
 
-            Func<decimal> f = () => xs.MinBy(x => x);
+            Action f = () => xs.MinBy(x => x);
 
-            f.Should().Throw<InvalidOperationException>();
+            f.ShouldThrow<InvalidOperationException>();
         }
 
         [Fact]
@@ -33,7 +33,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit
             {
                 if (string.IsNullOrWhiteSpace(e.Message))
                 {
-                    throw new AssertionFailedException("Missing message");
+                    throw new Exception("Missing message");
                 }
             }
         }

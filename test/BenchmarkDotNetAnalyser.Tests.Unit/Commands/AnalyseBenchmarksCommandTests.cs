@@ -4,7 +4,7 @@ using BenchmarkDotNetAnalyser.Analysis;
 using BenchmarkDotNetAnalyser.Benchmarks;
 using BenchmarkDotNetAnalyser.Commands;
 using BenchmarkDotNetAnalyser.Instrumentation;
-using FluentAssertions;
+using Shouldly;
 using NSubstitute;
 using Xunit;
 
@@ -29,7 +29,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
 
             var rc = await cmd.OnExecuteAsync();
 
-            rc.Should().BeGreaterThan(0);
+            rc.ShouldBeGreaterThan(0);
             executor.Received(0);
         }
 
@@ -54,7 +54,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
 
             var rc = await cmd.OnExecuteAsync();
 
-            rc.Should().Be(0);
+            rc.ShouldBe(0);
             executor.Received(1);
             telemetry.Received(0);
         }
@@ -77,7 +77,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Commands
 
             var rc = await cmd.OnExecuteAsync();
 
-            rc.Should().BeGreaterThan(0);
+            rc.ShouldBeGreaterThan(0);
             executor.Received(1);
             telemetry.Received(1);
         }

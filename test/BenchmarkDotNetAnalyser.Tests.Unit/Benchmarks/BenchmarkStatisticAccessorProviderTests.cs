@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using BenchmarkDotNetAnalyser.Benchmarks;
-using FluentAssertions;
+using Shouldly;
 using FsCheck;
 using FsCheck.Xunit;
 using Xunit;
@@ -19,7 +19,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
             var p = new BenchmarkStatisticAccessorProvider();
             var a = p.GetAccessor(name);
 
-            a.Should().NotBeNull();
+            a.ShouldNotBeNull();
         }
 
         [Theory]
@@ -41,7 +41,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
             var p = new BenchmarkStatisticAccessorProvider();
             var a = p.GetAccessor(name);
 
-            a.Should().NotBeNull();
+            a.ShouldNotBeNull();
         }
 
         [Property(Verbose = true)]
@@ -74,7 +74,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
 
             var result = a(br);
 
-            result.Should().Be(expected);
+            result.ShouldBe(expected);
         }
 
         
@@ -88,7 +88,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
             var p = new BenchmarkStatisticAccessorProvider();
             var a = p.GetNullableAccessor(name);
 
-            a.Should().NotBeNull();
+            a.ShouldNotBeNull();
         }
 
         [Theory]
@@ -110,7 +110,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
             var p = new BenchmarkStatisticAccessorProvider();
             var a = p.GetNullableAccessor(name);
 
-            a.Should().NotBeNull();
+            a.ShouldNotBeNull();
         }
 
         [Property(Verbose = true)]
@@ -151,7 +151,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
 
             var result = a(br);
 
-            result.Should().Be(expected);
+            result.ShouldBe(expected);
         }
 
         [Theory]
@@ -183,7 +183,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
 
             var result = a(br);
 
-            result.Should().BeNull();
+            result.ShouldBeNull();
         }
 
         [Fact]
@@ -192,9 +192,9 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
             var p = new BenchmarkStatisticAccessorProvider();
             var result = p.GetAccessorInfos().ToList();
 
-            result.Count.Should().BeGreaterThan(0);
-            result.Distinct().Should().BeEquivalentTo(result);
-            result.All(s => !string.IsNullOrWhiteSpace(s.Name)).Should().BeTrue();
+            result.Count.ShouldBeGreaterThan(0);
+            result.Distinct().ShouldBe(result);
+            result.All(s => !string.IsNullOrWhiteSpace(s.Name)).ShouldBeTrue();
         }
 
         [Fact]
@@ -203,7 +203,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
             var p = new BenchmarkStatisticAccessorProvider();
             var result = p.GetAccessorInfos().ToList();
             
-            result.Should().BeInAscendingOrder(x => x.Name);
+            result.Select(x => x.Name).ShouldBe(result.Select(x => x.Name).OrderBy(x => x));
         }
 
         [Fact]
@@ -212,7 +212,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
             var p = new BenchmarkStatisticAccessorProvider();
             var result = p.GetAccessorInfos().ToList();
 
-            result.SingleOrDefault(x => x.IsDefault).Should().NotBeNull();
+            result.SingleOrDefault(x => x.IsDefault).ShouldNotBeNull();
         }
     }
 }

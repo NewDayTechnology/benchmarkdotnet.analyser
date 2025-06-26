@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BenchmarkDotNetAnalyser.Analysis;
 using BenchmarkDotNetAnalyser.Benchmarks;
-using FluentAssertions;
+using Shouldly;
 using Xunit;
 
 namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
@@ -17,7 +17,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
 
             var result = new BenchmarkResultGroupBuilder().FromResults(runs).ToList();
 
-            result.Count.Should().Be(0);
+            result.Count.ShouldBe(0);
         }
 
         [Fact]
@@ -30,7 +30,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
 
             var result = new BenchmarkResultGroupBuilder().FromResults(runs).ToList();
 
-            result.Count.Should().Be(0);
+            result.Count.ShouldBe(0);
         }
 
         [Fact]
@@ -50,8 +50,8 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
 
             var result = new BenchmarkResultGroupBuilder().FromResults(runs).ToList();
 
-            result.Count.Should().Be(resultRuns.Count);
-            result.Select(r => r.Name).SequenceEqual(names).Should().BeTrue();
+            result.Count.ShouldBe(resultRuns.Count);
+            result.Select(r => r.Name).SequenceEqual(names).ShouldBeTrue();
         }
 
         
@@ -72,10 +72,10 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
             
             var result = new BenchmarkResultGroupBuilder().FromResults(runs).ToList();
 
-            result.Count.Should().Be(1);
+            result.Count.ShouldBe(1);
 
             var xs = result[0].Results.Select(r => r.Item1.Creation.DateTime).Reverse();
-            xs.SequenceEqual(times).Should().Be(true);
+            xs.SequenceEqual(times).ShouldBe(true);
         }
 
         [Fact]
@@ -95,10 +95,10 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Analysis
 
             var result = new BenchmarkResultGroupBuilder().FromResults(runs).ToList();
 
-            result.Count.Should().Be(1);
+            result.Count.ShouldBe(1);
 
             var xs = result.SelectMany(r => r.Results).Select(t => (int)t.Item2.MinTime);
-            xs.SequenceEqual(expectedValues).Should().BeTrue();
+            xs.SequenceEqual(expectedValues).ShouldBeTrue();
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNetAnalyser.Benchmarks;
 using BenchmarkDotNetAnalyser.IO;
-using FluentAssertions;
+using Shouldly;
 using Xunit;
 
 namespace BenchmarkDotNetAnalyser.Tests.Integration.Classes.Benchmarks
@@ -49,9 +49,9 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.Classes.Benchmarks
 
             var result = new BenchmarkParser(json).GetCreation();
 
-            result.Should().BeAfter(default);
-            result.Year.Should().BeGreaterThan(2020);
-            result.Year.Should().BeLessThan(2100);
+            result.ShouldBeGreaterThan(default);
+            result.Year.ShouldBeGreaterThan(2020);
+            result.Year.ShouldBeLessThan(2100);
         }
 
         [Theory]
@@ -63,16 +63,24 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.Classes.Benchmarks
             var jo = Newtonsoft.Json.Linq.JObject.Parse(json)["HostEnvironmentInfo"];
             var result = new BenchmarkParser(json).GetBenchmarkEnvironment();
 
-            result.Should().NotBeNull();
-            result.BenchmarkDotNetVersion.Should().Be(jo.GetStringValue("BenchmarkDotNetVersion")).And.NotBeNullOrWhiteSpace();
-            result.DotNetCliVersion.Should().Be(jo.Value<string>("DotNetCliVersion")).And.NotBeNullOrWhiteSpace();
-            result.DotNetRuntimeVersion.Should().Be(jo.Value<string>("RuntimeVersion")).And.NotBeNullOrWhiteSpace();
-            result.OsVersion.Should().Be(jo.Value<string>("OsVersion")).And.NotBeNullOrWhiteSpace();
-            result.ProcessorName.Should().Be(jo.Value<string>("ProcessorName")).And.NotBeNullOrWhiteSpace();
+            result.ShouldNotBeNull();
+            result.BenchmarkDotNetVersion.ShouldBe(jo.GetStringValue("BenchmarkDotNetVersion"));
+            result.BenchmarkDotNetVersion.ShouldNotBeNullOrWhiteSpace();
+            result.DotNetCliVersion.ShouldBe(jo.Value<string>("DotNetCliVersion"));
+            result.DotNetCliVersion.ShouldNotBeNullOrWhiteSpace();
+            result.DotNetRuntimeVersion.ShouldBe(jo.Value<string>("RuntimeVersion"));
+            result.DotNetRuntimeVersion.ShouldNotBeNullOrWhiteSpace();
+            result.OsVersion.ShouldBe(jo.Value<string>("OsVersion"));
+            result.OsVersion.ShouldNotBeNullOrWhiteSpace();
+            result.ProcessorName.ShouldBe(jo.Value<string>("ProcessorName"));
+            result.ProcessorName.ShouldNotBeNullOrWhiteSpace();
 
-            result.PhysicalProcessorCount.Should().Be(jo.Value<int>("PhysicalProcessorCount")).And.BeGreaterThan(0);
-            result.LogicalCoreCount.Should().Be(jo.Value<int>("LogicalCoreCount")).And.BeGreaterThan(0);
-            result.MachineArchitecture.Should().Be(jo.Value<string>("Architecture")).And.NotBeNullOrWhiteSpace();
+            result.PhysicalProcessorCount.ShouldBe(jo.Value<int>("PhysicalProcessorCount"));
+            result.PhysicalProcessorCount.ShouldBeGreaterThan(0);
+            result.LogicalCoreCount.ShouldBe(jo.Value<int>("LogicalCoreCount"));
+            result.LogicalCoreCount.ShouldBeGreaterThan(0);
+            result.MachineArchitecture.ShouldBe(jo.Value<string>("Architecture"));
+            result.MachineArchitecture.ShouldNotBeNullOrWhiteSpace();
         }
 
         [Theory]
@@ -82,22 +90,32 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.Classes.Benchmarks
             var json = await FileReader.ReadAsync(filePath);
             var results = new BenchmarkParser(json).GetBenchmarkResults().ToList();
 
-            results.Count.Should().BeGreaterThan(0);
+            results.Count.ShouldBeGreaterThan(0);
             
             foreach (var result in results)
             {
-                result.FullName.Should().NotBeNullOrWhiteSpace().And.ContainAny(_benchmarkTypeFullNames);
-                result.Namespace.Should().NotBeNullOrWhiteSpace().And.ContainAny(_benchmarkTypeNamespaces);
-                result.Type.Should().NotBeNullOrWhiteSpace().And.ContainAny(_benchmarkTypeNames);
-                result.Method.Should().NotBeNullOrWhiteSpace().And.ContainAny(_benchmarkMethods);
-                result.Parameters.Should().NotBeNull();
+                result.FullName.ShouldNotBeNullOrWhiteSpace();
+                _benchmarkTypeFullNames.Any(x => result.FullName.Contains(x)).ShouldBeTrue();
+                result.Namespace.ShouldNotBeNullOrWhiteSpace();
+                _benchmarkTypeNamespaces.Any(x => result.Namespace.Contains(x)).ShouldBeTrue();
+                result.Type.ShouldNotBeNullOrWhiteSpace();
+                _benchmarkTypeNames.Any(x => result.Type.Contains(x)).ShouldBeTrue();
+                result.Method.ShouldNotBeNullOrWhiteSpace();
+                _benchmarkMethods.Any(x => result.Method.Contains(x)).ShouldBeTrue();
+                result.Parameters.ShouldNotBeNull();
 
-                result.MaxTime.Should().HaveValue().And.BeGreaterOrEqualTo(0M);
-                result.MinTime.Should().HaveValue().And.BeGreaterOrEqualTo(0M);
-                result.MeanTime.Should().HaveValue().And.BeGreaterOrEqualTo(0M);
-                result.MedianTime.Should().HaveValue().And.BeGreaterOrEqualTo(0M);
-                result.Q1Time.Should().HaveValue().And.BeGreaterOrEqualTo(0M);
-                result.Q3Time.Should().HaveValue().And.BeGreaterOrEqualTo(0M);
+                result.MaxTime.ShouldNotBeNull();
+                result.MaxTime.Value.ShouldBeGreaterThanOrEqualTo(0M);
+                result.MinTime.ShouldNotBeNull();
+                result.MinTime.Value.ShouldBeGreaterThanOrEqualTo(0M);
+                result.MeanTime.ShouldNotBeNull();
+                result.MeanTime.Value.ShouldBeGreaterThanOrEqualTo(0M);
+                result.MedianTime.ShouldNotBeNull();
+                result.MedianTime.Value.ShouldBeGreaterThanOrEqualTo(0M);
+                result.Q1Time.ShouldNotBeNull();
+                result.Q1Time.Value.ShouldBeGreaterThanOrEqualTo(0M);
+                result.Q3Time.ShouldNotBeNull();
+                result.Q3Time.Value.ShouldBeGreaterThanOrEqualTo(0M);
             }
         }
     }

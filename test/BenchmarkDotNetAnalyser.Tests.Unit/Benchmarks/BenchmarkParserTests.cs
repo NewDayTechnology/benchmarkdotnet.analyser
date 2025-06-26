@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using BenchmarkDotNetAnalyser.Benchmarks;
-using FluentAssertions;
+using Shouldly;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -21,7 +21,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
 
             var expected = new DateTime(2021, 3, 16, 17, 37, 43, DateTimeKind.Utc);
 
-            ct.Should().Be(expected);
+            ct.ShouldBe(expected);
         }
 
         [Theory]
@@ -51,15 +51,15 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
             var json = JsonConvert.SerializeObject(hostInfo);
             var env = new BenchmarkParser(json).GetBenchmarkEnvironment();
 
-            env.Should().NotBeNull();
-            env.BenchmarkDotNetVersion.Should().Be(hostInfo.HostEnvironmentInfo.BenchmarkDotNetVersion);
-            env.OsVersion.Should().Be(hostInfo.HostEnvironmentInfo.OsVersion);
-            env.ProcessorName.Should().Be(hostInfo.HostEnvironmentInfo.ProcessorName);
-            env.LogicalCoreCount.Should().Be(hostInfo.HostEnvironmentInfo.LogicalCoreCount);
-            env.PhysicalProcessorCount.Should().Be(hostInfo.HostEnvironmentInfo.PhysicalProcessorCount);
-            env.MachineArchitecture.Should().Be(hostInfo.HostEnvironmentInfo.Architecture);
-            env.DotNetCliVersion.Should().Be(hostInfo.HostEnvironmentInfo.DotNetCliVersion);
-            env.DotNetRuntimeVersion.Should().Be(hostInfo.HostEnvironmentInfo.RuntimeVersion);
+            env.ShouldNotBeNull();
+            env.BenchmarkDotNetVersion.ShouldBe(hostInfo.HostEnvironmentInfo.BenchmarkDotNetVersion);
+            env.OsVersion.ShouldBe(hostInfo.HostEnvironmentInfo.OsVersion);
+            env.ProcessorName.ShouldBe(hostInfo.HostEnvironmentInfo.ProcessorName);
+            env.LogicalCoreCount.ShouldBe(hostInfo.HostEnvironmentInfo.LogicalCoreCount);
+            env.PhysicalProcessorCount.ShouldBe(hostInfo.HostEnvironmentInfo.PhysicalProcessorCount);
+            env.MachineArchitecture.ShouldBe(hostInfo.HostEnvironmentInfo.Architecture);
+            env.DotNetCliVersion.ShouldBe(hostInfo.HostEnvironmentInfo.DotNetCliVersion);
+            env.DotNetRuntimeVersion.ShouldBe(hostInfo.HostEnvironmentInfo.RuntimeVersion);
         }
 
         [Theory]
@@ -103,22 +103,22 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
 
             var results = new BenchmarkParser(json).GetBenchmarkResults().ToList();
 
-            results[0].FullName.Should().Be(benchmark.FullName);
-            results[0].Namespace.Should().Be(benchmark.Namespace);
-            results[0].Type.Should().Be(benchmark.Type);
-            results[0].Method.Should().Be(benchmark.Method);
-            results[0].Parameters.Should().Be(benchmark.Parameters);
-            results[0].MinTime.Should().Be(benchmark.Statistics.Min);
-            results[0].MaxTime.Should().Be(benchmark.Statistics.Max);
-            results[0].MeanTime.Should().Be(benchmark.Statistics.Mean);
-            results[0].MedianTime.Should().Be(benchmark.Statistics.Median);
-            results[0].Q1Time.Should().Be(benchmark.Statistics.Q1);
-            results[0].Q3Time.Should().Be(benchmark.Statistics.Q3);
+            results[0].FullName.ShouldBe(benchmark.FullName);
+            results[0].Namespace.ShouldBe(benchmark.Namespace);
+            results[0].Type.ShouldBe(benchmark.Type);
+            results[0].Method.ShouldBe(benchmark.Method);
+            results[0].Parameters.ShouldBe(benchmark.Parameters);
+            results[0].MinTime.ShouldBe(benchmark.Statistics.Min);
+            results[0].MaxTime.ShouldBe(benchmark.Statistics.Max);
+            results[0].MeanTime.ShouldBe(benchmark.Statistics.Mean);
+            results[0].MedianTime.ShouldBe(benchmark.Statistics.Median);
+            results[0].Q1Time.ShouldBe(benchmark.Statistics.Q1);
+            results[0].Q3Time.ShouldBe(benchmark.Statistics.Q3);
 
-            results[0].Gen0Collections.Should().Be(benchmark.Memory.Gen0Collections);
-            results[0].Gen1Collections.Should().Be(benchmark.Memory.Gen1Collections);
-            results[0].Gen2Collections.Should().Be(benchmark.Memory.Gen2Collections);
-            results[0].BytesAllocatedPerOp.Should().Be(benchmark.Memory.BytesAllocatedPerOperation);
+            results[0].Gen0Collections.ShouldBe(benchmark.Memory.Gen0Collections);
+            results[0].Gen1Collections.ShouldBe(benchmark.Memory.Gen1Collections);
+            results[0].Gen2Collections.ShouldBe(benchmark.Memory.Gen2Collections);
+            results[0].BytesAllocatedPerOp.ShouldBe(benchmark.Memory.BytesAllocatedPerOperation);
         }
 
         [Theory]
@@ -154,22 +154,22 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
 
             var results = new BenchmarkParser(json).GetBenchmarkResults().ToList();
 
-            results[0].FullName.Should().Be(benchmark.FullName);
-            results[0].Namespace.Should().Be(benchmark.Namespace);
-            results[0].Type.Should().Be(benchmark.Type);
-            results[0].Method.Should().Be(benchmark.Method);
-            results[0].Parameters.Should().Be(benchmark.Parameters);
-            results[0].MinTime.Should().Be(benchmark.Statistics.Min);
-            results[0].MaxTime.Should().Be(benchmark.Statistics.Max);
-            results[0].MeanTime.Should().Be(benchmark.Statistics.Mean);
-            results[0].MedianTime.Should().Be(benchmark.Statistics.Median);
-            results[0].Q1Time.Should().Be(benchmark.Statistics.Q1);
-            results[0].Q3Time.Should().Be(benchmark.Statistics.Q3);
+            results[0].FullName.ShouldBe(benchmark.FullName);
+            results[0].Namespace.ShouldBe(benchmark.Namespace);
+            results[0].Type.ShouldBe(benchmark.Type);
+            results[0].Method.ShouldBe(benchmark.Method);
+            results[0].Parameters.ShouldBe(benchmark.Parameters);
+            results[0].MinTime.ShouldBe(benchmark.Statistics.Min);
+            results[0].MaxTime.ShouldBe(benchmark.Statistics.Max);
+            results[0].MeanTime.ShouldBe(benchmark.Statistics.Mean);
+            results[0].MedianTime.ShouldBe(benchmark.Statistics.Median);
+            results[0].Q1Time.ShouldBe(benchmark.Statistics.Q1);
+            results[0].Q3Time.ShouldBe(benchmark.Statistics.Q3);
 
-            results[0].Gen0Collections.Should().BeNull();
-            results[0].Gen1Collections.Should().BeNull(); ;
-            results[0].Gen2Collections.Should().BeNull(); ;
-            results[0].BytesAllocatedPerOp.Should().BeNull();
+            results[0].Gen0Collections.ShouldBeNull();
+            results[0].Gen1Collections.ShouldBeNull(); ;
+            results[0].Gen2Collections.ShouldBeNull(); ;
+            results[0].BytesAllocatedPerOp.ShouldBeNull();
         }
 
 
@@ -197,17 +197,17 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit.Benchmarks
 
             var results = new BenchmarkParser(json).GetBenchmarkResults().ToList();
 
-            results[0].FullName.Should().Be(benchmark.FullName);
-            results[0].Namespace.Should().Be(benchmark.Namespace);
-            results[0].Type.Should().Be(benchmark.Type);
-            results[0].Method.Should().Be(benchmark.Method);
-            results[0].Parameters.Should().Be(benchmark.Parameters);
-            results[0].MinTime.Should().BeNull();
-            results[0].MaxTime.Should().BeNull();
-            results[0].MeanTime.Should().BeNull();
-            results[0].MedianTime.Should().BeNull();
-            results[0].Q1Time.Should().BeNull();
-            results[0].Q3Time.Should().BeNull();
+            results[0].FullName.ShouldBe(benchmark.FullName);
+            results[0].Namespace.ShouldBe(benchmark.Namespace);
+            results[0].Type.ShouldBe(benchmark.Type);
+            results[0].Method.ShouldBe(benchmark.Method);
+            results[0].Parameters.ShouldBe(benchmark.Parameters);
+            results[0].MinTime.ShouldBeNull();
+            results[0].MaxTime.ShouldBeNull();
+            results[0].MeanTime.ShouldBeNull();
+            results[0].MedianTime.ShouldBeNull();
+            results[0].Q1Time.ShouldBeNull();
+            results[0].Q3Time.ShouldBeNull();
         }
 
     }

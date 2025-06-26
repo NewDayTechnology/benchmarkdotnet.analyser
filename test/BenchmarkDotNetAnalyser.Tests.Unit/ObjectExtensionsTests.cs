@@ -1,5 +1,5 @@
 ﻿using System;
-using FluentAssertions;
+using Shouldly;
 using FsCheck;
 using FsCheck.Xunit;
 using Xunit;
@@ -22,9 +22,9 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit
         public void Pipe_NullSelector_ExceptionThrown()
         {
             Func<string, int> s = null;
-            Func<int> f = () => "".Pipe(s);
+            Action f = () => "".Pipe(s);
 
-            f.Should().Throw<ArgumentNullException>();
+            f.ShouldThrow<ArgumentNullException>();
         }
 
         [Fact]
@@ -33,9 +33,9 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit
             string str = null;
             Func<string, int> sel = s => { throw new AccessViolationException(); };
             
-            Func<int> f = () => str.Pipe(sel); // for clarity throw a completely unrelated exception 
+            Action f = () => str.Pipe(sel); // for clarity throw a completely unrelated exception 
 
-            f.Should().Throw<AccessViolationException>();
+            f.ShouldThrow<AccessViolationException>();
         }
 
         [Property]
@@ -53,9 +53,9 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit
         public void PipeIfNotNull_NullSelector_ExceptionThrown()
         {
             Func<string, int> s = null;
-            Func<int> f = () => "".PipeIfNotNull(s);
+            Action f = () => "".PipeIfNotNull(s);
 
-            f.Should().Throw<ArgumentNullException>();
+            f.ShouldThrow<ArgumentNullException>();
         }
 
         [Fact]
@@ -66,7 +66,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit
             int defaultValue = 1234;
             var r = str.PipeIfNotNull(s => s.Length, defaultValue);
 
-            r.Should().Be(defaultValue);
+            r.ShouldBe(defaultValue);
         }
 
         [Property]

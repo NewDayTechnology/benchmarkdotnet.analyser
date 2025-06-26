@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using FluentAssertions;
+using Shouldly;
 using Xunit;
 
 namespace BenchmarkDotNetAnalyser.Tests.Unit
@@ -29,7 +29,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit
 
             var r = attrs.GetAttributeValue<AssemblyCopyrightAttribute>(a => a.Copyright);
 
-            r.Should().NotBeNullOrWhiteSpace();
+            r.ShouldNotBeNullOrWhiteSpace();
         }
 
         [Fact]
@@ -39,14 +39,14 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit
 
             var r = attrs.GetAttributeValue<StubAttribute>(a => a.ToString());
 
-            r.Should().BeNullOrEmpty();
+            r.ShouldBeNullOrEmpty();
         }
 
         [Fact]
         public void GetMemberAttributePairs_UnknownAttribute_ReturnsEmpty()
         {
             var r = typeof(Program).GetMemberAttributePairs<StubAttribute>().ToList();
-            r.Should().BeEmpty();
+            r.ShouldBeEmpty();
         }
 
         [Fact]
@@ -58,8 +58,8 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit
             var actualMembers = r.Select(t => t.Item1.Name);
             var actualAttributes = r.Select(t => t.Item2);
 
-            actualMembers.Should().BeEquivalentTo(expectedMembers);
-            actualAttributes.All(a => a is StubAttribute).Should().BeTrue();
+            actualMembers.ShouldBe(expectedMembers);
+            actualAttributes.All(a => a is StubAttribute).ShouldBeTrue();
         }
 
         [Fact]
@@ -70,8 +70,8 @@ namespace BenchmarkDotNetAnalyser.Tests.Unit
             var actualMembers = r.Select(t => t.Item1.Name);
             var actualAttributes = r.Select(t => t.Item2);
 
-            actualMembers.Should().BeEquivalentTo(expectedMembers);
-            actualAttributes.All(a => a is StubAttribute).Should().BeTrue();
+            actualMembers.ShouldBe(expectedMembers);
+            actualAttributes.All(a => a is StubAttribute).ShouldBeTrue();
         }
 
     }

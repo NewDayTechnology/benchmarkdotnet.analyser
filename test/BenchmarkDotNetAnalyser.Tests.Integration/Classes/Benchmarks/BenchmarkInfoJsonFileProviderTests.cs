@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using BenchmarkDotNetAnalyser.Benchmarks;
-using FluentAssertions;
+using Shouldly;
 using Xunit;
 
 namespace BenchmarkDotNetAnalyser.Tests.Integration.Classes.Benchmarks
@@ -35,7 +35,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.Classes.Benchmarks
             var readResult = await p.GetBenchmarkInfosAsync(dir);
             var readResultCount = readResult.Sum(r => r.Runs.Sum(x => x.Results.Count));
             
-            benchmarkInfosResultCount.Should().Be(readResultCount);
+            benchmarkInfosResultCount.ShouldBe(readResultCount);
         }
     }
 }
