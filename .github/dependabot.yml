@@ -9,14 +9,26 @@ updates:
     labels:
       - ":game_die: dependencies"
       - ":robot: bot"
-    open-pull-requests-limit: 10
+    groups:
+       packages:
+          patterns:
+            - "*"
     ignore:
-      ## avoid Moq 4.20+
       - dependency-name: "Moq"
-      ## Preserve backward compatibility for library consumers
       - dependency-name: "FluentValidation"
       - dependency-name: "FluentValidation.DependencyInjectionExtensions"      
-      ## V8 onwards have licencing imposed
       - dependency-name: "FluentAssertions"
-      ## CsvHelper has binary incompatibilities
       - dependency-name: "CsvHelper"
+  - package-ecosystem: "github-actions"
+    directory: "/.github/workflows"
+    schedule:
+      interval: "daily"
+      time: "06:00"
+      timezone: "Europe/London"
+    labels:
+      - ":game_die: dependencies"
+      - ":robot: bot"
+    groups:
+       packages:
+          patterns:
+            - "*"    
