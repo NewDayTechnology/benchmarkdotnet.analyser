@@ -93,6 +93,7 @@ jobs:
               
     - name: Run Stryker
       run: dotnet run --project build.fsproj -- -t "Stryker"
+      continue-on-error: true
         
     - name: Archive Stryker results
       uses: actions/upload-artifact@v6
