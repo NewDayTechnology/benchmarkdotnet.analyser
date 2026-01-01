@@ -2,8 +2,8 @@
 
 [![Nuget](https://img.shields.io/nuget/v/bdna)](https://www.nuget.org/packages/bdna)
 
-[![Build](https://github.com/NewDayTechnology/benchmarkdotnet.analyser/actions/workflows/actions_buildtestpackage.yml/badge.svg)](https://github.com/NewDayTechnology/benchmarkdotnet.analyser/actions/workflows/actions_buildtestpackage.yml)
-[![SAST](https://github.com/NewDayTechnology/benchmarkdotnet.analyser/actions/workflows/actions_sast.yml/badge.svg)](https://github.com/NewDayTechnology/benchmarkdotnet.analyser/actions/workflows/actions_sast.yml)
+[![Build Test and Package](https://github.com/NewDayTechnology/benchmarkdotnet.analyser/actions/workflows/buildtestpackage.yml/badge.svg)](https://github.com/NewDayTechnology/benchmarkdotnet.analyser/actions/workflows/buildtestpackage.yml)
+
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)](code_of_conduct.md)
 
 
