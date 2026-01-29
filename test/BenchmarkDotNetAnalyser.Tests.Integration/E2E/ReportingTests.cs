@@ -1,6 +1,5 @@
 ﻿using BenchmarkDotNetAnalyser.Reporting;
 using TestStack.BDDfy;
-using TestStack.BDDfy.Xunit;
 using Xunit;
 
 namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
@@ -8,7 +7,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
     public class ReportingTests : BaseTests
     {
         
-        [BddfyTheory]
+        [Theory]
         [MemberData(nameof(GetFilePaths))]
         public void Reporting_SingleRunAggregation_CsvGenerated(string filePath)
         {
@@ -24,9 +23,8 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
                 .Then(s => s.CsvReportsAreVerified())
                 .BDDfy();
         }
-
         
-        [BddfyFact]
+        [Fact]
         public void Reporting_MultipleRunAggregation_CsvGenerated()
         {
             new BaseStory()
@@ -43,7 +41,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
         }
 
         
-        [BddfyTheory]
+        [Theory]
         [MemberData(nameof(GetFilePaths))]
         public void Reporting_SingleRunAggregation_JsonGenerated(string filePath)
         {
@@ -59,9 +57,8 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
                 .Then(s => s.JsonReportsAreVerified())
                 .BDDfy();
         }
-        
-        
-        [BddfyFact]
+                
+        [Fact]
         public void Reporting_MultipleRunAggregation_JsonGenerated()
         {
             new BaseStory()

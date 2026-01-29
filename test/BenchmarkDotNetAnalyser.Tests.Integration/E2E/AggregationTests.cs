@@ -1,5 +1,4 @@
 ﻿using TestStack.BDDfy;
-using TestStack.BDDfy.Xunit;
 using Xunit;
 
 namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
@@ -7,7 +6,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
     public class AggregationTests : BaseTests
     {
         
-        [BddfyFact]
+        [Fact]
         
         public void Aggregation_ZeroNewRuns_EmptyAggregationFolder_EmptyResultsExpected()
         {
@@ -26,7 +25,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
                 .BDDfy();
         }
 
-        [BddfyTheory]
+        [Theory]
         [MemberData(nameof(GetFilePaths))]
         public void Aggregation_SingleNewRun_EmptyAggregationFolder_MultipleResultsExpected(string filePath)
         {
@@ -46,7 +45,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
                 .BDDfy();
         }
 
-        [BddfyFact]
+        [Fact]
         
         public void Aggregation_MultipleNewRuns_EmptyAggregationFolder_MultipleResultsExpected()
         {
@@ -66,7 +65,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
                 .BDDfy();
         }
 
-        [BddfyFact]
+        [Fact]
         public void Aggregation_ZeroNewRuns_AggregateExistingRuns_MultipleResultsExpected()
         {
             new BaseStory()
@@ -84,7 +83,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
                 .BDDfy();
         }
 
-        [BddfyTheory]
+        [Theory]
         [MemberData(nameof(GetFilePaths))]
         public void Aggregation_SingleNewRun_AggregateExistingRuns_MultipleResultsExpected(string filePath)
         {
@@ -104,8 +103,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
                 .BDDfy();
         }
 
-
-        [BddfyFact]
+        [Fact]
         public void Aggregation_MultipleNewRuns_AggregateExistingRuns_MultipleResultsExpected()
         {
             new BaseStory()

@@ -1,5 +1,4 @@
 ﻿using TestStack.BDDfy;
-using TestStack.BDDfy.Xunit;
 using Xunit;
 
 namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
@@ -7,7 +6,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
     public class AnalysisTests : BaseTests
     {
         
-        [BddfyFact]
+        [Fact]
         public void Analysis_EmptyAggregation_AnalysisFails()
         {
             new BaseStory()
@@ -21,7 +20,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
                 .BDDfy();
         }
 
-        [BddfyTheory]
+        [Theory]
         [MemberData(nameof(GetFilePaths))]
         public void Analysis_SingleRunAggregation_AnalysisPasses(string filePath)
         {
@@ -39,7 +38,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
                 .BDDfy();
         }
 
-        [BddfyFact]
+        [Fact]
         public void Analysis_MultipleRunsAggregation_AnalysisPasses()
         {
             new BaseStory()
@@ -58,7 +57,7 @@ namespace BenchmarkDotNetAnalyser.Tests.Integration.E2E
                 .BDDfy();
         }
 
-        [BddfyFact]
+        [Fact]
         public void Analysis_MultipleRunsAggregation_NegativeMaxErrorCount_AnalysisFails()
         {
             new BaseStory()
