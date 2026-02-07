@@ -25,9 +25,7 @@ jobs:
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v5
-      with:
-        dotnet-version: 8.x
-    
+          
     - name: Restore tools
       run: dotnet tool restore
     
@@ -84,16 +82,13 @@ jobs:
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v5
-      with:
-        dotnet-version: 8.x
-    
+          
     - name: Restore tools
       run: dotnet tool restore
-
               
     - name: Run Stryker
       run: dotnet run --project build.fsproj -- -t "Stryker"
-      continue-on-error: true
+      continue-on-error: true # Stryker is incopmatible with .Net 10/Xunit v3: we run Stryker to verify upgrades as they arrive.
         
     - name: Archive Stryker results
       uses: actions/upload-artifact@v6
