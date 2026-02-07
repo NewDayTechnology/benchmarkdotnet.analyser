@@ -29,12 +29,6 @@ jobs:
         with: 
           project-path: ${{ env.SOLUTION_NAME }}
           scan-issues: true
-          deprecated: true
-          vulnerable: true
-          transitives: true
-          fail-on-critical: true
-          fail-on-high: true
-          fail-on-moderate: true
-          fail-on-legacy: true
           scan-upgrades: true
-          fail-on-upgrades: false
+          config: pkgchk.config.yml
+
