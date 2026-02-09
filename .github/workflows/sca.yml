@@ -28,3 +28,7 @@ jobs:
         uses: tonycknight/pkgchk-action@v1
         with: 
           project-path: ${{ env.SOLUTION_NAME }}
+          scan-issues: true
+          scan-upgrades: true
+          config: pkgchk.config.yml
+
