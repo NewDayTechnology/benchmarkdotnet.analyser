@@ -33,13 +33,13 @@ jobs:
       run: dotnet run --project build.fsproj -- -t "BuildTestAndPackage"       
         
     - name: Archive dotnet tool nupkg
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: benchmarkdotnet.analyser.nupkg
         path: ./publish/toolpackage/*
 
     - name: Archive Test results
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: tests.results
         path: |
@@ -47,7 +47,7 @@ jobs:
           ./test/BenchmarkDotNetAnalyser.Tests.Integration/**/BDDfy.html
     
     - name: Archive Code coverage
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: codecoverage
         path: ./publish/codecoverage/*.html
@@ -91,7 +91,7 @@ jobs:
       continue-on-error: true # Stryker is incopmatible with .Net 10/Xunit v3: we run Stryker to verify upgrades as they arrive.
         
     - name: Archive Stryker results
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       if: always()
       with:
         name: stryker.results
