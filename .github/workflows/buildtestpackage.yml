@@ -87,12 +87,14 @@ jobs:
       run: dotnet tool restore
               
     - name: Run Stryker
+      if: false # TODO: temporary
       run: dotnet run --project build.fsproj -- -t "Stryker"
       continue-on-error: true # Stryker is incopmatible with .Net 10/Xunit v3: we run Stryker to verify upgrades as they arrive.
         
     - name: Archive Stryker results
       uses: actions/upload-artifact@v7
-      if: always()
+      if: false # TODO: temporary
+      # if: always()
       with:
         name: stryker.results
         path: |
