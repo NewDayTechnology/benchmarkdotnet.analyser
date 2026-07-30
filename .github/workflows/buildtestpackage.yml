@@ -56,7 +56,7 @@ jobs:
       uses: dorny/test-reporter@v3
       if: always()
       with:
-        name: Unit tests
+        name: Unit test results
         path: ${{ github.workspace }}/test/BenchmarkDotNetAnalyser.Tests.Unit/TestResults/test_results.trx
         reporter: dotnet-trx
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -65,7 +65,7 @@ jobs:
       uses: dorny/test-reporter@v3
       if: always()
       with:
-        name: Integration tests
+        name: Integration test results
         path: ${{ github.workspace }}/test/BenchmarkDotNetAnalyser.Tests.Integration/TestResults/test_results.trx
         reporter: dotnet-trx
         token: ${{ secrets.GITHUB_TOKEN }}
