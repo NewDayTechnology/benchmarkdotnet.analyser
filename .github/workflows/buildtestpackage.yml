@@ -74,30 +74,6 @@ jobs:
     uses: ./.github/workflows/sca.yml
     secrets: inherit
   
-  Stryker:
-    runs-on: ubuntu-latest
-
-    steps: 
-    - uses: actions/checkout@v7
-
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v6
-          
-    - name: Restore tools
-      run: dotnet tool restore
-              
-    - name: Run Stryker
-      run: dotnet run --project build.fsproj -- -t "Stryker"
-      continue-on-error: true # Stryker is incopmatible with .Net 10/Xunit v3: we run Stryker to verify upgrades as they arrive.
-        
-    - name: Archive Stryker results
-      uses: actions/upload-artifact@v7
-      if: always()
-      with:
-        name: stryker.results
-        path: |
-          ./publish/**/*
-
   SAST:
     uses: ./.github/workflows/sast.yml
 
