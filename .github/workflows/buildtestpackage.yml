@@ -52,7 +52,7 @@ jobs:
         name: codecoverage
         path: ./publish/codecoverage/*.html
     
-    - name: Unit tests
+    - name: Report Unit tests
       uses: dorny/test-reporter@v3
       if: always()
       with:
@@ -61,7 +61,7 @@ jobs:
         reporter: dotnet-trx
         token: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Integration tests
+    - name: Report Integration tests
       uses: dorny/test-reporter@v3
       if: always()
       with:
